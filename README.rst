@@ -1,7 +1,7 @@
 python-twitch-client
 ====================
 
-.. image:: http://python-twitch-client.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/python-twitch-client/badge/?version=latest
     :target: http://python-twitch-client.rtfd.io
     :alt: Latest Docs
 
