@@ -1,7 +1,7 @@
 
 from twitch.api.base import TwitchAPI
 from twitch.constants import BROADCAST_TYPE_HIGHLIGHT, BROADCATS_TYPES, VIDEO_SORTS, VIDEO_SORT_TIME
-from twitch.resource import Channel, Video
+from twitch.resources import Channel, Video
 
 
 class Channels(TwitchAPI):

@@ -1,6 +1,6 @@
 from twitch.api.base import TwitchAPI
 from twitch.constants import DIRECTIONS, DIRECTION_DESC, USERS_SORT_BY, USERS_SORT_BY_CREATED_AT
-from twitch.resource import Follow, Subscription, User, UserBlock
+from twitch.resources import Follow, Subscription, User, UserBlock
 
 
 class Users(TwitchAPI):

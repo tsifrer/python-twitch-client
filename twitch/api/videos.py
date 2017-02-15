@@ -1,6 +1,6 @@
 from twitch.api.base import TwitchAPI
 from twitch.constants import BROADCAST_TYPE_HIGHLIGHT, BROADCATS_TYPES, PERIODS, PERIOD_WEEK
-from twitch.resource import Video
+from twitch.resources import Video
 
 
 class Videos(TwitchAPI):

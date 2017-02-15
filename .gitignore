@@ -1,4 +1,5 @@
 __pycache__/
 _build/
+.cache/
 *.DS_Store
 *.py[co]
