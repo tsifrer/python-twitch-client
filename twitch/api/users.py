@@ -38,7 +38,13 @@ class Users(TwitchAPI):
         assert sort_by in USERS_SORT_BY, 'Sort by is not valud. Valid values are %s' % USERS_SORT_BY
 
         url = 'users/%s/follows/channels' % user_id
-        response = self._request_get(url)
+
+        params = {
+            'limit': limit,
+            'offset': offset,
+            'direction': direction
+        }
+        response = self._request_get(url, params=params)
         return [Follow.construct_from(x) for x in response['follows']]
 
     def check_follows_channel(self, user_id, channel_id):
@@ -68,7 +74,11 @@ class Users(TwitchAPI):
         assert limit <= 100, 'Maximum number of videos returned in one request is 100'
 
         url = 'users/%s/blocks' % user_id
-        response = self._request_get(url)
+        params = {
+            'limit': limit,
+            'offset': offset
+        }
+        response = self._request_get(url, params=params)
         return [UserBlock.construct_from(x) for x in response['blocks']]
 
     def block_user(self, user_id, blocked_user_id):

@@ -83,3 +83,23 @@ class Video(TwitchObject):
 
 class Channel(TwitchObject):
     pass
+
+
+class Team(TwitchObject):
+    pass
+
+
+class Community(TwitchObject):
+    pass
+
+
+class Ingest(TwitchObject):
+    pass
+
+
+class Stream(TwitchObject):
+    pass
+
+
+class Featured(TwitchObject):
+    pass

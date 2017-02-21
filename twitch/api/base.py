@@ -30,6 +30,15 @@ class TwitchAPI(object):
         response.raise_for_status()
         return response.json()
 
+    def _request_post(self, path, data=None):
+        url = urljoin(BASE_URL, path)
+
+        headers = self._get_request_headers()
+
+        response = requests.post(url, data=data, headers=headers)
+        response.raise_for_status()
+        return response.json()
+
     def _request_put(self, path, data=None):
         url = urljoin(BASE_URL, path)
 
@@ -37,7 +46,8 @@ class TwitchAPI(object):
 
         response = requests.put(url, data=data, headers=headers)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 200:
+            return response.json()
 
     def _request_delete(self, path):
         url = urljoin(BASE_URL, path)
@@ -46,3 +56,5 @@ class TwitchAPI(object):
 
         response = requests.delete(url, headers=headers)
         response.raise_for_status()
+        if response.status_code == 200:
+            return response.json()
