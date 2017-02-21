@@ -5,7 +5,8 @@ def convert_to_twitch_object(name, data):
     types = {
         'channel': Channel,
         'videos': Video,
-        'user': User
+        'user': User,
+        'game': Game
     }
 
     if isinstance(data, list):
@@ -65,6 +66,10 @@ class Subscription(TwitchObject):
 
 
 class UserBlock(TwitchObject):
+    pass
+
+
+class TopGame(TwitchObject):
     pass
 
 

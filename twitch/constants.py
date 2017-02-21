@@ -1,3 +1,4 @@
+BASE_URL = 'https://api.twitch.tv/kraken/'
 
 PERIOD_WEEK = 'week'
 PERIOD_MONTH = 'month'

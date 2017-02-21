@@ -3,7 +3,9 @@ import json
 import responses
 
 from twitch.client import TwitchClient
-from twitch.resources import Game
+from twitch.constants import BASE_URL
+from twitch.resources import Game, TopGame
+
 
 example_top_games_response = {
    '_total': 1157,
@@ -43,9 +45,9 @@ example_top_games_response = {
 
 
 @responses.activate
-def test_my_api():
+def test_get_top():
     responses.add(responses.GET,
-                  'https://api.twitch.tv/kraken/games/top',
+                  '%sgames/top' % BASE_URL,
                   body=json.dumps(example_top_games_response),
                   status=200,
                   content_type='application/json')
@@ -56,4 +58,7 @@ def test_my_api():
 
     assert len(responses.calls) == 1
     assert len(games) == 1
-    assert isinstance(games[0], Game)
+    assert isinstance(games[0], TopGame)
+    game = games[0].game
+    assert isinstance(game, Game)
+    assert game.id == example_top_games_response['top'][0]['game']['_id']

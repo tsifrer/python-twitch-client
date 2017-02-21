@@ -1,5 +1,5 @@
 from twitch.api.base import TwitchAPI
-from twitch.resources import Game
+from twitch.resources import TopGame
 
 
 class Games(TwitchAPI):
@@ -14,4 +14,4 @@ class Games(TwitchAPI):
             'offset': offset
         }
         response = self._request_get('games/top', params=params)
-        return [Game.construct_from(x) for x in response['top']]
+        return [TopGame.construct_from(x) for x in response['top']]

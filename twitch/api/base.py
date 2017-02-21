@@ -1,8 +1,7 @@
 import requests
 from requests.compat import urljoin
 
-
-BASE_URL = 'https://api.twitch.tv/kraken/'
+from twitch.constants import BASE_URL
 
 
 class TwitchAPI(object):
@@ -26,20 +25,24 @@ class TwitchAPI(object):
         url = urljoin(BASE_URL, path)
 
         headers = self._get_request_headers()
-        # TODO: error handling
+
         response = requests.get(url, params=params, headers=headers)
+        response.raise_for_status()
         return response.json()
 
     def _request_put(self, path, data=None):
         url = urljoin(BASE_URL, path)
 
         headers = self._get_request_headers()
-        # TODO: error handling
+
         response = requests.put(url, data=data, headers=headers)
+        response.raise_for_status()
         return response.json()
 
     def _request_delete(self, path):
         url = urljoin(BASE_URL, path)
+
         headers = self._get_request_headers()
-        # TODO: error handling and response handling
-        requests.put(url, headers=headers)
+
+        response = requests.delete(url, headers=headers)
+        response.raise_for_status()
