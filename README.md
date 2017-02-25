@@ -2,6 +2,7 @@ python-twitch-client
 ====================
 
 [![Latest docs][docs-img]][docs]
+[![Latest version][pypi-img]][pypi]
 
 
 `python-twitch-client` is an easy to use Python library for accessing the
@@ -38,3 +39,5 @@ print(channel.display_name)
 [docs-img]: https://readthedocs.org/projects/python-twitch-client/badge/?version=latest (Latest docs)
 [pulls]: https://github.com/tsifrer/python-twitch-client/pulls
 [issues]: https://github.com/tsifrer/python-twitch-client/issues
+[pypi]: https://pypi.python.org/pypi/python-twitch-client/
+[pypi-img]: https://img.shields.io/pypi/v/python-twitch-client.svg

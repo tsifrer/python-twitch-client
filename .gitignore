@@ -1,5 +1,8 @@
 __pycache__/
 _build/
 .cache/
+*.egg-info/
 *.DS_Store
 *.py[co]
+build/
+dist/
