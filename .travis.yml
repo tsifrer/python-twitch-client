@@ -1,5 +1,10 @@
 language: python
 python:
-  - "3.5"
-install: "pip install -r requirements.txt"
-script: pytest
+    - "3.5"
+install: 
+    - "pip install -r requirements.txt"
+    - "pip install -r dev-requirements.txt"
+before_script:
+    - "flake8 ."
+script:
+    - pytest
