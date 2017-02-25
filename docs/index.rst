@@ -11,7 +11,7 @@ An easy to use Python library for accessing the Twitch API
     ``python-twitch-client`` currently supports Twitch API v5. 
     Not all endpoints are currently implemented.
 
-    If you want one implemented please raise an issue_ or contribute and open pa `pull request`_.
+    If you want one implemented please raise an issue_ or contribute and open a `pull request`_.
 
 Installation
 ============

@@ -1,5 +1,5 @@
 Communities
-=============================
+===========
 
 .. currentmodule:: twitch.api.users
 

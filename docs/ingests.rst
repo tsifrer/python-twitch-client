@@ -1,5 +1,5 @@
 Ingests
-=============================
+=======
 
 .. currentmodule:: twitch.api.ingests
 

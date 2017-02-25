@@ -1,5 +1,5 @@
 Streams
-=============================
+=======
 
 .. currentmodule:: twitch.api.streams
 

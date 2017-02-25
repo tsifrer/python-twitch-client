@@ -1,5 +1,5 @@
 Games
-=============================
+=====
 
 .. currentmodule:: twitch.api.games
 

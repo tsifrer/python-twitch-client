@@ -1,5 +1,5 @@
 Chat
-=============================
+====
 
 .. currentmodule:: twitch.api.chat
 
