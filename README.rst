@@ -10,7 +10,28 @@ python-twitch-client
 Twitch API
 
 
+.. note::
+    ``python-twitch-client`` currently supports Twitch API v5. 
+    Not all endpoints are currently implemented.
+
+    If you want one implemented please raise an issue_ or contribute and open pa `pull request`_.
+
 You can find more information in the `documentation`_.
+
+
+Basic Usage
+==============================================
+
+.. code-block:: python
+
+    from twitch import TwitchClient
+
+    client = TwitchClient(client_id='<my client id>')
+    channel = client.channels.get_by_id(44322889)
+
+    print(channel.id)
+    print(channel.name)
+    print(channel.display_name)
 
 
 .. _`documentation`: http://python-twitch-client.rtfd.io
