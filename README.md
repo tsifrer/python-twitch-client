@@ -4,6 +4,7 @@ python-twitch-client
 [![Latest docs][docs-img]][docs]
 [![Latest version][pypi-img]][pypi]
 [![Latest build][travis-img]][travis]
+[![Coverage][codecov-img]][codecov]
 
 
 `python-twitch-client` is an easy to use Python library for accessing the
@@ -44,3 +45,5 @@ print(channel.display_name)
 [pypi-img]: https://img.shields.io/pypi/v/python-twitch-client.svg
 [travis]: https://travis-ci.org/tsifrer/python-twitch-client
 [travis-img]: https://travis-ci.org/tsifrer/python-twitch-client.svg?branch=master
+[codecov]: https://codecov.io/gh/tsifrer/python-twitch-client
+[codecov-img]: https://codecov.io/gh/tsifrer/python-twitch-client/branch/master/graph/badge.svg
