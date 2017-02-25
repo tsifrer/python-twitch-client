@@ -5,7 +5,6 @@ from codecs import open
 from setuptools import find_packages, setup
 
 requires = ['requests>=2.13.0']
-test_requirements = ['pytest>=3.0.6', 'responses>=0.5.1']
 
 with open('twitch/__init__.py', 'r') as f:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
@@ -24,5 +23,4 @@ setup(
     install_requires=requires,
     license='MIT',
     zip_safe=False,
-    tests_require=test_requirements,
 )
