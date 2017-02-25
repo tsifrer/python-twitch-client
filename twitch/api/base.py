@@ -19,6 +19,7 @@ class TwitchAPI(object):
 
         if self._oauth_token:
             headers['Authorization'] = 'OAuth %s' % self._oauth_token
+
         return headers
 
     def _request_get(self, path, params=None):

@@ -6,7 +6,7 @@ python-twitch-client
     :alt: Latest Docs
 
 
-``python-twitch-client`` is an easy-to-use Python library for accessing the
+``python-twitch-client`` is an easy to use Python library for accessing the
 Twitch API
 
 

@@ -2,7 +2,7 @@
 Welcome to ``python-twitch-client``
 ===================================
 
-An easy-to-use Python library for accessing the Twitch API
+An easy to use Python library for accessing the Twitch API
 
 .. toctree::
    :maxdepth: 2
