@@ -35,6 +35,7 @@ Contents:
    :maxdepth: 2
 
    basic_usage
+   users
 
 
 .. _issue: https://github.com/tsifrer/python-twitch-client/issues
