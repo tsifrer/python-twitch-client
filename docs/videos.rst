@@ -1,5 +1,5 @@
 Videos
-=============================
+======
 
 .. currentmodule:: twitch.api.videos
 
@@ -22,7 +22,7 @@ Videos
         :param int offset: Object offset for pagination of result. Default 0.
         :param string game: Name of the game.
         :param string period: Window of time to search. Default PERIOD_WEEK.
-        :param string broadcast_type: Type of brodcast returned. Default BROADCAST_TYPE_HIGHLIGHT.
+        :param string broadcast_type: Type of broadcast returned. Default BROADCAST_TYPE_HIGHLIGHT.
         
 
     .. classmethod:: get_followed_videos(limit, offset, broadcast_type)
@@ -31,7 +31,7 @@ Videos
 
         :param int limit: Maximum number of objects to return. Default 10. Maximum 100.
         :param int offset: Object offset for pagination of result. Default 0.
-        :param string broadcast_type: Type of brodcast returned. Default BROADCAST_TYPE_HIGHLIGHT.
+        :param string broadcast_type: Type of broadcast returned. Default BROADCAST_TYPE_HIGHLIGHT.
 
 
         .. code-block:: python

@@ -1,5 +1,5 @@
 Teams
-=============================
+=====
 
 .. currentmodule:: twitch.api.teams
 

@@ -1,5 +1,5 @@
 Users
-=============================
+=====
 
 .. currentmodule:: twitch.api.users
 
