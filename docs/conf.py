@@ -160,6 +160,6 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'python-twitch-client', 'python-twitch-client Documentation',
-     author, 'python-twitch-client', 'One line description of project.',
+     author, 'python-twitch-client', 'An easy to use Python library for accessing the Twitch API.',
      'Miscellaneous'),
 ]

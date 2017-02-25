@@ -35,7 +35,15 @@ Contents:
    :maxdepth: 2
 
    basic_usage
+   chat
+   communities
+   games
+   ingests
+   streams
+   teams
    users
+   videos
+
 
 
 .. _issue: https://github.com/tsifrer/python-twitch-client/issues

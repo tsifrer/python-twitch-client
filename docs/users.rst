@@ -11,10 +11,6 @@ Users
 
         Gets a user object based on the OAuth token provided.
 
-        :param bytes key: A URL-safe base64-encoded 32-byte key. This **must** be
-                          kept secret. Anyone with this key is able to create and
-                          read messages.
-
 
     .. classmethod:: get_by_id(user_id)
 
