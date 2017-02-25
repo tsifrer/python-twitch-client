@@ -1,6 +1,7 @@
 __pycache__/
 _build/
 .cache/
+.coverage
 *.egg-info/
 *.DS_Store
 *.py[co]

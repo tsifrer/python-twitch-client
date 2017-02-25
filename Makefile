@@ -1,2 +1,5 @@
 test:
-    pytest -v -s $(ARGS)
+	py.test -v -s $(ARGS)
+
+cov:
+	py.test --cov=./
