@@ -52,7 +52,7 @@ class Communities(TwitchAPI):
             'limit': limit,
             'cursor': cursor
         }
-        response = self._request_get('communities/%s' % community_id, params=params)
+        response = self._request_get('communities/%s/bans' % community_id, params=params)
         return [User.construct_from(x) for x in response['banned_users']]
 
     @oauth_required
@@ -71,7 +71,7 @@ class Communities(TwitchAPI):
         self._request_post('communities/%s/images/avatar' % community_id, data=data)
 
     @oauth_required
-    def delete_avatar_image(self, community_id, avatar_image):
+    def delete_avatar_image(self, community_id):
         self._request_delete('communities/%s/images/avatar' % community_id)
 
     @oauth_required

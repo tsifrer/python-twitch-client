@@ -215,6 +215,17 @@ def test_request_post_returns_dictionary_if_successful():
 
 
 @responses.activate
+def test_request_post_does_not_raise_exception_if_successful():
+    responses.add(responses.POST,
+                  BASE_URL,
+                  status=204,
+                  content_type='application/json')
+
+    api = TwitchAPI(client_id='client')
+    api._request_post('')
+
+
+@responses.activate
 def test_request_post_sends_headers_with_the_request():
     responses.add(responses.POST,
                   BASE_URL,

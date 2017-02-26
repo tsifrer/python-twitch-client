@@ -38,7 +38,8 @@ class TwitchAPI(object):
 
         response = requests.post(url, data=data, headers=headers)
         response.raise_for_status()
-        return response.json()
+        if response.status_code == 200:
+            return response.json()
 
     def _request_put(self, path, data=None):
         url = urljoin(BASE_URL, path)
