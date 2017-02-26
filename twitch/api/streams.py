@@ -1,5 +1,6 @@
 from twitch.api.base import TwitchAPI
 from twitch.constants import STREAM_TYPES, STREAM_TYPE_LIVE
+from twitch.decorators import oauth_required
 from twitch.resources import Featured, Stream
 
 
@@ -13,7 +14,7 @@ class Streams(TwitchAPI):
             'stream_type': stream_type,
         }
         response = self._request_get('streams/%s' % channel_id, params=params)
-        return [Stream.construct_from(x) for x in response['stream']]
+        return Stream.construct_from(response['stream'])
 
     def get_live_streams(self, channel=None, game=None, language=None, stream_type=STREAM_TYPE_LIVE,
                          limit=25, offset=0):
@@ -33,7 +34,7 @@ class Streams(TwitchAPI):
         if language is not None:
             params['language'] = language
         response = self._request_get('streams', params=params)
-        return [Stream.construct_from(x) for x in response['stream']]
+        return [Stream.construct_from(x) for x in response['streams']]
 
     def get_summary(self, game=None):
         params = {}
@@ -52,6 +53,7 @@ class Streams(TwitchAPI):
         response = self._request_get('streams/featured', params=params)
         return [Featured.construct_from(x) for x in response['featured']]
 
+    @oauth_required
     def get_followed(self, stream_type=STREAM_TYPE_LIVE, limit=25, offset=0):
         assert stream_type in STREAM_TYPES, (
             'Stream type is not valid. Valid values are %s' % STREAM_TYPES)

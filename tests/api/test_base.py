@@ -104,8 +104,7 @@ def test_request_put_returns_dictionary_if_successful():
 def test_request_put_sends_headers_with_the_request():
     responses.add(responses.PUT,
                   BASE_URL,
-                  body=json.dumps(dummy_data),
-                  status=200,
+                  status=204,
                   content_type='application/json')
 
     api = TwitchAPI(client_id='client')
@@ -113,6 +112,19 @@ def test_request_put_sends_headers_with_the_request():
 
     assert 'Client-ID' in responses.calls[0].request.headers
     assert 'Accept' in responses.calls[0].request.headers
+
+
+@responses.activate
+def test_request_put_does_not_raise_exception_if_successful_and_returns_json():
+    responses.add(responses.PUT,
+                  BASE_URL,
+                  body=json.dumps(dummy_data),
+                  status=200,
+                  content_type='application/json')
+
+    api = TwitchAPI(client_id='client')
+    response = api._request_put('', dummy_data)
+    assert response == dummy_data
 
 
 @responses.activate
@@ -141,6 +153,19 @@ def test_request_delete_does_not_raise_exception_if_successful():
 
     api = TwitchAPI(client_id='client')
     api._request_delete('')
+
+
+@responses.activate
+def test_request_delete_does_not_raise_exception_if_successful_and_returns_json():
+    responses.add(responses.DELETE,
+                  BASE_URL,
+                  body=json.dumps(dummy_data),
+                  status=200,
+                  content_type='application/json')
+
+    api = TwitchAPI(client_id='client')
+    response = api._request_delete('')
+    assert response == dummy_data
 
 
 @responses.activate
@@ -175,7 +200,7 @@ def test_request_delete_raises_exception_if_not_200_response(status):
 
 
 @responses.activate
-def test_request_ppost_returns_dictionary_if_successful():
+def test_request_post_returns_dictionary_if_successful():
     responses.add(responses.POST,
                   BASE_URL,
                   body=json.dumps(dummy_data),

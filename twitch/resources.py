@@ -6,12 +6,14 @@ def convert_to_twitch_object(name, data):
         'channel': Channel,
         'videos': Video,
         'user': User,
-        'game': Game
+        'game': Game,
+        'stream': Stream
     }
 
     if isinstance(data, list):
         return [convert_to_twitch_object(name, x) for x in data]
-    elif isinstance(data, dict) and name in types:
+
+    if isinstance(data, dict) and name in types:
         obj = types.get(name)
         return obj.construct_from(data)
 
@@ -27,14 +29,11 @@ class TwitchObject(dict):
         self[name] = value
 
     def __getattr__(self, name):
-        if name[0] == '_' or name in self.__dict__:
-            return super(TwitchObject, self).__getattr__(name)
-
         return self[name]
 
     def __delattr__(self, name):
         if name[0] == '_':
-            super(TwitchObject, self).__delattr__(name)
+            return super(TwitchObject, self).__delattr__(name)
 
         del self[name]
 
@@ -53,7 +52,15 @@ class TwitchObject(dict):
             self.__setitem__(key, convert_to_twitch_object(key, value))
 
 
-class User(TwitchObject):
+class Channel(TwitchObject):
+    pass
+
+
+class Community(TwitchObject):
+    pass
+
+
+class Featured(TwitchObject):
     pass
 
 
@@ -61,35 +68,7 @@ class Follow(TwitchObject):
     pass
 
 
-class Subscription(TwitchObject):
-    pass
-
-
-class UserBlock(TwitchObject):
-    pass
-
-
-class TopGame(TwitchObject):
-    pass
-
-
 class Game(TwitchObject):
-    pass
-
-
-class Video(TwitchObject):
-    pass
-
-
-class Channel(TwitchObject):
-    pass
-
-
-class Team(TwitchObject):
-    pass
-
-
-class Community(TwitchObject):
     pass
 
 
@@ -101,5 +80,25 @@ class Stream(TwitchObject):
     pass
 
 
-class Featured(TwitchObject):
+class Subscription(TwitchObject):
+    pass
+
+
+class Team(TwitchObject):
+    pass
+
+
+class TopGame(TwitchObject):
+    pass
+
+
+class User(TwitchObject):
+    pass
+
+
+class UserBlock(TwitchObject):
+    pass
+
+
+class Video(TwitchObject):
     pass
