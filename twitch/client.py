@@ -1,4 +1,4 @@
-from .api import Channels, Chat, Communities, Games, Ingests, Streams, Teams, Users, Videos
+from .api import Channels, Chat, Communities, Games, Ingests, Search, Streams, Teams, Users, Videos
 
 
 class TwitchClient(object):
@@ -13,6 +13,7 @@ class TwitchClient(object):
         self._users = None
         self._games = None
         self._teams = None
+        self._search = None
         self._streams = None
         self._videos = None
 
@@ -50,6 +51,13 @@ class TwitchClient(object):
             self._ingests = Ingests(
                 client_id=self._client_id, oauth_token=self._oauth_token)
         return self._ingests
+
+    @property
+    def search(self):
+        if not self._search:
+            self._search = Search(
+                client_id=self._client_id, oauth_token=self._oauth_token)
+        return self._search
 
     @property
     def streams(self):
