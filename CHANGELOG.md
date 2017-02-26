@@ -11,6 +11,7 @@
 - Changed some method names on Channel class
 - Added Travis-CI
 - Added Codecov
+- Added the rest of community endpoints
 
 ## Version 0.1.0 - 2017-2-25
 
