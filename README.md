@@ -20,7 +20,7 @@ Note
 
 Not all endpoints are currently implemented.
 
-If you want one implemented please raise an [issue][issues] or contribute and open pa [pull request][pulls].
+If you want one implemented please raise an [issue][issues] or contribute and open a [pull request][pulls].
 
 
 Basic Usage
