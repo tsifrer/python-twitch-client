@@ -1,4 +1,6 @@
-from .api import Channels, Chat, Communities, Games, Ingests, Search, Streams, Teams, Users, Videos
+from .api import (
+    ChannelFeed, Channels, Chat, Communities, Games, Ingests, Search, Streams, Teams, Users, Videos
+)
 
 
 class TwitchClient(object):
@@ -6,37 +8,24 @@ class TwitchClient(object):
         self._client_id = client_id
         self._oauth_token = oauth_token
 
+        self._channel_feed = None
         self._channels = None
         self._chat = None
         self._communities = None
-        self._ingests = None
-        self._users = None
         self._games = None
-        self._teams = None
+        self._ingests = None
         self._search = None
         self._streams = None
+        self._teams = None
+        self._users = None
         self._videos = None
 
     @property
-    def users(self):
-        if not self._users:
-            self._users = Users(
+    def channel_feed(self):
+        if not self._channel_feed:
+            self._channel_feed = ChannelFeed(
                 client_id=self._client_id, oauth_token=self._oauth_token)
-        return self._users
-
-    @property
-    def games(self):
-        if not self._games:
-            self._games = Games(
-                client_id=self._client_id, oauth_token=self._oauth_token)
-        return self._games
-
-    @property
-    def videos(self):
-        if not self._videos:
-            self._videos = Videos(
-                client_id=self._client_id, oauth_token=self._oauth_token)
-        return self._videos
+        return self._channel_feed
 
     @property
     def channels(self):
@@ -44,6 +33,27 @@ class TwitchClient(object):
             self._channels = Channels(
                 client_id=self._client_id, oauth_token=self._oauth_token)
         return self._channels
+
+    @property
+    def chat(self):
+        if not self._chat:
+            self._chat = Chat(
+                client_id=self._client_id, oauth_token=self._oauth_token)
+        return self._chat
+
+    @property
+    def communities(self):
+        if not self._communities:
+            self._communities = Communities(
+                client_id=self._client_id, oauth_token=self._oauth_token)
+        return self._communities
+
+    @property
+    def games(self):
+        if not self._games:
+            self._games = Games(
+                client_id=self._client_id, oauth_token=self._oauth_token)
+        return self._games
 
     @property
     def ingests(self):
@@ -74,15 +84,15 @@ class TwitchClient(object):
         return self._teams
 
     @property
-    def chat(self):
-        if not self._chat:
-            self._chat = Chat(
+    def users(self):
+        if not self._users:
+            self._users = Users(
                 client_id=self._client_id, oauth_token=self._oauth_token)
-        return self._chat
+        return self._users
 
     @property
-    def communities(self):
-        if not self._communities:
-            self._communities = Communities(
+    def videos(self):
+        if not self._videos:
+            self._videos = Videos(
                 client_id=self._client_id, oauth_token=self._oauth_token)
-        return self._communities
+        return self._videos

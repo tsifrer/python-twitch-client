@@ -1,3 +1,4 @@
+from .channel_feed import ChannelFeed  # noqa
 from .channels import Channels  # noqa
 from .chat import Chat  # noqa
 from .communities import Communities  # noqa

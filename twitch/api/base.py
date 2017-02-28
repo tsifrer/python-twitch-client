@@ -31,32 +31,32 @@ class TwitchAPI(object):
         response.raise_for_status()
         return response.json()
 
-    def _request_post(self, path, data=None):
+    def _request_post(self, path, data=None, params=None):
         url = urljoin(BASE_URL, path)
 
         headers = self._get_request_headers()
 
-        response = requests.post(url, data=data, headers=headers)
+        response = requests.post(url, data=data, params=params, headers=headers)
         response.raise_for_status()
         if response.status_code == 200:
             return response.json()
 
-    def _request_put(self, path, data=None):
+    def _request_put(self, path, data=None, params=None):
         url = urljoin(BASE_URL, path)
 
         headers = self._get_request_headers()
 
-        response = requests.put(url, data=data, headers=headers)
+        response = requests.put(url, data=data, params=params, headers=headers)
         response.raise_for_status()
         if response.status_code == 200:
             return response.json()
 
-    def _request_delete(self, path):
+    def _request_delete(self, path, params=None):
         url = urljoin(BASE_URL, path)
 
         headers = self._get_request_headers()
 
-        response = requests.delete(url, headers=headers)
+        response = requests.delete(url, params=params, headers=headers)
         response.raise_for_status()
         if response.status_code == 200:
             return response.json()

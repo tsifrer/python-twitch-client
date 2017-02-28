@@ -7,7 +7,8 @@ def convert_to_twitch_object(name, data):
         'videos': Video,
         'user': User,
         'game': Game,
-        'stream': Stream
+        'stream': Stream,
+        'comments': Comment
     }
 
     if isinstance(data, list):
@@ -56,6 +57,10 @@ class Channel(TwitchObject):
     pass
 
 
+class Comment(TwitchObject):
+    pass
+
+
 class Community(TwitchObject):
     pass
 
@@ -73,6 +78,10 @@ class Game(TwitchObject):
 
 
 class Ingest(TwitchObject):
+    pass
+
+
+class Post(TwitchObject):
     pass
 
 
