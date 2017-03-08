@@ -11,21 +11,21 @@ from twitch.resources import Comment, Post
 
 # Note: comment doesn't have id prefixed with _ for some reason
 example_comment = {
-    "id": "132629",
-    "body": "Hey there! KappaHD",
-    "created_at": "2016-11-29T15:52:27Z",
+    'id': '132629',
+    'body': 'Hey there! KappaHD',
+    'created_at': '2016-11-29T15:52:27Z',
 }
 
 # Note: post doesn't have id prefixed with _ for some reason
 example_post = {
-    "id": "443228891479487861",
-    "body": "News feed post!",
-    "comments": {
-        "_cursor": "1480434747093939000",
-        "_total": 1,
-        "comments": [example_comment]
+    'id': '443228891479487861',
+    'body': 'News feed post!',
+    'comments': {
+        '_cursor': '1480434747093939000',
+        '_total': 1,
+        'comments': [example_comment]
     },
-    "created_at": "2016-11-18T16:51:01Z",
+    'created_at': '2016-11-18T16:51:01Z',
 }
 
 
@@ -33,9 +33,9 @@ example_post = {
 def test_get_posts():
     channel_id = '1234'
     response = {
-       "_cursor": "1479487861147094000",
-       "_topic": "feeds.channel.44322889",
-       "posts": [example_post]
+       '_cursor': '1479487861147094000',
+       '_topic': 'feeds.channel.44322889',
+       'posts': [example_post]
     }
     responses.add(responses.GET,
                   '%sfeed/%s/posts' % (BASE_URL, channel_id),
@@ -145,10 +145,10 @@ def test_create_reaction_to_post():
     channel_id = '1234'
     post_id = example_post['id']
     response = {
-        "id": "24989127",
-        "emote_id": "25",
-        "user": {},
-        "created_at": "2016-11-29T15:51:12Z",
+        'id': '24989127',
+        'emote_id': '25',
+        'user': {},
+        'created_at': '2016-11-29T15:51:12Z',
     }
     responses.add(responses.POST,
                   '%sfeed/%s/posts/%s/reactions' % (BASE_URL, channel_id, post_id),
@@ -191,9 +191,9 @@ def test_get_post_comments():
     channel_id = '1234'
     post_id = example_post['id']
     response = {
-        "_cursor": "1480651694954867000",
-        "_total": 1,
-        "comments": [example_comment]
+        '_cursor': '1480651694954867000',
+        '_total': 1,
+        'comments': [example_comment]
     }
     responses.add(responses.GET,
                   '%sfeed/%s/posts/%s/comments' % (BASE_URL, channel_id, post_id),
@@ -270,10 +270,10 @@ def test_create_reaction_to_comment():
     post_id = example_post['id']
     comment_id = example_comment['id']
     body = {
-        "created_at": "2016-12-02T04:26:47Z",
-        "emote_id": "1",
-        "id": "1341393b-e872-4554-9f6f-acd5f8b669fc",
-        "user": {}
+        'created_at': '2016-12-02T04:26:47Z',
+        'emote_id': '1',
+        'id': '1341393b-e872-4554-9f6f-acd5f8b669fc',
+        'user': {}
     }
     responses.add(responses.POST,
                   '%sfeed/%s/posts/%s/comments/%s/reactions' % (

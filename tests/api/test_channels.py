@@ -27,14 +27,14 @@ example_follower = {
 }
 
 example_team = {
-    "_id": 10,
-    "name": "staff",
+    '_id': 10,
+    'name': 'staff',
 }
 
 example_subscription = {
-    "_id": "67123294ed8305ce3a8ef09649d2237c5a300590",
-    "created_at": "2014-05-19T23:38:53Z",
-    "user": example_user
+    '_id': '67123294ed8305ce3a8ef09649d2237c5a300590',
+    'created_at': '2014-05-19T23:38:53Z',
+    'user': example_user
 }
 
 example_video = {
@@ -111,7 +111,7 @@ def test_update():
 def test_get_editors():
     channel_id = example_channel['_id']
     response = {
-        "users": [example_user]
+        'users': [example_user]
     }
     responses.add(responses.GET,
                   '%schannels/%s/editors' % (BASE_URL, channel_id),
@@ -135,9 +135,9 @@ def test_get_editors():
 def test_get_followers():
     channel_id = example_channel['_id']
     response = {
-        "_cursor": "1481675542963907000",
-        "_total": 41,
-        "follows": [example_follower]
+        '_cursor': '1481675542963907000',
+        '_total': 41,
+        'follows': [example_follower]
     }
     responses.add(responses.GET,
                   '%schannels/%s/follows' % (BASE_URL, channel_id),
@@ -175,7 +175,7 @@ def test_get_followers_raises_if_wrong_params_are_passed_in(param, value):
 def test_get_teams():
     channel_id = example_channel['_id']
     response = {
-        "teams": [example_team]
+        'teams': [example_team]
     }
     responses.add(responses.GET,
                   '%schannels/%s/teams' % (BASE_URL, channel_id),
@@ -199,8 +199,8 @@ def test_get_teams():
 def test_get_subscribers():
     channel_id = example_channel['_id']
     response = {
-        "_total": 1,
-        "subscriptions": [example_subscription]
+        '_total': 1,
+        'subscriptions': [example_subscription]
     }
     responses.add(responses.GET,
                   '%schannels/%s/subscriptions' % (BASE_URL, channel_id),
@@ -299,9 +299,9 @@ def test_get_videos_raises_if_wrong_params_are_passed_in(param, value):
 def test_start_commercial():
     channel_id = example_channel['_id']
     response = {
-        "duration": 30,
-        "message": "",
-        "retryafter": 480
+        'duration': 30,
+        'message': '',
+        'retryafter': 480
     }
     responses.add(responses.POST,
                   '%schannels/%s/commercial' % (BASE_URL, channel_id),
