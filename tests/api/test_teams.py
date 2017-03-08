@@ -6,7 +6,7 @@ import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
-from twitch.exceptions import TwitchException
+from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Team
 
 
@@ -66,5 +66,5 @@ def test_get_all():
 def test_get_all_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.teams.get_all(**kwargs)

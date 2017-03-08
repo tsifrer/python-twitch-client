@@ -6,7 +6,7 @@ import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
-from twitch.exceptions import TwitchException
+from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Channel, Community, Follow, Subscription, Team, User, Video
 
 
@@ -167,7 +167,7 @@ def test_get_followers():
 def test_get_followers_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.channels.get_followers('1234', **kwargs)
 
 
@@ -230,7 +230,7 @@ def test_get_subscribers():
 def test_get_subscribers_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id', 'oauth token')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.channels.get_subscribers('1234', **kwargs)
 
 
@@ -291,7 +291,7 @@ def test_get_videos():
 def test_get_videos_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id', 'oauth token')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.channels.get_videos('1234', **kwargs)
 
 

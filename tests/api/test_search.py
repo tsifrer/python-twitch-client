@@ -6,7 +6,7 @@ import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
-from twitch.exceptions import TwitchException
+from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Channel, Game, Stream
 
 
@@ -58,7 +58,7 @@ def test_channels():
 def test_channels_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.search.channels('mah query', **kwargs)
 
 
@@ -121,5 +121,5 @@ def test_streams():
 def test_streams_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.search.streams('mah query', **kwargs)

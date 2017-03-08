@@ -6,7 +6,7 @@ import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
-from twitch.exceptions import TwitchException
+from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Community, User
 
 
@@ -125,7 +125,7 @@ def test_get_top():
 def test_get_top_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.communities.get_top(**kwargs)
 
 
@@ -162,7 +162,7 @@ def test_get_banned_users():
 def test_get_banned_users_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id', 'oauth token')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.communities.get_banned_users('1234', **kwargs)
 
 
@@ -385,9 +385,9 @@ def test_get_timed_out_users():
     ('limit', 101),
 ])
 def test_get_timed_out_users_raises_if_wrong_params_are_passed_in(param, value):
-    client = TwitchClient('client id')
+    client = TwitchClient('client id', 'oauth token')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.communities.get_timed_out_users('1234', **kwargs)
 
 

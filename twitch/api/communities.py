@@ -1,6 +1,6 @@
 from twitch.api.base import TwitchAPI
 from twitch.decorators import oauth_required
-from twitch.exceptions import TwitchException
+from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Community, User
 
 
@@ -38,7 +38,8 @@ class Communities(TwitchAPI):
 
     def get_top(self, limit=10, cursor=None):
         if limit > 100:
-            raise TwitchException('Maximum number of objects returned in one request is 100')
+            raise TwitchAttributeException(
+                'Maximum number of objects returned in one request is 100')
         params = {
             'limit': limit,
             'cursor': cursor
@@ -49,7 +50,8 @@ class Communities(TwitchAPI):
     @oauth_required
     def get_banned_users(self, community_id, limit=10, cursor=None):
         if limit > 100:
-            raise TwitchException('Maximum number of objects returned in one request is 100')
+            raise TwitchAttributeException(
+                'Maximum number of objects returned in one request is 100')
 
         params = {
             'limit': limit,
@@ -115,7 +117,8 @@ class Communities(TwitchAPI):
     @oauth_required
     def get_timed_out_users(self, community_id, limit=10, cursor=None):
         if limit > 100:
-            raise TwitchException('Maximum number of objects returned in one request is 100')
+            raise TwitchAttributeException(
+                'Maximum number of objects returned in one request is 100')
         params = {
             'limit': limit,
             'cursor': cursor

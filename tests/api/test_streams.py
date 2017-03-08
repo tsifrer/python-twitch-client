@@ -6,7 +6,7 @@ import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
-from twitch.exceptions import TwitchException
+from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Channel, Featured, Stream
 
 example_stream = {
@@ -65,7 +65,7 @@ def test_get_stream_by_user():
 def test_get_stream_by_user_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.streams.get_stream_by_user('1234', **kwargs)
 
 
@@ -100,7 +100,7 @@ def test_get_live_streams():
 def test_get_live_streams_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.streams.get_live_streams(**kwargs)
 
 
@@ -156,7 +156,7 @@ def test_get_featured():
 def test_get_featured_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.streams.get_featured(**kwargs)
 
 
@@ -192,5 +192,5 @@ def test_get_followed():
 def test_get_followed_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id', 'oauth token')
     kwargs = {param: value}
-    with pytest.raises(TwitchException):
+    with pytest.raises(TwitchAttributeException):
         client.streams.get_followed(**kwargs)

@@ -3,7 +3,7 @@ from twitch.constants import (
     BROADCAST_TYPE_HIGHLIGHT, BROADCATS_TYPES, DIRECTIONS, DIRECTION_ASC, DIRECTION_DESC,
     VIDEO_SORTS, VIDEO_SORT_TIME)
 from twitch.decorators import oauth_required
-from twitch.exceptions import TwitchException
+from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Channel, Community, Follow, Subscription, Team, User, Video
 
 
@@ -41,9 +41,11 @@ class Channels(TwitchAPI):
 
     def get_followers(self, channel_id, limit=25, offset=0, cursor=None, direction=DIRECTION_DESC):
         if limit > 100:
-            raise TwitchException('Maximum number of objects returned in one request is 100')
+            raise TwitchAttributeException(
+                'Maximum number of objects returned in one request is 100')
         if direction not in DIRECTIONS:
-            raise TwitchException('Direction is not valid. Valid values are %s' % DIRECTIONS)
+            raise TwitchAttributeException(
+                'Direction is not valid. Valid values are %s' % DIRECTIONS)
 
         params = {
             'limit': limit,
@@ -62,9 +64,11 @@ class Channels(TwitchAPI):
     @oauth_required
     def get_subscribers(self, channel_id, limit=25, offset=0, direction=DIRECTION_ASC):
         if limit > 100:
-            raise TwitchException('Maximum number of objects returned in one request is 100')
+            raise TwitchAttributeException(
+                'Maximum number of objects returned in one request is 100')
         if direction not in DIRECTIONS:
-            raise TwitchException('Direction is not valid. Valid values are %s' % DIRECTIONS)
+            raise TwitchAttributeException(
+                'Direction is not valid. Valid values are %s' % DIRECTIONS)
 
         response = self._request_get('channels/%s/subscriptions' % channel_id)
         return [Subscription.construct_from(x) for x in response['subscriptions']]
@@ -76,12 +80,13 @@ class Channels(TwitchAPI):
     def get_videos(self, channel_id, limit=10, offset=0, broadcast_type=BROADCAST_TYPE_HIGHLIGHT,
                    language=None, sort=VIDEO_SORT_TIME):
         if limit > 100:
-            raise TwitchException('Maximum number of objects returned in one request is 100')
+            raise TwitchAttributeException(
+                'Maximum number of objects returned in one request is 100')
         if broadcast_type not in BROADCATS_TYPES:
-            raise TwitchException(
+            raise TwitchAttributeException(
                 'Broadcast type is not valid. Valid values are %s' % BROADCATS_TYPES)
         if sort not in VIDEO_SORTS:
-            raise TwitchException('Sort is not valid. Valid values are %s' % VIDEO_SORTS)
+            raise TwitchAttributeException('Sort is not valid. Valid values are %s' % VIDEO_SORTS)
 
         params = {
             'limit': limit,

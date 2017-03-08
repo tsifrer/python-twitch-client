@@ -1,5 +1,5 @@
 from twitch.api.base import TwitchAPI
-from twitch.exceptions import TwitchException
+from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Channel, Game, Stream
 
 
@@ -7,7 +7,8 @@ class Search(TwitchAPI):
 
     def channels(self, query, limit=25, offset=0):
         if limit > 100:
-            raise TwitchException('Maximum number of objects returned in one request is 100')
+            raise TwitchAttributeException(
+                'Maximum number of objects returned in one request is 100')
 
         params = {
             'query': query,
@@ -27,7 +28,8 @@ class Search(TwitchAPI):
 
     def streams(self, query, limit=25, offset=0, hls=None):
         if limit > 100:
-            raise TwitchException('Maximum number of objects returned in one request is 100')
+            raise TwitchAttributeException(
+                'Maximum number of objects returned in one request is 100')
 
         params = {
             'query': query,
