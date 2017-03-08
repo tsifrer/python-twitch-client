@@ -18,7 +18,7 @@ class Streams(TwitchAPI):
 
     def get_live_streams(self, channel=None, game=None, language=None, stream_type=STREAM_TYPE_LIVE,
                          limit=25, offset=0):
-        assert limit <= 100, 'Maximum number of videos returned in one request is 100'
+        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
         assert stream_type in STREAM_TYPES, (
             'Stream type is not valid. Valid values are %s' % STREAM_TYPES)
 
@@ -44,7 +44,7 @@ class Streams(TwitchAPI):
         return response
 
     def get_featured(self, limit=25, offset=0):
-        assert limit <= 100, 'Maximum number of videos returned in one request is 100'
+        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
 
         params = {
             'limit': limit,
@@ -57,7 +57,7 @@ class Streams(TwitchAPI):
     def get_followed(self, stream_type=STREAM_TYPE_LIVE, limit=25, offset=0):
         assert stream_type in STREAM_TYPES, (
             'Stream type is not valid. Valid values are %s' % STREAM_TYPES)
-        assert limit <= 100, 'Maximum number of videos returned in one request is 100'
+        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
 
         params = {
             'stream_type': stream_type,

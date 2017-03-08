@@ -36,7 +36,7 @@ class Communities(TwitchAPI):
         self._request_put('communities/%s' % community_id, data=data)
 
     def get_top(self, limit=10, cursor=None):
-        assert limit <= 100, 'Maximum number of videos returned in one request is 100'
+        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
         params = {
             'limit': limit,
             'cursor': cursor
@@ -46,7 +46,7 @@ class Communities(TwitchAPI):
 
     @oauth_required
     def get_banned_users(self, community_id, limit=10, cursor=None):
-        assert limit <= 100, 'Maximum number of videos returned in one request is 100'
+        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
 
         params = {
             'limit': limit,
@@ -111,7 +111,7 @@ class Communities(TwitchAPI):
 
     @oauth_required
     def get_timed_out_users(self, community_id, limit=10, cursor=None):
-        assert limit <= 100, 'Maximum number of videos returned in one request is 100'
+        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
         params = {
             'limit': limit,
             'cursor': cursor

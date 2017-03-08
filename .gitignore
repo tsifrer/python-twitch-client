@@ -4,6 +4,7 @@ _build/
 .coverage
 *.egg-info/
 *.DS_Store
+*.sublime-*
 *.py[co]
 build/
 dist/

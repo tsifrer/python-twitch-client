@@ -9,7 +9,7 @@ class Teams(TwitchAPI):
         return Team.construct_from(response)
 
     def get_all(self, limit=10, offset=0):
-        assert limit <= 100, 'Maximum number of games returned in one request is 100'
+        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
 
         params = {
             'limit': limit,

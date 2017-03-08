@@ -39,7 +39,7 @@ class Channels(TwitchAPI):
         return [User.construct_from(x) for x in response['users']]
 
     def get_followers(self, channel_id, limit=25, offset=0, cursor=None, direction=DIRECTION_DESC):
-        assert limit <= 100, 'Maximum number of videos returned in one request is 100'
+        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
         assert direction in DIRECTIONS, 'Direction is not valid. Valid values are %s' % DIRECTIONS
 
         params = {
@@ -58,7 +58,7 @@ class Channels(TwitchAPI):
 
     @oauth_required
     def get_subscribers(self, channel_id, limit=25, offset=0, direction=DIRECTION_ASC):
-        assert limit <= 100, 'Maximum number of videos returned in one request is 100'
+        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
         assert direction in DIRECTIONS, 'Direction is not valid. Valid values are %s' % DIRECTIONS
 
         response = self._request_get('channels/%s/subscriptions' % channel_id)
@@ -70,7 +70,7 @@ class Channels(TwitchAPI):
 
     def get_videos(self, channel_id, limit=10, offset=0, broadcast_type=BROADCAST_TYPE_HIGHLIGHT,
                    language=None, sort=VIDEO_SORT_TIME):
-        assert limit <= 100, 'Maximum number of videos returned in one request is 100'
+        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
         assert broadcast_type in BROADCATS_TYPES, (
             'Broadcast type is not valid. Valid values are %s' % BROADCATS_TYPES)
         assert sort in VIDEO_SORTS, 'Sort is not valid. Valid values are %s' % VIDEO_SORTS

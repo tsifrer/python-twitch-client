@@ -27,7 +27,7 @@ class Users(TwitchAPI):
 
     def get_follows(self, user_id, limit=25, offset=0, direction=DIRECTION_DESC,
                     sort_by=USERS_SORT_BY_CREATED_AT):
-        assert limit <= 100, 'Maximum number of videos returned in one request is 100'
+        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
         assert direction in DIRECTIONS, 'Direction is not valid. Valid values are %s' % DIRECTIONS
         assert sort_by in USERS_SORT_BY, 'Sort by is not valud. Valid values are %s' % USERS_SORT_BY
 
@@ -57,7 +57,7 @@ class Users(TwitchAPI):
 
     @oauth_required
     def get_user_block_list(self, user_id, limit=25, offset=0):
-        assert limit <= 100, 'Maximum number of videos returned in one request is 100'
+        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
 
         params = {
             'limit': limit,
