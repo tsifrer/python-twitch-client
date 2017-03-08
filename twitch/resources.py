@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import six
 
 
@@ -8,11 +10,19 @@ def convert_to_twitch_object(name, data):
         'user': User,
         'game': Game,
         'stream': Stream,
-        'comments': Comment
+        'comments': Comment,
+    }
+
+    special_types = {
+        'created_at': _DateTime,
     }
 
     if isinstance(data, list):
         return [convert_to_twitch_object(name, x) for x in data]
+
+    if name in special_types:
+        obj = special_types.get(name)
+        return obj.construct_from(data)
 
     if isinstance(data, dict) and name in types:
         obj = types.get(name)
@@ -51,6 +61,12 @@ class TwitchObject(dict):
     def refresh_from(self, values):
         for key, value in six.iteritems(values.copy()):
             self.__setitem__(key, convert_to_twitch_object(key, value))
+
+
+class _DateTime(object):
+
+    def construct_from(value):
+        return datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ')
 
 
 class Channel(TwitchObject):

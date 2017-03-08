@@ -18,6 +18,7 @@
 - Fixed output from streams
 - Fixed passing parameters to video endpoints
 - Introduced TwitchException, TwitchAuthException and TwitchAttributeException
+- `created_at` fields are now converted to datetime objects
 
 
 ## Version 0.1.0 - 2017-2-25

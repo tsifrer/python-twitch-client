@@ -1,8 +1,10 @@
+from datetime import datetime
+
 import pytest
 
 from twitch.resources import (
-    Channel, Community, Featured, Follow, Game, Ingest, Stream, Subscription, Team, TopGame,
-    TwitchObject, User, UserBlock, Video, convert_to_twitch_object
+    Channel, Comment, Community, Featured, Follow, Game, Ingest, Stream, Subscription, Team,
+    TopGame, TwitchObject, User, UserBlock, Video, convert_to_twitch_object
 )
 
 
@@ -31,11 +33,19 @@ def test_convert_to_twitch_object_output_returns_list_of_objects_for_list_of_obj
     ('videos', {'spongebob': 'squarepants'}, Video),
     ('user', {'spongebob': 'squarepants'}, User),
     ('game', {'spongebob': 'squarepants'}, Game),
+    ('stream', {'spongebob': 'squarepants'}, Stream),
+    ('comments', {'spongebob': 'squarepants'}, Comment),
 ])
 def test_convert_to_twitch_object_output_returns_correct_object(name, data, expected_type):
     result = convert_to_twitch_object(name, data)
     assert isinstance(result, expected_type)
     assert result == data
+
+
+def test_convert_to_twitch_object_output_returns_correct_datetime_object_for_created_at():
+    result = convert_to_twitch_object('created_at', '2016-11-29T15:52:27Z')
+    assert isinstance(result, datetime)
+    assert result == datetime(2016, 11, 29, 15, 52, 27)
 
 
 class TestTwitchObject(object):
