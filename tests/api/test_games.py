@@ -1,9 +1,12 @@
 import json
 
+import pytest
+
 import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
+from twitch.exceptions import TwitchException
 from twitch.resources import Game, TopGame
 
 
@@ -62,3 +65,14 @@ def test_get_top():
     game = games[0].game
     assert isinstance(game, Game)
     assert game.id == example_top_games_response['top'][0]['game']['_id']
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+])
+def test_get_top_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.games.get_top(**kwargs)

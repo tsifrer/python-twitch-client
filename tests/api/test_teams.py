@@ -1,9 +1,12 @@
 import json
 
+import pytest
+
 import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
+from twitch.exceptions import TwitchException
 from twitch.resources import Team
 
 
@@ -54,3 +57,14 @@ def test_get_all():
     assert isinstance(team, Team)
     assert team.id == example_team_response['_id']
     assert team.name == example_team_response['name']
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+])
+def test_get_all_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.teams.get_all(**kwargs)

@@ -1,6 +1,7 @@
 from twitch.api.base import TwitchAPI
 from twitch.constants import BROADCAST_TYPE_HIGHLIGHT, BROADCATS_TYPES, PERIODS, PERIOD_WEEK
 from twitch.decorators import oauth_required
+from twitch.exceptions import TwitchException
 from twitch.resources import Video
 
 
@@ -12,10 +13,13 @@ class Videos(TwitchAPI):
 
     def get_top(self, limit=10, offset=0, game=None, period=PERIOD_WEEK,
                 broadcast_type=BROADCAST_TYPE_HIGHLIGHT):
-        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
-        assert period in PERIODS, 'Period is not valid. Valid values are %s' % PERIODS
-        assert broadcast_type in BROADCATS_TYPES, (
-            'Broadcast type is not valid. Valid values are %s' % BROADCATS_TYPES)
+        if limit > 100:
+            raise TwitchException('Maximum number of objects returned in one request is 100')
+        if period not in PERIODS:
+            raise TwitchException('Period is not valid. Valid values are %s' % PERIODS)
+        if broadcast_type not in BROADCATS_TYPES:
+            raise TwitchException(
+                'Broadcast type is not valid. Valid values are %s' % BROADCATS_TYPES)
 
         params = {
             'limit': limit,
@@ -30,9 +34,11 @@ class Videos(TwitchAPI):
 
     @oauth_required
     def get_followed_videos(self, limit=10, offset=0, broadcast_type=BROADCAST_TYPE_HIGHLIGHT):
-        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
-        assert broadcast_type in BROADCATS_TYPES, (
-            'Broadcast type is not valid. Valid values are %s' % BROADCATS_TYPES)
+        if limit > 100:
+            raise TwitchException('Maximum number of objects returned in one request is 100')
+        if broadcast_type not in BROADCATS_TYPES:
+            raise TwitchException(
+                'Broadcast type is not valid. Valid values are %s' % BROADCATS_TYPES)
 
         params = {
             'limit': limit,

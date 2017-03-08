@@ -1,9 +1,12 @@
 import json
 
+import pytest
+
 import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
+from twitch.exceptions import TwitchException
 from twitch.resources import Channel, Game, Stream
 
 
@@ -46,6 +49,17 @@ def test_channels():
     assert isinstance(channel, Channel)
     assert channel.id == example_channel['_id']
     assert channel.name == example_channel['name']
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+])
+def test_channels_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.search.channels('mah query', **kwargs)
 
 
 @responses.activate
@@ -98,3 +112,14 @@ def test_streams():
     assert isinstance(stream.channel, Channel)
     assert stream.channel.id == example_channel['_id']
     assert stream.channel.name == example_channel['name']
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+])
+def test_streams_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.search.streams('mah query', **kwargs)

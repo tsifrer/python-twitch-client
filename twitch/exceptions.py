@@ -1,0 +1,3 @@
+
+class TwitchException(Exception):
+    pass

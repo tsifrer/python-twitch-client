@@ -1,9 +1,12 @@
 import json
 
+import pytest
+
 import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
+from twitch.exceptions import TwitchException
 from twitch.resources import Channel, Community, Follow, Subscription, Team, User, Video
 
 
@@ -157,6 +160,18 @@ def test_get_followers():
 
 
 @responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+    ('direction', 'abcd')
+])
+def test_get_followers_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.channels.get_followers('1234', **kwargs)
+
+
+@responses.activate
 def test_get_teams():
     channel_id = example_channel['_id']
     response = {
@@ -208,6 +223,18 @@ def test_get_subscribers():
 
 
 @responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+    ('direction', 'abcd')
+])
+def test_get_subscribers_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id', 'oauth token')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.channels.get_subscribers('1234', **kwargs)
+
+
+@responses.activate
 def test_check_subscription_by_user():
     channel_id = example_channel['_id']
     user_id = example_user['_id']
@@ -253,6 +280,19 @@ def test_get_videos():
     assert video.id == example_video['_id']
     assert video.description == example_video['description']
     assert video.fps['1080p'] == example_video['fps']['1080p']
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+    ('broadcast_type', 'abcd'),
+    ('sort', 'abcd')
+])
+def test_get_videos_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id', 'oauth token')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.channels.get_videos('1234', **kwargs)
 
 
 @responses.activate

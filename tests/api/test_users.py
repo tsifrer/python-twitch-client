@@ -1,9 +1,12 @@
 import json
 
+import pytest
+
 import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
+from twitch.exceptions import TwitchException
 from twitch.resources import Channel, Follow, Subscription, User, UserBlock
 
 
@@ -150,6 +153,19 @@ def test_get_follows():
 
 
 @responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+    ('direction', 'abcd'),
+    ('sort_by', 'abcd'),
+])
+def test_get_follows_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.users.get_follows('1234', **kwargs)
+
+
+@responses.activate
 def test_check_follows_channel():
     user_id = 1234
     channel_id = 12345
@@ -234,6 +250,17 @@ def test_get_user_block_list():
     assert isinstance(block.user, User)
     assert block.user.id == example_user['_id']
     assert block.user.name == example_user['name']
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+])
+def test_get_user_block_list_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.users.get_user_block_list('1234', **kwargs)
 
 
 @responses.activate

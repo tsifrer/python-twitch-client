@@ -1,9 +1,12 @@
 import json
 
+import pytest
+
 import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
+from twitch.exceptions import TwitchException
 from twitch.resources import Channel, Featured, Stream
 
 example_stream = {
@@ -56,6 +59,17 @@ def test_get_stream_by_user():
 
 
 @responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('stream_type', 'abcd'),
+])
+def test_get_stream_by_user_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.streams.get_stream_by_user('1234', **kwargs)
+
+
+@responses.activate
 def test_get_live_streams():
     responses.add(responses.GET,
                   '%sstreams' % BASE_URL,
@@ -77,6 +91,17 @@ def test_get_live_streams():
     assert isinstance(stream.channel, Channel)
     assert stream.channel.id == example_stream_response['stream']['channel']['_id']
     assert stream.channel.name == example_stream_response['stream']['channel']['name']
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+])
+def test_get_live_streams_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.streams.get_live_streams(**kwargs)
 
 
 @responses.activate
@@ -125,6 +150,17 @@ def test_get_featured():
 
 
 @responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+])
+def test_get_featured_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.streams.get_featured(**kwargs)
+
+
+@responses.activate
 def test_get_followed():
     responses.add(responses.GET,
                   '%sstreams/followed' % BASE_URL,
@@ -146,3 +182,15 @@ def test_get_followed():
     assert isinstance(stream.channel, Channel)
     assert stream.channel.id == example_stream_response['stream']['channel']['_id']
     assert stream.channel.name == example_stream_response['stream']['channel']['name']
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+    ('stream_type', 'abcd'),
+])
+def test_get_followed_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id', 'oauth token')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.streams.get_followed(**kwargs)

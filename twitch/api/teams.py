@@ -1,4 +1,5 @@
 from twitch.api.base import TwitchAPI
+from twitch.exceptions import TwitchException
 from twitch.resources import Team
 
 
@@ -9,7 +10,8 @@ class Teams(TwitchAPI):
         return Team.construct_from(response)
 
     def get_all(self, limit=10, offset=0):
-        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
+        if limit > 100:
+            raise TwitchException('Maximum number of objects returned in one request is 100')
 
         params = {
             'limit': limit,

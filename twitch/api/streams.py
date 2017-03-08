@@ -1,14 +1,15 @@
 from twitch.api.base import TwitchAPI
 from twitch.constants import STREAM_TYPES, STREAM_TYPE_LIVE
 from twitch.decorators import oauth_required
+from twitch.exceptions import TwitchException
 from twitch.resources import Featured, Stream
 
 
 class Streams(TwitchAPI):
 
     def get_stream_by_user(self, channel_id, stream_type=STREAM_TYPE_LIVE):
-        assert stream_type in STREAM_TYPES, (
-            'Stream type is not valid. Valid values are %s' % STREAM_TYPES)
+        if stream_type not in STREAM_TYPES:
+            raise TwitchException('Stream type is not valid. Valid values are %s' % STREAM_TYPES)
 
         params = {
             'stream_type': stream_type,
@@ -18,9 +19,8 @@ class Streams(TwitchAPI):
 
     def get_live_streams(self, channel=None, game=None, language=None, stream_type=STREAM_TYPE_LIVE,
                          limit=25, offset=0):
-        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
-        assert stream_type in STREAM_TYPES, (
-            'Stream type is not valid. Valid values are %s' % STREAM_TYPES)
+        if limit > 100:
+            raise TwitchException('Maximum number of objects returned in one request is 100')
 
         params = {
             'stream_type': stream_type,
@@ -44,7 +44,8 @@ class Streams(TwitchAPI):
         return response
 
     def get_featured(self, limit=25, offset=0):
-        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
+        if limit > 100:
+            raise TwitchException('Maximum number of objects returned in one request is 100')
 
         params = {
             'limit': limit,
@@ -55,9 +56,10 @@ class Streams(TwitchAPI):
 
     @oauth_required
     def get_followed(self, stream_type=STREAM_TYPE_LIVE, limit=25, offset=0):
-        assert stream_type in STREAM_TYPES, (
-            'Stream type is not valid. Valid values are %s' % STREAM_TYPES)
-        assert limit <= 100, 'Maximum number of objects returned in one request is 100'
+        if stream_type not in STREAM_TYPES:
+            raise TwitchException('Stream type is not valid. Valid values are %s' % STREAM_TYPES)
+        if limit > 100:
+            raise TwitchException('Maximum number of objects returned in one request is 100')
 
         params = {
             'stream_type': stream_type,

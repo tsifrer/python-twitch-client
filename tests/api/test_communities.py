@@ -1,9 +1,12 @@
 import json
 
+import pytest
+
 import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
+from twitch.exceptions import TwitchException
 from twitch.resources import Community, User
 
 
@@ -116,6 +119,17 @@ def test_get_top():
 
 
 @responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+])
+def test_get_top_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.communities.get_top(**kwargs)
+
+
+@responses.activate
 def test_get_banned_users():
     community_id = 'abcd'
     response = {
@@ -139,6 +153,17 @@ def test_get_banned_users():
     assert isinstance(user, User)
     assert user.id == example_user['_id']
     assert user.name == example_user['name']
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+])
+def test_get_banned_users_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id', 'oauth token')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.communities.get_banned_users('1234', **kwargs)
 
 
 @responses.activate
@@ -353,6 +378,17 @@ def test_get_timed_out_users():
     assert isinstance(user, User)
     assert user.id == example_user['_id']
     assert user.name == example_user['name']
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+])
+def test_get_timed_out_users_raises_if_wrong_params_are_passed_in(param, value):
+    client = TwitchClient('client id')
+    kwargs = {param: value}
+    with pytest.raises(TwitchException):
+        client.communities.get_timed_out_users('1234', **kwargs)
 
 
 @responses.activate
