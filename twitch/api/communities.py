@@ -17,16 +17,6 @@ class Communities(TwitchAPI):
         response = self._request_get('communities/%s' % community_id)
         return Community.construct_from(response)
 
-    def create(self, name, summary=None, description=None, rules=None):
-        data = {
-            'name': name,
-            'summary': summary,
-            'description': description,
-            'rules': rules
-        }
-        response = self._request_post('communities', data=data)
-        return Community.construct_from(response)
-
     def update(self, community_id, summary=None, description=None, rules=None, email=None):
         data = {
             'summary': summary,

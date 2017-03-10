@@ -59,24 +59,6 @@ def test_get_by_id():
 
 
 @responses.activate
-def test_create():
-    responses.add(responses.POST,
-                  '%scommunities' % BASE_URL,
-                  body=json.dumps(example_community),
-                  status=200,
-                  content_type='application/json')
-
-    client = TwitchClient('client id')
-
-    community = client.communities.create('spongebob')
-
-    assert len(responses.calls) == 1
-    assert isinstance(community, Community)
-    assert community.id == example_community['_id']
-    assert community.name == example_community['name']
-
-
-@responses.activate
 def test_update():
     community_id = 'abcd'
     responses.add(responses.PUT,
