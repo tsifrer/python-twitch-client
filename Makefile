@@ -6,3 +6,6 @@ cov:
 
 cov-html:
 	py.test --cov=./ --cov-report html
+
+remove-pyc:
+	find . -name "*.pyc" -delete

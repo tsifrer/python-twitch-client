@@ -68,7 +68,8 @@ class TwitchObject(dict):
 
 class _DateTime(object):
 
-    def construct_from(value):
+    @classmethod
+    def construct_from(cls, value):
         try:
             dt = datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ')
         except ValueError:
