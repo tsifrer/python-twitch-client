@@ -23,4 +23,17 @@ setup(
     install_requires=requires,
     license='MIT',
     zip_safe=False,
+    classifiers=[
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: POSIX',
+        'License :: OSI Approved :: MIT License'
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Topic :: Internet',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Intended Audience :: Developers',
+    ]
 )

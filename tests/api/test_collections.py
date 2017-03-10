@@ -48,8 +48,8 @@ def test_get_metadata():
 def test_get():
     collection_id = 'abcd'
     response = {
-        "_id": "myIbIFkZphQSbQ",
-        "items": [example_item]
+        '_id': 'myIbIFkZphQSbQ',
+        'items': [example_item]
     }
     responses.add(responses.GET,
                   '%scollections/%s/items' % (BASE_URL, collection_id),
@@ -73,8 +73,8 @@ def test_get():
 def test_get_by_channel():
     channel_id = 'abcd'
     response = {
-        "_cursor": None,
-        "collections": [example_collection]
+        '_cursor': None,
+        'collections': [example_collection]
     }
     responses.add(responses.GET,
                   '%schannels/%s/collections' % (BASE_URL, channel_id),
