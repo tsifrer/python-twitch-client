@@ -20,9 +20,8 @@ Note
 
 `python-twitch-client` currently supports Twitch API v5.
 
-Not all endpoints are currently implemented.
-
-If you want one implemented please raise an [issue][issues] or contribute and open a [pull request][pulls].
+If you find a missing endpoint or a bug please raise an [issue][issues] or
+contribute and open a [pull request][pulls].
 
 
 Basic Usage
