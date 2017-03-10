@@ -11,10 +11,13 @@ def convert_to_twitch_object(name, data):
         'game': Game,
         'stream': Stream,
         'comments': Comment,
+        'owner': User,
     }
 
     special_types = {
         'created_at': _DateTime,
+        'updated_at': _DateTime,
+        'published_at': _DateTime,
     }
 
     if isinstance(data, list):
@@ -66,10 +69,19 @@ class TwitchObject(dict):
 class _DateTime(object):
 
     def construct_from(value):
-        return datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ')
+        try:
+            dt = datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ')
+        except ValueError:
+            dt = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%fZ')
+
+        return dt
 
 
 class Channel(TwitchObject):
+    pass
+
+
+class Collection(TwitchObject):
     pass
 
 
@@ -94,6 +106,10 @@ class Game(TwitchObject):
 
 
 class Ingest(TwitchObject):
+    pass
+
+
+class Item(TwitchObject):
     pass
 
 

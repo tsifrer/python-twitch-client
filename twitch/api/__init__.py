@@ -1,6 +1,7 @@
 from .channel_feed import ChannelFeed  # noqa
 from .channels import Channels  # noqa
 from .chat import Chat  # noqa
+from .collections import Collections  # noqa
 from .communities import Communities  # noqa
 from .games import Games  # noqa
 from .ingests import Ingests  # noqa

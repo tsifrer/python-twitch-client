@@ -1,5 +1,6 @@
 from .api import (
-    ChannelFeed, Channels, Chat, Communities, Games, Ingests, Search, Streams, Teams, Users, Videos
+    ChannelFeed, Channels, Chat, Collections, Communities, Games, Ingests, Search, Streams, Teams,
+    Users, Videos
 )
 
 
@@ -11,6 +12,7 @@ class TwitchClient(object):
         self._channel_feed = None
         self._channels = None
         self._chat = None
+        self._collections = None
         self._communities = None
         self._games = None
         self._ingests = None
@@ -40,6 +42,13 @@ class TwitchClient(object):
             self._chat = Chat(
                 client_id=self._client_id, oauth_token=self._oauth_token)
         return self._chat
+
+    @property
+    def collections(self):
+        if not self._collections:
+            self._collections = Collections(
+                client_id=self._client_id, oauth_token=self._oauth_token)
+        return self._collections
 
     @property
     def communities(self):
