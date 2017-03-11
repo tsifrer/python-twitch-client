@@ -9,9 +9,9 @@ An easy to use Python library for accessing the Twitch API
 
 .. note::
     ``python-twitch-client`` currently supports Twitch API v5. 
-    Not all endpoints are currently implemented.
 
-    If you want one implemented please raise an issue_ or contribute and open a `pull request`_.
+    If you find a missing endpoint or a bug please raise an issue_ or contribute and open a
+    `pull request`_.
 
 Installation
 ============
@@ -22,11 +22,6 @@ You can install ``python-twitch-client`` with ``pip``:
 
     $ pip install python-twitch-client
 
-Supported platforms
--------------------
-
-Currently we test ``python-twitch-client`` on Python 3.5.
-
 
 Contents:
 ---------
@@ -35,14 +30,18 @@ Contents:
    :maxdepth: 2
 
    basic_usage
-   chat
-   communities
-   games
-   ingests
-   streams
-   teams
-   users
-   videos
+   api/chat
+   api/channel_feed
+   api/channels
+   api/collections
+   api/communities
+   api/games
+   api/ingests
+   api/search
+   api/streams
+   api/teams
+   api/users
+   api/videos
 
 
 

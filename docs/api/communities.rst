@@ -1,7 +1,7 @@
 Communities
 ===========
 
-.. currentmodule:: twitch.api.users
+.. currentmodule:: twitch.api.communities
 
 .. class:: Communities()
 

@@ -61,7 +61,7 @@ Users
 
         :param string/int user_id: User ID
         :param string/int channel_id: ID of the channel you want user to follow
-        :param bool notifications: If true, the user gets email or push notifications when the
+        :param boolean notifications: If true, the user gets email or push notifications when the
                     channel goes live. Default False.
 
 
