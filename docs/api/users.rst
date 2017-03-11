@@ -16,14 +16,14 @@ Users
 
         Gets a user object based on specified user id.
 
-        :param string/int user_id: User ID
+        :param 'string user_id: User ID
 
 
     .. classmethod:: get_emotes(user_id)
 
         Gets a list of the emojis and emoticons that the specified user can use in chat
 
-        :param string/int user_id: User ID
+        :param 'string user_id: User ID
 
 
 
@@ -31,8 +31,8 @@ Users
 
         Checks if a specified user is subscribed to a specified channel.
 
-        :param string/int user_id: User ID
-        :param string/int channel_id: ID of the channel you want to check if user is
+        :param 'string user_id: User ID
+        :param 'string channel_id: ID of the channel you want to check if user is
                           subscribed to
 
 
@@ -40,7 +40,7 @@ Users
 
         Gets a list of all channels followed by a specified user.
 
-        :param string/int user_id: User ID
+        :param 'string user_id: User ID
         :param int limit: Maximum number of objects to return. Default 25. Maximum 100.
         :param int offset: Object offset for pagination of result. Default 0.
         :param string direction: Sorting direction. Default DIRECTION_DESC.
@@ -51,16 +51,16 @@ Users
 
         Checks if a specified user follows a specified channel.
 
-        :param string/int user_id: User ID
-        :param string/int channel_id: ID of the channel you want to check if user is following
+        :param 'string user_id: User ID
+        :param 'string channel_id: ID of the channel you want to check if user is following
 
 
     .. classmethod:: follow_channel(user_id, channel_id, notifications)
 
         Adds a specified user to the followers of a specified channel.
 
-        :param string/int user_id: User ID
-        :param string/int channel_id: ID of the channel you want user to follow
+        :param 'string user_id: User ID
+        :param 'string channel_id: ID of the channel you want user to follow
         :param boolean notifications: If true, the user gets email or push notifications when the
                     channel goes live. Default False.
 
@@ -69,15 +69,15 @@ Users
 
         Deletes a specified user from the followers of a specified channel.
 
-        :param string/int user_id: User ID
-        :param string/int channel_id: ID of the channel you want user to unfollow
+        :param 'string user_id: User ID
+        :param 'string channel_id: ID of the channel you want user to unfollow
 
 
     .. classmethod:: get_user_block_list(user_id, limit, offset)
 
         Gets a user’s block list.
 
-        :param string/int user_id: User ID
+        :param 'string user_id: User ID
         :param int limit: Maximum number of objects to return. Default 25. Maximum 100.
         :param int offset: Object offset for pagination of result. Default 0.
 
@@ -86,16 +86,16 @@ Users
 
         Blocks a user.
 
-        :param string/int user_id: User ID
-        :param string/int blocked_user_id: ID of the user you wish to block
+        :param 'string user_id: User ID
+        :param 'string blocked_user_id: ID of the user you wish to block
 
 
     .. classmethod:: unblock_user(user_id, blocked_user_id)
 
         Unblocks a user.
 
-        :param string/int user_id: User ID
-        :param string/int blocked_user_id: ID of the user you wish to unblock
+        :param 'string user_id: User ID
+        :param 'string blocked_user_id: ID of the user you wish to unblock
 
 
     .. classmethod:: translate_usernames_to_ids(usernames)

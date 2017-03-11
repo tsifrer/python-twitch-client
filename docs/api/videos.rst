@@ -11,7 +11,7 @@ Videos
 
         Gets a Video object based on specified video ID.
 
-        :param string/int video_id: Video ID
+        :param 'string video_id: Video ID
 
 
     .. classmethod:: get_top(limit, offset, game, period, broadcast_type)

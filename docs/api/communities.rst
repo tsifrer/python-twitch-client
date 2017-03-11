@@ -18,7 +18,7 @@ Communities
 
         Gets a Community object based on specified user id.
 
-        :param string/int community_id: Community ID
+        :param string community_id: Community ID
 
 
     .. classmethod:: create(name, summary, description, rules)
@@ -35,7 +35,7 @@ Communities
 
         Updates a community.
 
-        :param string/int community_id: Community ID
+        :param string community_id: Community ID
         :param string summary: Short description of the community.
         :param string description: Long description of the community.
         :param string rules: Rules displayed when viewing a community page.

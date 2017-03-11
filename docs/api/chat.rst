@@ -11,7 +11,7 @@ Chat
 
         Gets a list of badges that can be used in chat for a specified channel.
 
-        :param string/int channel_id: Channel ID.
+        :param string channel_id: Channel ID.
 
 
     .. classmethod:: get_emoticons_by_set(emotesets)

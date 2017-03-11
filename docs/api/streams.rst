@@ -11,7 +11,7 @@ Streams
 
         Gets stream information for a specified user.
 
-        :param string/int channel_id: ID of the channel you want to get information of
+        :param string channel_id: ID of the channel you want to get information of
         :param string stream_type: Constrains the type of streams returned.
                       Default STREAM_TYPE_LIVE.
 
