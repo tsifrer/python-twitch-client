@@ -59,6 +59,23 @@ def test_get_stream_by_user():
 
 
 @responses.activate
+def test_get_stream_by_user_returns_none_if_stream_is_offline():
+    channel_id = 7236692
+    responses.add(responses.GET,
+                  '%sstreams/%s' % (BASE_URL, channel_id),
+                  body=json.dumps({'stream': None}),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchClient('client id')
+
+    stream = client.streams.get_stream_by_user(channel_id)
+
+    assert len(responses.calls) == 1
+    assert stream is None
+
+
+@responses.activate
 @pytest.mark.parametrize('param,value', [
     ('stream_type', 'abcd'),
 ])

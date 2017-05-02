@@ -16,6 +16,9 @@ class Streams(TwitchAPI):
             'stream_type': stream_type,
         }
         response = self._request_get('streams/%s' % channel_id, params=params)
+
+        if not response['stream']:
+            return None
         return Stream.construct_from(response['stream'])
 
     def get_live_streams(self, channel=None, game=None, language=None, stream_type=STREAM_TYPE_LIVE,
