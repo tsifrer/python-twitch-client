@@ -2,6 +2,8 @@
 
 ## master
 
+- Fixed Streams.get_stream_by_user which raised exception if stream was offline. Now returns None
+  if stream is offline.
 - Fixed a bad implementation of _DateTime resource
 - Added support for python 2.7
 - Added six as a requirement
