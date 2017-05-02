@@ -211,3 +211,28 @@ def test_get_followed_raises_if_wrong_params_are_passed_in(param, value):
     kwargs = {param: value}
     with pytest.raises(TwitchAttributeException):
         client.streams.get_followed(**kwargs)
+
+
+@responses.activate
+def test_get_streams_in_community():
+    community_id = 'abcd'
+    responses.add(responses.GET,
+                  '%sstreams' % (BASE_URL),
+                  body=json.dumps(example_streams_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchClient('client id')
+
+    streams = client.streams.get_streams_in_community(community_id)
+
+    assert len(responses.calls) == 1
+    assert len(streams) == 1
+    stream = streams[0]
+    assert isinstance(stream, Stream)
+    assert stream.id == example_stream_response['stream']['_id']
+    assert stream.game == example_stream_response['stream']['game']
+
+    assert isinstance(stream.channel, Channel)
+    assert stream.channel.id == example_stream_response['stream']['channel']['_id']
+    assert stream.channel.name == example_stream_response['stream']['channel']['name']

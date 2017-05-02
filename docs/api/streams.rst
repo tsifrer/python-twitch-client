@@ -61,4 +61,19 @@ Streams
             >>> followed = client.streams.get_followed()
 
 
+    .. classmethod:: get_streams_in_community(community_id)
+
+        Gets a list of streams in a community. (From Twitch forum `Communities API Release`_)
+
+        :param string community_id: Community ID
+
+
+        .. code-block:: python
+
+            >>> from twitch import TwitchClient
+            >>> client = TwitchClient('<my client id>')
+            >>> streams = client.streams.get_streams_in_community('5181e78f-2280-42a6-873d-758e25a7c313')
+
+
 .. _`Twitch Streams API`: https://dev.twitch.tv/docs/v5/reference/streams/
+.. _`Communities API Release`: https://discuss.dev.twitch.tv/t/communities-api-release/9211

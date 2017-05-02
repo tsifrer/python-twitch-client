@@ -2,6 +2,7 @@
 
 ## master
 
+- Added Streams.get_streams_in_community endpoint
 - Fixed Streams.get_stream_by_user which raised exception if stream was offline. Now returns None
   if stream is offline.
 - Fixed a bad implementation of _DateTime resource

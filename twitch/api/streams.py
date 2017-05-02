@@ -76,3 +76,8 @@ class Streams(TwitchAPI):
         }
         response = self._request_get('streams/followed', params=params)
         return [Stream.construct_from(x) for x in response['streams']]
+
+    def get_streams_in_community(self, community_id):
+        response = self._request_get('streams?community_id=%s' % community_id)
+
+        return [Stream.construct_from(x) for x in response['streams']]
