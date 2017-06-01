@@ -54,7 +54,7 @@ example_community = {
 @responses.activate
 def test_get():
     responses.add(responses.GET,
-                  '%schannels' % BASE_URL,
+                  '%schannel' % BASE_URL,
                   body=json.dumps(example_channel),
                   status=200,
                   content_type='application/json')
