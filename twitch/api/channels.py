@@ -21,15 +21,15 @@ class Channels(TwitchAPI):
     @oauth_required
     def update(self, channel_id, status=None, game=None, delay=None, channel_feed_enabled=None):
 
-        data = {}
+        data = []
         if status is not None:
-            data['status'] = status
+            data.append(('channel[status]', status))
         if game is not None:
-            data['game'] = game
+            data.append(('channel[game]', game))
         if delay is not None:
-            data['delay'] = delay
+            data.append(('channel[delay]', delay))
         if channel_feed_enabled is not None:
-            data['channel_feed_enabled'] = channel_feed_enabled
+            data.append((['channel[channel_feed_enabled]'], channel_feed_enabled))
 
         response = self._request_put('channels/%s' % channel_id, data)
         return Channel.construct_from(response)
