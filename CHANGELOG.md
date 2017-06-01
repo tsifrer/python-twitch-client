@@ -2,15 +2,24 @@
 
 ## master
 
-- Fixed all post and put methods to pass json data to Twitch API rather than form data
+In development
+
+
+## Version 0.3.0
+
+- Fixed all post and put methods to pass data in json format to Twitch API rather than in form format
 - Fixed Channels.update() method to correctly pass data to Twitch
 - Fixed Channels.get() method to call 'channel' endpoint instead of 'channels'
-- Added Streams.get_streams_in_community endpoint
-- Fixed Streams.get_stream_by_user which raised exception if stream was offline. Now returns None
-  if stream is offline.
 - Fixed a bad implementation of _DateTime resource
+- Added Streams.get_streams_in_community endpoint
 - Added support for python 2.7
 - Added six as a requirement
+
+
+## Version 0.2.1 - 2017-5-2
+
+- Fixed Streams.get_stream_by_user which raised exception if stream was offline. Now returns None
+  if stream is offline.
 
 
 ## Version 0.2.0 - 2017-3-10
