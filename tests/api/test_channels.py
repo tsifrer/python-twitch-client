@@ -98,10 +98,12 @@ def test_update():
                   content_type='application/json')
 
     client = TwitchClient('client id', 'oauth token')
-
-    channel = client.channels.update(channel_id)
+    status = 'Spongebob Squarepants'
+    channel = client.channels.update(channel_id, status=status)
 
     assert len(responses.calls) == 1
+    expected_body = json.dumps({'channel': {'status': status}}).encode('utf-8')
+    assert responses.calls[0].request.body == expected_body
     assert isinstance(channel, Channel)
     assert channel.id == channel_id
     assert channel.name == example_channel['name']

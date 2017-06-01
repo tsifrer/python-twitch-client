@@ -20,7 +20,6 @@ class Channels(TwitchAPI):
 
     @oauth_required
     def update(self, channel_id, status=None, game=None, delay=None, channel_feed_enabled=None):
-
         data = {}
         if status is not None:
             data['status'] = status
@@ -31,7 +30,10 @@ class Channels(TwitchAPI):
         if channel_feed_enabled is not None:
             data['channel_feed_enabled'] = channel_feed_enabled
 
-        response = self._request_put('channels/%s' % channel_id, data)
+        post_data = {
+            'channel': data
+        }
+        response = self._request_put('channels/%s' % channel_id, post_data)
         return Channel.construct_from(response)
 
     @oauth_required

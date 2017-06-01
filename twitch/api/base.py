@@ -36,7 +36,7 @@ class TwitchAPI(object):
 
         headers = self._get_request_headers()
 
-        response = requests.post(url, data=data, params=params, headers=headers)
+        response = requests.post(url, json=data, params=params, headers=headers)
         response.raise_for_status()
         if response.status_code == 200:
             return response.json()
@@ -46,7 +46,7 @@ class TwitchAPI(object):
 
         headers = self._get_request_headers()
 
-        response = requests.put(url, data=data, params=params, headers=headers)
+        response = requests.put(url, json=data, params=params, headers=headers)
         response.raise_for_status()
         if response.status_code == 200:
             return response.json()
