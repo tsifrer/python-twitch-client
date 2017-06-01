@@ -11,7 +11,7 @@ class Channels(TwitchAPI):
 
     @oauth_required
     def get(self):
-        response = self._request_get('channels')
+        response = self._request_get('channel')
         return Channel.construct_from(response)
 
     def get_by_id(self, channel_id):
