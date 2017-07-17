@@ -3,10 +3,10 @@ python-twitch-client
 
 [![Latest docs][docs-img]][docs]
 [![Latest version][pypi-img]][pypi]
-[![Wheels][wheel-img]][pypi]
 [![Latest build][travis-img]][travis]
 [![Coverage][codecov-img]][codecov]
-[![License][license-img]][pypi]
+
+
 
 
 `python-twitch-client` is an easy to use Python library for accessing the
@@ -48,5 +48,3 @@ print(channel.display_name)
 [travis-img]: https://travis-ci.org/tsifrer/python-twitch-client.svg?branch=master
 [codecov]: https://codecov.io/gh/tsifrer/python-twitch-client
 [codecov-img]: https://codecov.io/gh/tsifrer/python-twitch-client/branch/master/graph/badge.svg
-[wheel-img]: https://img.shields.io/pypi/wheel/python-twitch-client.svg
-[license-img]: https://img.shields.io/pypi/l/python-twitch-client.svg
