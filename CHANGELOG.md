@@ -4,6 +4,8 @@
 
 In development
 
+- Added support for `~/.twitch.cfg` file for storing credentials
+
 
 ## Version 0.3.0
 
