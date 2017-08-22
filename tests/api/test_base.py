@@ -1,4 +1,5 @@
 import json
+import os
 
 import pytest
 
@@ -73,11 +74,16 @@ def test_request_get_sends_headers_with_the_request():
     (500),
     (400),
 ])
-def test_request_get_raises_exception_if_not_200_response(status):
+def test_request_get_raises_exception_if_not_200_response(status, monkeypatch):
     responses.add(responses.GET,
                   BASE_URL,
                   status=status,
                   content_type='application/json')
+
+    def mockreturn(path):
+        return 'tests/api/dummy_credentials.cfg'
+
+    monkeypatch.setattr(os.path, 'expanduser', mockreturn)
 
     api = TwitchAPI(client_id='client')
 

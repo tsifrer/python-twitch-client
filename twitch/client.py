@@ -1,12 +1,11 @@
 import os
 from configparser import ConfigParser
 
+from .constants import CONFIG_FILE_PATH
 from .api import (
     ChannelFeed, Channels, Chat, Collections, Communities, Games, Ingests, Search, Streams, Teams,
     Users, Videos
 )
-
-CONFIG_FILE_PATH = '~/.twitch.cfg'
 
 
 class TwitchClient(object):
