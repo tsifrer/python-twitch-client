@@ -261,3 +261,17 @@ def test_request_post_raises_exception_if_not_200_response(status):
 
     with pytest.raises(exceptions.HTTPError):
         api._request_post('', dummy_data)
+
+
+def test_base_reads_backoff_config_from_file(monkeypatch):
+    def mockreturn(path):
+        return 'tests/api/dummy_credentials.cfg'
+
+    monkeypatch.setattr(os.path, 'expanduser', mockreturn)
+
+    base = TwitchAPI(client_id='client')
+
+    assert isinstance(base._initial_backoff, float)
+    assert isinstance(base._max_retries, int)
+    assert base._initial_backoff == 0.01
+    assert base._max_retries == 1
