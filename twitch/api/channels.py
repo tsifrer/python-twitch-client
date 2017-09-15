@@ -72,7 +72,12 @@ class Channels(TwitchAPI):
             raise TwitchAttributeException(
                 'Direction is not valid. Valid values are %s' % DIRECTIONS)
 
-        response = self._request_get('channels/%s/subscriptions' % channel_id)
+        params = {
+            'limit': limit,
+            'offset': offset,
+            'direction': direction
+        }
+        response = self._request_get('channels/%s/subscriptions' % channel_id, params=params)
         return [Subscription.construct_from(x) for x in response['subscriptions']]
 
     def check_subscription_by_user(self, channel_id, user_id):
