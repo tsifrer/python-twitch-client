@@ -12,7 +12,7 @@ python-twitch-client
 `python-twitch-client` is an easy to use Python library for accessing the
 Twitch API
 
-You can find more information in the [documentation][docs].
+You can find more information in the [documentation][docs] or for support, you can join the [Discord Server](https://discord.me/twitch-api).
 
 
 Note
