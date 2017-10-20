@@ -45,3 +45,5 @@ STREAM_TYPES = [
     STREAM_TYPE_PLAYLIST,
     STREAM_TYPE_ALL
 ]
+
+CONFIG_FILE_PATH = '~/.twitch.cfg'

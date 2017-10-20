@@ -1,7 +1,11 @@
+import os
+import time
+from configparser import ConfigParser
+
 import requests
 from requests.compat import urljoin
 
-from twitch.constants import BASE_URL
+from twitch.constants import BASE_URL, CONFIG_FILE_PATH
 
 
 class TwitchAPI(object):
@@ -10,6 +14,20 @@ class TwitchAPI(object):
         super(TwitchAPI, self).__init__()
         self._client_id = client_id
         self._oauth_token = oauth_token
+        self._initial_backoff = None
+        self._max_retries = None
+        self._read_backoff_configuration_from_file()
+
+    def _read_backoff_configuration_from_file(self):
+        config = ConfigParser()
+        config.read(os.path.expanduser(CONFIG_FILE_PATH))
+
+        if 'General' in config.sections():
+            self._initial_backoff = float(config['General']['initial_backoff'])
+            self._max_retries = int(config['General']['max_retries'])
+        else:
+            self._initial_backoff = 0.5
+            self._max_retries = 3
 
     def _get_request_headers(self):
         headers = {
@@ -28,6 +46,17 @@ class TwitchAPI(object):
         headers = self._get_request_headers()
 
         response = requests.get(url, params=params, headers=headers)
+        if response.status_code >= 500:
+
+            backoff = self._initial_backoff
+            for _ in range(self._max_retries):
+                time.sleep(backoff)
+                backoff_response = requests.get(url, params=params, headers=headers)
+                if backoff_response.status_code < 500:
+                    response = backoff_response
+                    break
+                backoff *= 2
+
         response.raise_for_status()
         return response.json()
 

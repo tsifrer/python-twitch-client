@@ -5,8 +5,7 @@ from .api import (
     ChannelFeed, Channels, Chat, Collections, Communities, Games, Ingests, Search, Streams, Teams,
     Users, Videos
 )
-
-CONFIG_FILE_PATH = '~/.twitch.cfg'
+from .constants import CONFIG_FILE_PATH
 
 
 class TwitchClient(object):
