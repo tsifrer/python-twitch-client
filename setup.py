@@ -4,7 +4,7 @@ from codecs import open
 
 from setuptools import find_packages, setup
 
-requires = ['requests>=2.13.0', 'six>=1.10.0']
+requires = ['requests>=2.18.4', 'six>=1.11.0']
 
 with open('twitch/__init__.py', 'r') as f:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
