@@ -16,7 +16,7 @@ example_team_response = {
 }
 
 example_all_response = {
-   'teams': [example_team_response]
+    'teams': [example_team_response]
 }
 
 

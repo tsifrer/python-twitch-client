@@ -33,9 +33,9 @@ example_post = {
 def test_get_posts():
     channel_id = '1234'
     response = {
-       '_cursor': '1479487861147094000',
-       '_topic': 'feeds.channel.44322889',
-       'posts': [example_post]
+        '_cursor': '1479487861147094000',
+        '_topic': 'feeds.channel.44322889',
+        'posts': [example_post]
     }
     responses.add(responses.GET,
                   '%sfeed/%s/posts' % (BASE_URL, channel_id),
@@ -275,9 +275,9 @@ def test_create_reaction_to_comment():
         'id': '1341393b-e872-4554-9f6f-acd5f8b669fc',
         'user': {}
     }
+    url = '%sfeed/%s/posts/%s/comments/%s/reactions' % (BASE_URL, channel_id, post_id, comment_id)
     responses.add(responses.POST,
-                  '%sfeed/%s/posts/%s/comments/%s/reactions' % (
-                    BASE_URL, channel_id, post_id, comment_id),
+                  url,
                   body=json.dumps(body),
                   status=200,
                   content_type='application/json')
@@ -298,9 +298,9 @@ def test_delete_reaction_to_comment():
     body = {
         'deleted': True
     }
+    url = '%sfeed/%s/posts/%s/comments/%s/reactions' % (BASE_URL, channel_id, post_id, comment_id)
     responses.add(responses.DELETE,
-                  '%sfeed/%s/posts/%s/comments/%s/reactions' % (
-                    BASE_URL, channel_id, post_id, comment_id),
+                  url,
                   body=json.dumps(body),
                   status=200,
                   content_type='application/json')

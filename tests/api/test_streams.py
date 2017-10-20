@@ -23,12 +23,12 @@ example_stream_response = {
 }
 
 example_streams_response = {
-   '_total': 1295,
-   'streams': [example_stream]
+    '_total': 1295,
+    'streams': [example_stream]
 }
 
 example_featured_response = {
-   'featured': [{
+    'featured': [{
         'title': 'Bethesda Plays The Elder Scrolls: Legends | More Arena & Deckbuilding',
         'stream': example_stream
     }]

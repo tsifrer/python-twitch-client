@@ -38,16 +38,16 @@ example_subscription = {
 }
 
 example_video = {
-   '_id': 'v106400740',
-   'description': 'Protect your chat with AutoMod!',
-   'fps': {
-      '1080p': 23.9767661758746,
-   },
+    '_id': 'v106400740',
+    'description': 'Protect your chat with AutoMod!',
+    'fps': {
+        '1080p': 23.9767661758746,
+    },
 }
 
 example_community = {
-   '_id': 'e9f17055-810f-4736-ba40-fba4ac541caa',
-   'name': 'DallasTesterCommunity',
+    '_id': 'e9f17055-810f-4736-ba40-fba4ac541caa',
+    'name': 'DallasTesterCommunity',
 }
 
 

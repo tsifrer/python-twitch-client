@@ -103,9 +103,9 @@ def test_check_subscribed_to_channel():
     user_id = 1234
     channel_id = 12345
     response = {
-       '_id': 'c660cb408bc3b542f5bdbba52f3e638e652756b4',
-       'created_at': '2016-12-12T15:52:52Z',
-       'channel': example_channel,
+        '_id': 'c660cb408bc3b542f5bdbba52f3e638e652756b4',
+        'created_at': '2016-12-12T15:52:52Z',
+        'channel': example_channel,
     }
     responses.add(responses.GET,
                   '%susers/%s/subscriptions/%s' % (BASE_URL, user_id, channel_id),

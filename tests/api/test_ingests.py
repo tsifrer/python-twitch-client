@@ -8,10 +8,10 @@ from twitch.resources import Ingest
 
 
 example_response = {
-   'ingests': [{
-      '_id': 24,
-      'name': 'EU: Amsterdam, NL',
-   }]
+    'ingests': [{
+        '_id': 24,
+        'name': 'EU: Amsterdam, NL',
+    }]
 }
 
 

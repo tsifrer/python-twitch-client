@@ -11,11 +11,11 @@ from twitch.resources import Video
 
 
 example_video_response = {
-   '_id': 'v106400740',
-   'description': 'Protect your chat with AutoMod!',
-   'fps': {
-      '1080p': 23.9767661758746,
-   },
+    '_id': 'v106400740',
+    'description': 'Protect your chat with AutoMod!',
+    'fps': {
+        '1080p': 23.9767661758746,
+    },
 }
 
 example_top_response = {
