@@ -4,10 +4,18 @@
 
 In development
 
+- TODO
+
+## Version 0.3.1 - 2017-10-26
+
+- Fixed Twitch.channels.get_subscribers function to obey filters
 - Added support for `~/.twitch.cfg` file for storing credentials
+- Added retry logic for all >=500 requests with a backoff functionality
+- Added discord server to the docs
+- Bumped up requirements: six from 1.10.0 to 1.11.0 and requests from 2.18.1 to 2.18.4
 
 
-## Version 0.3.0
+## Version 0.3.0 - 2017-06-01
 
 - Fixed all post and put methods to pass data in json format to Twitch API rather than in form format
 - Fixed Channels.update() method to correctly pass data to Twitch
