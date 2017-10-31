@@ -82,6 +82,10 @@ class Channel(TwitchObject):
     pass
 
 
+class Clip(TwitchObject):
+    pass
+
+
 class Collection(TwitchObject):
     pass
 
