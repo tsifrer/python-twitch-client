@@ -1,7 +1,7 @@
 from twitch.api.base import TwitchAPI
 from twitch.constants import PERIODS
-from twitch.exceptions import TwitchAttributeException
 from twitch.decorators import oauth_required
+from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Clip
 
 
