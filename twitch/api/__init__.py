@@ -1,4 +1,4 @@
-from .clips import Clips # noqa
+from .clips import Clips  # noqa
 from .channel_feed import ChannelFeed  # noqa
 from .channels import Channels  # noqa
 from .chat import Chat  # noqa
