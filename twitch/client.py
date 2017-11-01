@@ -2,8 +2,8 @@ import os
 from configparser import ConfigParser
 
 from .api import (
-    ChannelFeed, Channels, Chat, Collections, Communities, Games, Ingests, Search, Streams, Teams,
-    Users, Videos
+    ChannelFeed, Channels, Chat, Clips, Collections, Communities,
+    Games, Ingests, Search, Streams, Teams, Users, Videos
 )
 from .constants import CONFIG_FILE_PATH
 
@@ -16,6 +16,7 @@ class TwitchClient(object):
         if not client_id:
             self._read_credentials_from_file()
 
+        self._clips = None
         self._channel_feed = None
         self._channels = None
         self._chat = None
@@ -43,6 +44,13 @@ class TwitchClient(object):
             self._channel_feed = ChannelFeed(
                 client_id=self._client_id, oauth_token=self._oauth_token)
         return self._channel_feed
+
+    @property
+    def clips(self):
+        if not self._clips:
+            self._clips = Clips(
+                client_id=self._client_id, oauth_token=self._oauth_token)
+        return self._clips
 
     @property
     def channels(self):
