@@ -16,7 +16,7 @@ example_clip = {
 example_clips = {'clips': [example_clip]}
 
 @responses.activate
-def test_get_slug():
+def test_get_by_slug():
     slug = 'OpenUglySnoodVoteNay'
 
     responses.add(
