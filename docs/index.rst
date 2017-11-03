@@ -8,7 +8,7 @@ An easy to use Python library for accessing the Twitch API
     This documentation is a work in progress
 
 .. note::
-    ``python-twitch-client`` currently supports Twitch API v5. 
+    ``python-twitch-client`` currently supports Twitch API v5.
 
     If you find a missing endpoint or a bug please raise an issue_ or contribute and open a
     `pull request`_.
@@ -65,6 +65,7 @@ Contents:
    :maxdepth: 2
 
    basic_usage
+   api/clips
    api/chat
    api/channel_feed
    api/channels
