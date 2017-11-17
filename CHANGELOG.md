@@ -6,6 +6,12 @@ In development
 
 - TODO
 
+
+## Version 0.4.0 - 2017-11-17
+
+- Added clips endpoints
+
+
 ## Version 0.3.1 - 2017-10-26
 
 - Fixed Twitch.channels.get_subscribers function to obey filters
