@@ -36,7 +36,7 @@ class Videos(TwitchAPI):
         return [Video.construct_from(x) for x in response['vods']]
 
     @oauth_required
-    def get_followed_videos(self, limit=10, offset=0, broadcast_type=[BROADCAST_TYPE_HIGHLIGHT]):
+    def get_followed_videos(self, limit=10, offset=0, broadcast_types=[BROADCAST_TYPE_HIGHLIGHT]):
         if limit > 100:
             raise TwitchAttributeException(
                 'Maximum number of objects returned in one request is 100')
@@ -49,7 +49,7 @@ class Videos(TwitchAPI):
         params = {
             'limit': limit,
             'offset': offset,
-            'broadcast_type': broadcast_type
+            'broadcast_type': ",".join(broadcast_types)
         }
 
         response = self._request_get('videos/followed', params=params)

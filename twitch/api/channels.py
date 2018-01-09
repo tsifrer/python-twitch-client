@@ -84,7 +84,7 @@ class Channels(TwitchAPI):
         response = self._request_get('channels/%s/subscriptions/%s' % (channel_id, user_id))
         return Subscription.construct_from(response)
 
-    def get_videos(self, channel_id, limit=10, offset=0, broadcast_type=[BROADCAST_TYPE_HIGHLIGHT],
+    def get_videos(self, channel_id, limit=10, offset=0, broadcast_types=[BROADCAST_TYPE_HIGHLIGHT],
                    language=None, sort=VIDEO_SORT_TIME):
         if limit > 100:
             raise TwitchAttributeException(
@@ -101,7 +101,7 @@ class Channels(TwitchAPI):
         params = {
             'limit': limit,
             'offset': offset,
-            'broadcast_type': broadcast_type,
+            'broadcast_type': ",".join(broadcast_types),
             'sort': sort
         }
         if language is not None:
