@@ -5,7 +5,7 @@ import pytest
 import responses
 
 from twitch.client import TwitchClient
-from twitch.constants import BASE_URL
+from twitch.constants import BASE_URL, VOD_FETCH_URL
 from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Video
 
@@ -24,6 +24,11 @@ example_top_response = {
 
 example_followed_response = {
     'videos': [example_video_response]
+}
+
+example_download_vod_token_response = {
+    'sig': 'sig',
+    'token': 'token'
 }
 
 
@@ -114,3 +119,24 @@ def test_get_followed_videos_raises_if_wrong_params_are_passed_in(param, value):
     kwargs = {param: value}
     with pytest.raises(TwitchAttributeException):
         client.videos.get_followed_videos(**kwargs)
+
+
+@responses.activate
+def test_download_vod():
+    video_id = 'v106400740'
+    vod_id = '106400740'
+    responses.add(responses.GET,
+                  '%svods/%s/access_token' % ('https://api.twitch.tv/api/', vod_id),
+                  body=json.dumps(example_download_vod_token_response),
+                  status=200,
+                  content_type='application/json')
+    responses.add(responses.GET,
+                  '%svod/%s' % (VOD_FETCH_URL, vod_id),
+                  body=b'',
+                  status=200,
+                  content_type='application/x-mpegURL')
+    client = TwitchClient('client id')
+    vod = client.videos.download_vod(video_id)
+
+    assert len(responses.calls) == 2
+    assert vod == b''
