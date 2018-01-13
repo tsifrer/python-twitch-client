@@ -70,6 +70,20 @@ def test_request_get_sends_headers_with_the_request():
 
 
 @responses.activate
+def test_request_get_binary_body():
+    responses.add(responses.GET,
+                  BASE_URL,
+                  body=b'binary',
+                  status=200,
+                  content_type='application/octet-stream')
+
+    api = TwitchAPI(client_id='client')
+    response = api._request_get('', json=False)
+
+    assert response.content == b'binary'
+
+
+@responses.activate
 @pytest.mark.parametrize('status', [
     (500),
     (400),
