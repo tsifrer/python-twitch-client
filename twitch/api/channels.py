@@ -1,7 +1,6 @@
 from twitch.api.base import TwitchAPI
-from twitch.constants import (
-    BROADCAST_TYPE_HIGHLIGHT, BROADCAST_TYPES, DIRECTIONS, DIRECTION_ASC, DIRECTION_DESC,
-    VIDEO_SORTS, VIDEO_SORT_TIME)
+from twitch.constants import BROADCAST_TYPES, BROADCAST_TYPE_HIGHLIGHT, DIRECTIONS, \
+    DIRECTION_ASC, DIRECTION_DESC, VIDEO_SORTS, VIDEO_SORT_TIME
 from twitch.decorators import oauth_required
 from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Channel, Community, Follow, Subscription, Team, User, Video
@@ -84,16 +83,15 @@ class Channels(TwitchAPI):
         response = self._request_get('channels/%s/subscriptions/%s' % (channel_id, user_id))
         return Subscription.construct_from(response)
 
-    def get_videos(self, channel_id, limit=10, offset=0, broadcast_types=[BROADCAST_TYPE_HIGHLIGHT],
+    def get_videos(self, channel_id, limit=10, offset=0, broadcast_type=BROADCAST_TYPE_HIGHLIGHT,
                    language=None, sort=VIDEO_SORT_TIME):
         if limit > 100:
             raise TwitchAttributeException(
                 'Maximum number of objects returned in one request is 100')
 
-        for broadcast_type in broadcast_types:
-            if broadcast_type not in BROADCAST_TYPES:
-                raise TwitchAttributeException(
-                    'Broadcast type is not valid. Valid values are %s' % BROADCAST_TYPES)
+        if broadcast_type not in BROADCAST_TYPES:
+            raise TwitchAttributeException(
+                'Broadcast type is not valid. Valid values are %s' % BROADCAST_TYPES)
 
         if sort not in VIDEO_SORTS:
             raise TwitchAttributeException('Sort is not valid. Valid values are %s' % VIDEO_SORTS)
@@ -101,7 +99,7 @@ class Channels(TwitchAPI):
         params = {
             'limit': limit,
             'offset': offset,
-            'broadcast_type': ",".join(broadcast_types),
+            'broadcast_type': broadcast_type,
             'sort': sort
         }
         if language is not None:

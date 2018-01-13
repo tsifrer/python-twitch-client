@@ -1,5 +1,6 @@
 from twitch.api.base import TwitchAPI
-from twitch.constants import BROADCAST_TYPE_HIGHLIGHT, BROADCAST_TYPES, PERIODS, PERIOD_WEEK, VOD_FETCH_URL
+from twitch.constants import BROADCAST_TYPES, BROADCAST_TYPE_HIGHLIGHT, \
+    PERIODS, PERIOD_WEEK, VOD_FETCH_URL
 from twitch.decorators import oauth_required
 from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Video
@@ -12,44 +13,42 @@ class Videos(TwitchAPI):
         return Video.construct_from(response)
 
     def get_top(self, limit=10, offset=0, game=None, period=PERIOD_WEEK,
-                broadcast_types=[BROADCAST_TYPE_HIGHLIGHT]):
+                broadcast_type=BROADCAST_TYPE_HIGHLIGHT):
         if limit > 100:
             raise TwitchAttributeException(
                 'Maximum number of objects returned in one request is 100')
         if period not in PERIODS:
             raise TwitchAttributeException('Period is not valid. Valid values are %s' % PERIODS)
 
-        for broadcast_type in broadcast_types:
-            if broadcast_type not in BROADCAST_TYPES:
-                raise TwitchAttributeException(
-                    'Broadcast type is not valid. Valid values are %s' % BROADCAST_TYPES)
+        if broadcast_type not in BROADCAST_TYPES:
+            raise TwitchAttributeException(
+                'Broadcast type is not valid. Valid values are %s' % BROADCAST_TYPES)
 
         params = {
             'limit': limit,
             'offset': offset,
             'game': game,
             'period': period,
-            'broadcast_type': ",".join(broadcast_types)
+            'broadcast_type': ",".join(broadcast_type)
         }
 
         response = self._request_get('videos/top', params=params)
         return [Video.construct_from(x) for x in response['vods']]
 
     @oauth_required
-    def get_followed_videos(self, limit=10, offset=0, broadcast_types=[BROADCAST_TYPE_HIGHLIGHT]):
+    def get_followed_videos(self, limit=10, offset=0, broadcast_type=BROADCAST_TYPE_HIGHLIGHT):
         if limit > 100:
             raise TwitchAttributeException(
                 'Maximum number of objects returned in one request is 100')
 
-        for broadcast_type in broadcast_types:
-            if broadcast_type not in BROADCAST_TYPES:
-                raise TwitchAttributeException(
-                    'Broadcast type is not valid. Valid values are %s' % BROADCAST_TYPES)
+        if broadcast_type not in BROADCAST_TYPES:
+            raise TwitchAttributeException(
+                'Broadcast type is not valid. Valid values are %s' % BROADCAST_TYPES)
 
         params = {
             'limit': limit,
             'offset': offset,
-            'broadcast_type': ",".join(broadcast_types)
+            'broadcast_type': broadcast_type
         }
 
         response = self._request_get('videos/followed', params=params)
@@ -57,7 +56,8 @@ class Videos(TwitchAPI):
 
     def download_vod(self, video_id):
         """
-        This will return a byte string of the M3U8 playlist data (which contains more links to segments of the vod)
+        This will return a byte string of the M3U8 playlist data
+        (which contains more links to segments of the vod)
         """
         vod_id = video_id[1:]
         token = self._request_get('vods/%s/access_token' % vod_id, url='https://api.twitch.tv/api/')
