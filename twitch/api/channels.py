@@ -1,7 +1,6 @@
 from twitch.api.base import TwitchAPI
-from twitch.constants import (
-    BROADCAST_TYPE_HIGHLIGHT, BROADCATS_TYPES, DIRECTIONS, DIRECTION_ASC, DIRECTION_DESC,
-    VIDEO_SORTS, VIDEO_SORT_TIME)
+from twitch.constants import BROADCAST_TYPES, BROADCAST_TYPE_HIGHLIGHT, DIRECTIONS, \
+    DIRECTION_ASC, DIRECTION_DESC, VIDEO_SORTS, VIDEO_SORT_TIME
 from twitch.decorators import oauth_required
 from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Channel, Community, Follow, Subscription, Team, User, Video
@@ -89,9 +88,11 @@ class Channels(TwitchAPI):
         if limit > 100:
             raise TwitchAttributeException(
                 'Maximum number of objects returned in one request is 100')
-        if broadcast_type not in BROADCATS_TYPES:
+
+        if broadcast_type not in BROADCAST_TYPES:
             raise TwitchAttributeException(
-                'Broadcast type is not valid. Valid values are %s' % BROADCATS_TYPES)
+                'Broadcast type is not valid. Valid values are %s' % BROADCAST_TYPES)
+
         if sort not in VIDEO_SORTS:
             raise TwitchAttributeException('Sort is not valid. Valid values are %s' % VIDEO_SORTS)
 
