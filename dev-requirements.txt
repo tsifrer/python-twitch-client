@@ -1,9 +1,9 @@
-codecov==2.0.9
-flake8==3.4.1
-flake8-import-order==0.13
-pytest==3.2.3
+codecov==2.0.15
+flake8==3.5.0
+flake8-import-order==0.16
+pytest==3.4.0
 pytest-cov==2.5.1
 responses==0.8.1
-Sphinx==1.6.4
+Sphinx==1.6.7
 sphinx-autobuild==0.7.1
 sphinx_rtd_theme==0.2.4
