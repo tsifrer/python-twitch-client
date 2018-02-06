@@ -40,7 +40,7 @@ class TwitchAPI(object):
 
         return headers
 
-    def _request_get(self, path, params=None, json=True, url=BASE_URL,):
+    def _request_get(self, path, params=None, json=True, url=BASE_URL):
         url = urljoin(url, path)
         headers = self._get_request_headers()
 

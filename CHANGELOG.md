@@ -1,10 +1,9 @@
 # Changelog
 
-## master
 
-In development
+## Version 0.5.0 - 2018-02-06
 
-- TODO
+- Added VOD download support
 
 
 ## Version 0.4.0 - 2017-11-17

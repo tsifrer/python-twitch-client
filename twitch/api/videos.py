@@ -1,6 +1,7 @@
 from twitch.api.base import TwitchAPI
-from twitch.constants import BROADCAST_TYPES, BROADCAST_TYPE_HIGHLIGHT, \
-    PERIODS, PERIOD_WEEK, VOD_FETCH_URL
+from twitch.constants import (
+    BROADCAST_TYPES, BROADCAST_TYPE_HIGHLIGHT, PERIODS, PERIOD_WEEK, VOD_FETCH_URL
+)
 from twitch.decorators import oauth_required
 from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Video
@@ -29,7 +30,7 @@ class Videos(TwitchAPI):
             'offset': offset,
             'game': game,
             'period': period,
-            'broadcast_type': ",".join(broadcast_type)
+            'broadcast_type': ','.join(broadcast_type)
         }
 
         response = self._request_get('videos/top', params=params)
