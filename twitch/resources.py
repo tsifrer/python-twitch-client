@@ -18,6 +18,7 @@ def convert_to_twitch_object(name, data):
         'created_at': _DateTime,
         'updated_at': _DateTime,
         'published_at': _DateTime,
+        'started_at': _DateTime,
     }
 
     if isinstance(data, list):

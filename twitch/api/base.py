@@ -8,9 +8,24 @@ from requests.compat import urljoin
 from twitch.constants import BASE_URL, CONFIG_FILE_PATH
 
 
+# TODO: move this somewhere else
+def get_credentials_from_cfg_file():
+    client_id = None
+    oauth_token = None
+
+    config = ConfigParser()
+    config.read(os.path.expanduser(CONFIG_FILE_PATH))
+
+    if 'Credentials' in config.sections():
+        client_id = config['Credentials'].get('client_id')
+        oauth_token = config['Credentials'].get('oauth_token')
+
+    return client_id, oauth_token
+
+
 class TwitchAPI(object):
 
-    def __init__(self, client_id, oauth_token=None, *args, **kwargs):
+    def __init__(self, client_id, oauth_token=None):
         super(TwitchAPI, self).__init__()
         self._client_id = client_id
         self._oauth_token = oauth_token

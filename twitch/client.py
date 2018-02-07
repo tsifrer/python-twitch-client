@@ -1,20 +1,21 @@
-import os
-from configparser import ConfigParser
-
 from .api import (
     ChannelFeed, Channels, Chat, Clips, Collections, Communities,
     Games, Ingests, Search, Streams, Teams, Users, Videos
 )
-from .constants import CONFIG_FILE_PATH
+from .api.base import get_credentials_from_cfg_file
 
 
 class TwitchClient(object):
+    """
+    Twitch API v5 [kraken]
+    """
+
     def __init__(self, client_id=None, oauth_token=None):
         self._client_id = client_id
         self._oauth_token = oauth_token
 
         if not client_id:
-            self._read_credentials_from_file()
+            self._client_id, self._oauth_token = get_credentials_from_cfg_file()
 
         self._clips = None
         self._channel_feed = None
@@ -29,14 +30,6 @@ class TwitchClient(object):
         self._teams = None
         self._users = None
         self._videos = None
-
-    def _read_credentials_from_file(self):
-        config = ConfigParser()
-        config.read(os.path.expanduser(CONFIG_FILE_PATH))
-
-        if 'Credentials' in config.sections():
-            self._client_id = config['Credentials'].get('client_id')
-            self._oauth_token = config['Credentials'].get('oauth_token')
 
     @property
     def channel_feed(self):

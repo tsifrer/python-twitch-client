@@ -1,4 +1,5 @@
 BASE_URL = 'https://api.twitch.tv/kraken/'
+BASE_HELIX_URL = 'https://api.twitch.tv/helix/'
 VOD_FETCH_URL = 'https://usher.ttvnw.net/'
 
 PERIOD_DAY = 'day'
