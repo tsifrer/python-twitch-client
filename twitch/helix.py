@@ -3,9 +3,10 @@ import time
 import requests
 from requests.compat import urljoin
 
-from .api.base import get_credentials_from_cfg_file
-from .constants import BASE_HELIX_URL
-from .resources import Clip, Game, Stream
+from twitch.api.base import get_credentials_from_cfg_file
+from twitch.constants import BASE_HELIX_URL
+from twitch.exceptions import TwitchAttributeException
+from twitch.resources import Clip, Game, Stream, Video
 
 
 class TwitchAPIMixin(object):
@@ -47,7 +48,7 @@ class APIGet(TwitchAPIMixin):
 
 class APICursor(TwitchAPIMixin):
 
-    def __init__(self, client_id, path, resource, oauth_token=None, cursor=None):
+    def __init__(self, client_id, path, resource, oauth_token=None, cursor=None, params=None):
         super(APICursor, self).__init__()
         self._path = path
         self._queue = []
@@ -55,8 +56,7 @@ class APICursor(TwitchAPIMixin):
         self._resource = resource
         self._client_id = client_id
         self._oauth_token = oauth_token
-
-        self.next_page()
+        self._params = params
 
     def __repr__(self):
         return str(self._queue)
@@ -80,26 +80,20 @@ class APICursor(TwitchAPIMixin):
         return self._queue[index]
 
     def next_page(self):
-        params = {
-            'first': 100
-        }
         if self._cursor:
-            params['after'] = self._cursor
-
-        print(params)
+            self._params['after'] = self._cursor
 
         time.sleep(1)
-        response = self._request_get(self._path, params=params)
+        response = self._request_get(self._path, params=self._params)
 
         self._queue = [self._resource.construct_from(data) for data in response['data']]
         self._cursor = response['pagination'].get('cursor')
-        print(response['pagination'])
         return self._queue
 
 
 class TwitchHelix(object):
     """
-    New Twitch API [helix]
+    Twitch Helix API
     """
 
     def __init__(self, client_id=None, oauth_token=None):
@@ -109,15 +103,47 @@ class TwitchHelix(object):
         if not client_id:
             self._client_id, self._oauth_token = get_credentials_from_cfg_file()
 
-    def get_streams(self):
+    def get_streams(self, after=None, before=None, community_ids=None, page_size=None,
+                    game_ids=None, languages=None, stream_type=None, user_ids=None,
+                    user_logins=None):
+
+        if community_ids and len(community_ids) > 100:
+            raise TwitchAttributeException('Maximum of 100 Community IDs can be supplied')
+        if game_ids and len(game_ids) > 100:
+            raise TwitchAttributeException('Maximum of 100 Community IDs can be supplied')
+        if languages and len(languages) > 100:
+            raise TwitchAttributeException('Maximum of 100 languages can be supplied')
+        if user_ids and len(user_ids) > 100:
+            raise TwitchAttributeException('Maximum of 100 User IDs can be supplied')
+        if user_logins and len(user_logins) > 100:
+            raise TwitchAttributeException('Maximum of 100 User login names can be supplied')
+
+        params = {
+            'after': after,
+            'before': before,
+            'community_id': community_ids,
+            'first': page_size,
+            'game_id': game_ids,
+            'language': languages,
+            'type': stream_type,
+            'user_id': user_ids,
+            'user_login': user_logins,
+        }
+
         return APICursor(
             client_id=self._client_id,
             oauth_token=self._oauth_token,
             path='streams',
-            resource=Stream
+            resource=Stream,
+            params=params
         )
 
     def get_games(self, game_ids=None, names=None):
+        if game_ids and len(game_ids) > 100:
+            raise TwitchAttributeException('Maximum of 100 Game IDs can be supplied')
+        if names and len(names) > 100:
+            raise TwitchAttributeException('Maximum of 100 Game names can be supplied')
+
         params = {
             'id': game_ids,
             'name': names,
@@ -146,3 +172,43 @@ class TwitchHelix(object):
             return clips[0]
         else:
             return None
+
+    def get_top_games(self, after=None, before=None, page_size=None):
+        params = {
+            'after': after,
+            'before': before,
+            'first': page_size,
+        }
+
+        return APICursor(
+            client_id=self._client_id,
+            oauth_token=self._oauth_token,
+            path='games/top',
+            resource=Game,
+            params=params
+        )
+
+    def get_videos(self, video_ids=None, user_id=None, game_id=None, after=None, before=None,
+                   page_size=None, language=None, period=None, sort=None, video_type=None):
+        if video_ids and len(video_ids) > 100:
+            raise TwitchAttributeException('Maximum of 100 Video IDs can be supplied')
+        params = {
+            'id': video_ids,
+            'user_id': user_id,
+            'game_id': game_id,
+            'after': after,
+            'before': before,
+            'first': page_size,
+            'language': language,
+            'period': period,
+            'sort': sort,
+            'type': video_type
+        }
+
+        return APICursor(
+            client_id=self._client_id,
+            oauth_token=self._oauth_token,
+            path='videos',
+            resource=Video,
+            params=params
+        )
