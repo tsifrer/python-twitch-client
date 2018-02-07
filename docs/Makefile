@@ -19,7 +19,7 @@ help:
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-serve:
-	python -m http.server
+remove-build:
+	rm -rf ./_build
 
-build_and_serve: html serve
+rebuild-html: remove-build html

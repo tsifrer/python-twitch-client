@@ -62,22 +62,10 @@ Contents:
 ---------
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 0
 
-   basic_usage
-   api/clips
-   api/chat
-   api/channel_feed
-   api/channels
-   api/collections
-   api/communities
-   api/games
-   api/ingests
-   api/search
-   api/streams
-   api/teams
-   api/users
-   api/videos
+    basic_usage
+    v5/index
 
 
 .. _issue: https://github.com/tsifrer/python-twitch-client/issues

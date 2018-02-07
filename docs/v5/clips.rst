@@ -1,5 +1,5 @@
 Clips
-====
+=====
 
 .. currentmodule:: twitch.api.clips
 

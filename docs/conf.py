@@ -50,7 +50,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'python-twitch-client'
-copyright = '2017, Tomaz Sifrer'
+copyright = '2018, Tomaz Sifrer'
 author = 'Tomaz Sifrer'
 
 # The version info for the project you're documenting, acts as replacement for
