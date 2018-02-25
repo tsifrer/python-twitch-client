@@ -27,7 +27,7 @@ Clips
         :param boolean trending: If True, the clips returned are ordered by popularity; otherwise, by viewcount. Default: False.
 
 
-    .. classmethod:: get_followed()
+    .. classmethod:: followed()
 
         Gets top clips for games followed by the user identified by OAuth token. Results are ordered by popularity.
 
