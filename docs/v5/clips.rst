@@ -30,6 +30,10 @@ Clips
     .. classmethod:: followed()
 
         Gets top clips for games followed by the user identified by OAuth token. Results are ordered by popularity.
+        
+        :param int limit: Maximum number of most-recent objects to return. Default: 10. Maximum: 100.
+        :param string cursor: Tells the server where to start fetching the next set of results, in a multi-page response.
+        :param boolean trending: If true, the clips returned are ordered by popularity; otherwise, by viewcount. Default: false.
 
 
 .. _`Twitch Clips API`: https://dev.twitch.tv/docs/v5/reference/clips
