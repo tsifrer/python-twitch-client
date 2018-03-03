@@ -6,6 +6,7 @@ _build/
 *.DS_Store
 *.sublime-*
 *.py[co]
+*.python-version
 build/
 dist/
 htmlcov/
