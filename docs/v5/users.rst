@@ -100,7 +100,7 @@ Users
 
     .. classmethod:: translate_usernames_to_ids(usernames)
 
-        Unblocks a user.
+        Translates a list of usernames to user ID's.
 
         :param list[string] usernames: List of usernames you wish to get ID's of
 
