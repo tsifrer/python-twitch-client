@@ -44,7 +44,6 @@ Helix is the latest version of Twitch API
         :param integer page_size: Number of objects returned in one call. Maximum: 100. Default: 20.
         :param list game_ids: Returns streams broadcasting a specified game ID. You can specify up to 100 IDs.
         :param list languages: Stream language. You can specify up to 100 languages
-        :param string stream_type: Stream type: "all", "live", "vodcast". Default: "all".
         :param list user_ids: Returns streams broadcast by one or more specified user IDs. You can specify up to 100 IDs.
         :param list user_logins: Returns streams broadcast by one or more specified user login names. You can specify up to 100 names.
         :return: :class:`~twitch.resources.Stream`
