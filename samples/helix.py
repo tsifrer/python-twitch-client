@@ -22,6 +22,14 @@ def streams():
     print(streams_iterator.next())
 
 
+def first_500_streams():
+    client = TwitchHelix()
+    streams_iterator = client.get_streams(page_size=100)
+
+    for stream in islice(streams_iterator, 0, 500):
+        print(stream)
+
+
 def top_games():
     client = TwitchHelix()
     games_iterator = client.get_top_games(page_size=3)

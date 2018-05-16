@@ -17,7 +17,7 @@ class TwitchAPIMixin(object):
         }
 
         if self._oauth_token:
-            headers['Authorization'] = 'Bearer %s' % self._oauth_token
+            headers['Authorization'] = 'Bearer {}'.format(self._oauth_token)
 
         return headers
 
@@ -83,6 +83,7 @@ class APICursor(TwitchAPIMixin):
         if self._cursor:
             self._params['after'] = self._cursor
 
+         # TODO: fix sleep to obey rate limit rules and ignore it in tests
         time.sleep(1)
         response = self._request_get(self._path, params=self._params)
 
@@ -103,9 +104,9 @@ class TwitchHelix(object):
         if not client_id:
             self._client_id, self._oauth_token = get_credentials_from_cfg_file()
 
-    def get_streams(self, after=None, before=None, community_ids=None, page_size=None,
-                    game_ids=None, languages=None, stream_type=None, user_ids=None,
-                    user_logins=None):
+     # Tested
+    def get_streams(self, after=None, before=None, community_ids=None, page_size=20,
+                    game_ids=None, languages=None, user_ids=None, user_logins=None):
 
         if community_ids and len(community_ids) > 100:
             raise TwitchAttributeException('Maximum of 100 Community IDs can be supplied')
@@ -117,6 +118,8 @@ class TwitchHelix(object):
             raise TwitchAttributeException('Maximum of 100 User IDs can be supplied')
         if user_logins and len(user_logins) > 100:
             raise TwitchAttributeException('Maximum of 100 User login names can be supplied')
+        if page_size > 100:
+            raise TwitchAttributeException('Maximum number of objects to return is 100')
 
         params = {
             'after': after,
@@ -125,7 +128,6 @@ class TwitchHelix(object):
             'first': page_size,
             'game_id': game_ids,
             'language': languages,
-            'type': stream_type,
             'user_id': user_ids,
             'user_login': user_logins,
         }
@@ -138,6 +140,7 @@ class TwitchHelix(object):
             params=params
         )
 
+     # Tested
     def get_games(self, game_ids=None, names=None):
         if game_ids and len(game_ids) > 100:
             raise TwitchAttributeException('Maximum of 100 Game IDs can be supplied')

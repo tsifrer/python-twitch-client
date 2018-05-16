@@ -31,6 +31,8 @@ Helix is the latest version of Twitch API
         :param list names: List of Game names. The name must be an exact match. For instance, "Pokemon" will not return a list of Pokemon games; instead, query the specific Pokemon game(s) in which you are interested. At most 100 name values can be specified.
         :return: :class:`~twitch.resources.Game`
 
+        For response fields of ``get_games`` and official documentation check `Twitch Helix Get Games`_.
+
 
     .. classmethod:: get_streams(after=None, before=None, community_ids=None, page_size=None, game_ids=None, languages=None, stream_type=None, user_ids=None, user_logins=None)
 
@@ -46,6 +48,8 @@ Helix is the latest version of Twitch API
         :param list user_ids: Returns streams broadcast by one or more specified user IDs. You can specify up to 100 IDs.
         :param list user_logins: Returns streams broadcast by one or more specified user login names. You can specify up to 100 names.
         :return: :class:`~twitch.resources.Stream`
+
+        For response fields of ``get_streams`` and official documentation check `Twitch Helix Get Streams`_.
 
 
     .. classmethod:: get_top_games(after=None, before=None, page_size=None)
@@ -76,3 +80,5 @@ Helix is the latest version of Twitch API
 
 
 .. _`Twitch Helix API`: https://dev.twitch.tv/docs/api/reference
+.. _`Twitch Helix Get Streams`: https://dev.twitch.tv/docs/api/reference/#get-streams
+.. _`Twitch Helix Get Games`: https://dev.twitch.tv/docs/api/reference/#get-games
