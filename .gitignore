@@ -6,6 +6,8 @@ _build/
 *.DS_Store
 *.sublime-*
 *.py[co]
+*.python-version
+*.pytest_cache
 build/
 dist/
 htmlcov/

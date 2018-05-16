@@ -1,5 +1,14 @@
 # Changelog
 
+## Master
+
+- Removed support for Python 3.3
+
+
+## Version 0.5.1 - 2018-03-03
+
+- Fixed `configparser` import for Python<3.2
+
 
 ## Version 0.5.0 - 2018-02-06
 
