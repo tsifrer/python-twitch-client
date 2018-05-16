@@ -159,22 +159,47 @@ class TwitchHelix(object):
             params=params
         ).fetch()
 
-    def get_clip(self, clip_id):
-        params = {
-            'id': clip_id
-        }
-        clips = APIGet(
-            client_id=self._client_id,
-            oauth_token=self._oauth_token,
-            path='clips',
-            resource=Clip,
-            params=params
-        ).fetch()
+     # Tested
+    def get_clips(self, broadcaster_id=None, game_id=None, clip_ids=None, after=None, before=None,
+                  page_size=20):
 
-        if len(clips) == 1:
-            return clips[0]
+        if not broadcaster_id and not clip_ids and not game_id:
+            raise TwitchAttributeException(
+                'At least one of the following parameters must be provided '
+                '[broadcaster_id, clip_ids, game_id]'
+            )
+        if clip_ids and len(clip_ids) > 100:
+            raise TwitchAttributeException('Maximum of 100 Clip IDs can be supplied')
+        if page_size > 100:
+            raise TwitchAttributeException('Maximum number of objects to return is 100')
+
+        params = {
+            'broadcaster_id': broadcaster_id,
+            'game_id': game_id,
+            'id': clip_ids,
+            'after': after,
+            'before': before,
+        }
+
+        if broadcaster_id or game_id:
+            params['first'] = page_size
+
+            return APICursor(
+                client_id=self._client_id,
+                oauth_token=self._oauth_token,
+                path='clips',
+                resource=Clip,
+                params=params
+            )
+
         else:
-            return None
+            return APIGet(
+                client_id=self._client_id,
+                oauth_token=self._oauth_token,
+                path='clips',
+                resource=Clip,
+                params=params
+            ).fetch()
 
     def get_top_games(self, after=None, before=None, page_size=None):
         params = {

@@ -9,18 +9,19 @@ Helix is the latest version of Twitch API
 
     This class provides methods for easy access to `Twitch Helix API`_.
 
-    .. classmethod:: get_clip(clip_id)
+    .. classmethod:: get_clips(clip_id)
 
         Gets information about a specified clip.
 
-        :param string clip_id: ID of the clip being queried
-        :return: :class:`~twitch.resources.Clip`
+        :param string broadcaster_id: Broadcaster ID for whom clips are returned. The number of clips returned is determined by the ``page_size`` parameter (Default: 20 Max: 100). Results are ordered by view count.
+        :param string game_id: Game ID for which clips are returned. The number of clips returned is determined by the ``page_size`` parameter (Default: 20 Max: 100). Results are ordered by view count.
+        :param list clip_ids: List of clip IDS being queried. Limit: 100.
+        :param string after (optional): Cursor for forward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
+        :param string before (optional): Cursor for backward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
+        :param integer page_size (optional): Number of objects returned in one call. Maximum: 100. Default: 20.
+        :return: :class:`~twitch.helix.APICursor` if ``broadcaster_id`` or ``game_ids`` are provided, returns list of :class:`~twitch.resources.Clip` objects instead.
 
-        .. code-block:: python
-
-            >>> from twitch import TwitchHelix
-            >>> helix = TwitchHelix('<my client id>')
-            >>> clip = helix.get_clip('AwkwardHelplessSalamanderSwiftRage')
+        For response fields of ``get_clips`` and official documentation check `Twitch Helix Get Clips`_.
 
 
     .. classmethod:: get_games(game_ids=None, names=None)
@@ -29,7 +30,7 @@ Helix is the latest version of Twitch API
 
         :param list game_ids: List of Game IDs. At most 100 id values can be specified.
         :param list names: List of Game names. The name must be an exact match. For instance, "Pokemon" will not return a list of Pokemon games; instead, query the specific Pokemon game(s) in which you are interested. At most 100 name values can be specified.
-        :return: :class:`~twitch.resources.Game`
+        :return: :class:`~twitch.helix.APICursor` containing :class:`~twitch.resources.Game` objects
 
         For response fields of ``get_games`` and official documentation check `Twitch Helix Get Games`_.
 
@@ -46,7 +47,7 @@ Helix is the latest version of Twitch API
         :param list languages: Stream language. You can specify up to 100 languages
         :param list user_ids: Returns streams broadcast by one or more specified user IDs. You can specify up to 100 IDs.
         :param list user_logins: Returns streams broadcast by one or more specified user login names. You can specify up to 100 names.
-        :return: :class:`~twitch.resources.Stream`
+        :return: :class:`~twitch.helix.APICursor` containing :class:`~twitch.resources.Stream` objects
 
         For response fields of ``get_streams`` and official documentation check `Twitch Helix Get Streams`_.
 
@@ -81,3 +82,4 @@ Helix is the latest version of Twitch API
 .. _`Twitch Helix API`: https://dev.twitch.tv/docs/api/reference
 .. _`Twitch Helix Get Streams`: https://dev.twitch.tv/docs/api/reference/#get-streams
 .. _`Twitch Helix Get Games`: https://dev.twitch.tv/docs/api/reference/#get-games
+.. _`Twitch Helix Get Clips`: https://dev.twitch.tv/docs/api/reference/#get-clips

@@ -3,9 +3,9 @@ from itertools import islice
 from twitch import TwitchHelix
 
 
-def clip():
+def clips():
     client = TwitchHelix()
-    clip = client.get_clip('AwkwardHelplessSalamanderSwiftRage')
+    clip = client.get_clips(clip_ids=['AwkwardHelplessSalamanderSwiftRage'])
     print(clip)
 
 

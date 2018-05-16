@@ -9,7 +9,7 @@ from twitch import TwitchHelix
 from twitch.constants import BASE_HELIX_URL
 from twitch.exceptions import TwitchAttributeException
 from twitch.helix import APICursor
-from twitch.resources import Game, Stream
+from twitch.resources import Clip, Game, Stream
 
 
 example_get_streams_response = {
@@ -50,6 +50,48 @@ example_get_games_response = {
             )
         }
     ]
+}
+
+
+example_get_clips_response = {
+    'data': [
+        {
+            'id': 'AwkwardHelplessSalamanderSwiftRage',
+            'url': 'https://clips.twitch.tv/AwkwardHelplessSalamanderSwiftRage',
+            'embed_url': 'https://clips.twitch.tv/embed?clip=AwkwardHelplessSalamanderSwiftRage',
+            'broadcaster_id': '67955580',
+            'creator_id': '53834192',
+            'video_id': '205586603',
+            'game_id': '488191',
+            'language': 'en',
+            'title': 'babymetal',
+            'view_count': 10,
+            'created_at': '2017-11-30T22:34:18Z',
+            'thumbnail_url': 'https://clips-media-assets.twitch.tv/157589949-preview-480x272.jpg'
+        }
+    ]
+}
+
+example_get_clips_cursor_response = {
+    'data': [
+        {
+            'id': 'RandomClip1',
+            'url': 'https://clips.twitch.tv/AwkwardHelplessSalamanderSwiftRage',
+            'embed_url': 'https://clips.twitch.tv/embed?clip=RandomClip1',
+            'broadcaster_id': '1234',
+            'creator_id': '123456',
+            'video_id': '1234567',
+            'game_id': '33103',
+            'language': 'en',
+            'title': 'random1',
+            'view_count': 10,
+            'created_at': '2017-11-30T22:34:17Z',
+            'thumbnail_url': 'https://clips-media-assets.twitch.tv/157589949-preview-480x272.jpg'
+        },
+    ],
+    'pagination': {
+        'cursor': 'eyJiIjpudWxsLCJhIjoiIn0'
+    }
 }
 
 
@@ -223,4 +265,142 @@ def test_get_games_raises_attribute_exception_for_invalid_params(param, value):
     with pytest.raises(TwitchAttributeException):
         client.get_games(**kwargs)
 
+    assert len(responses.calls) == 0
+
+
+@responses.activate
+def test_get_clips_returns_list_of_clip_objects_when_clip_ids_are_set():
+    responses.add(responses.GET,
+                  '{}clips'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_clips_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    clips = client.get_clips(clip_ids=['AwkwardHelplessSalamanderSwiftRage'])
+
+    assert len(responses.calls) == 1
+    assert isinstance(clips, list)
+    clip = clips[0]
+    assert isinstance(clip, Clip)
+    assert clip.id == example_get_clips_response['data'][0]['id']
+    assert clip.broadcaster_id == example_get_clips_response['data'][0]['broadcaster_id']
+    assert clip.created_at == datetime(2017, 11, 30, 22, 34, 18)
+
+
+@responses.activate
+def test_get_clips_passes_correct_params_when_clip_ids_are_set():
+    responses.add(responses.GET,
+                  '{}clips'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_clips_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    clips = client.get_clips(clip_ids=['AwkwardHelplessSalamanderSwiftRage'])
+
+    assert len(responses.calls) == 1
+    assert isinstance(clips, list)
+    clip = clips[0]
+    assert isinstance(clip, Clip)
+    assert responses.calls[0].request.url == (
+        'https://api.twitch.tv/helix/clips'
+        '?id=AwkwardHelplessSalamanderSwiftRage'
+    )
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('game_id', ['23161357', '12345678']),
+    ('broadcaster_id', ['23161357', '12345678']),
+])
+def test_get_clips_next_returns_clip_object(param, value):
+    responses.add(responses.GET,
+                  '{}clips'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_clips_cursor_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+
+    kwargs = {param: value}
+    clips = client.get_clips(**kwargs)
+    clip = clips.next()
+
+    assert len(responses.calls) == 1
+    assert isinstance(clips, APICursor)
+    assert clips._cursor == example_get_clips_cursor_response['pagination']['cursor']
+
+    assert isinstance(clip, Clip)
+    assert clip.id == example_get_clips_cursor_response['data'][0]['id']
+    assert clip.broadcaster_id == example_get_clips_cursor_response['data'][0]['broadcaster_id']
+    assert clip.created_at == datetime(2017, 11, 30, 22, 34, 17)
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('game_id', '23161357'),
+    ('broadcaster_id', '23161357'),
+])
+def test_get_clips_passes_correct_params_when_broadcaster_or_game_is_set(param, value):
+    responses.add(responses.GET,
+                  '{}clips'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_clips_cursor_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    kwargs = {
+        param: value,
+        'after': 'eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ==',
+        'before': 'eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19==',
+        'page_size': 100,
+    }
+    clips = client.get_clips(**kwargs)
+    clip = clips.next()
+
+    assert len(responses.calls) == 1
+    assert isinstance(clips, APICursor)
+    assert isinstance(clip, Clip)
+
+    assert responses.calls[0].request.url == (
+        'https://api.twitch.tv/helix/clips'
+        '?{}=23161357'
+        '&after=eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ%3D%3D'
+        '&before=eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19%3D%3D'
+        '&first=100'
+    ).format(param)
+
+
+@responses.activate
+def test_get_clips_raises_attribute_exception_for_invalid_clip_ids():
+    responses.add(responses.GET,
+                  '{}clips'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_clips_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    kwargs = {'clip_ids': ['12345'] * 101}
+    with pytest.raises(TwitchAttributeException):
+        client.get_clips(**kwargs)
+
+    assert len(responses.calls) == 0
+
+
+@responses.activate
+def test_get_clips_raises_attribute_exception_if_no_param_is_set():
+    responses.add(responses.GET,
+                  '{}clips'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_clips_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    with pytest.raises(TwitchAttributeException) as e:
+        client.get_clips()
+
+    assert ('At least one of the following parameters must be provided '
+            '[broadcaster_id, clip_ids, game_id]'
+            ) in str(e)
     assert len(responses.calls) == 0
