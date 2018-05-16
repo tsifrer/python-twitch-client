@@ -162,7 +162,6 @@ class TwitchHelix(object):
      # Tested
     def get_clips(self, broadcaster_id=None, game_id=None, clip_ids=None, after=None, before=None,
                   page_size=20):
-
         if not broadcaster_id and not clip_ids and not game_id:
             raise TwitchAttributeException(
                 'At least one of the following parameters must be provided '
@@ -201,7 +200,11 @@ class TwitchHelix(object):
                 params=params
             ).fetch()
 
-    def get_top_games(self, after=None, before=None, page_size=None):
+     # Tested
+    def get_top_games(self, after=None, before=None, page_size=20):
+        if page_size > 100:
+            raise TwitchAttributeException('Maximum number of objects to return is 100')
+
         params = {
             'after': after,
             'before': before,
@@ -215,6 +218,9 @@ class TwitchHelix(object):
             resource=Game,
             params=params
         )
+
+
+
 
     def get_videos(self, video_ids=None, user_id=None, game_id=None, after=None, before=None,
                    page_size=None, language=None, period=None, sort=None, video_type=None):

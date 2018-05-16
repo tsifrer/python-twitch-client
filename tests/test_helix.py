@@ -11,7 +11,6 @@ from twitch.exceptions import TwitchAttributeException
 from twitch.helix import APICursor
 from twitch.resources import Clip, Game, Stream
 
-
 example_get_streams_response = {
     'data': [
         {
@@ -52,7 +51,6 @@ example_get_games_response = {
     ]
 }
 
-
 example_get_clips_response = {
     'data': [
         {
@@ -91,6 +89,22 @@ example_get_clips_cursor_response = {
     ],
     'pagination': {
         'cursor': 'eyJiIjpudWxsLCJhIjoiIn0'
+    }
+}
+
+example_get_top_games_response = {
+    "data": [
+        {
+            'id': '493057',
+            'name': "PLAYERUNKNOWN'S BATTLEGROUNDS",
+            'box_art_url': (
+                'https://static-cdn.jtvnw.net/ttv-boxart/'
+                'PLAYERUNKNOWN%27S%20BATTLEGROUNDS-{width}x{height}.jpg'
+            )
+        },
+    ],
+    'pagination': {
+        'cursor': 'eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ=='
     }
 }
 
@@ -403,4 +417,86 @@ def test_get_clips_raises_attribute_exception_if_no_param_is_set():
     assert ('At least one of the following parameters must be provided '
             '[broadcaster_id, clip_ids, game_id]'
             ) in str(e)
+    assert len(responses.calls) == 0
+
+
+@responses.activate
+def test_get_top_games_returns_api_cursor():
+    responses.add(responses.GET,
+                  '{}games/top'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_top_games_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    games = client.get_top_games()
+
+    assert len(responses.calls) == 0
+    assert isinstance(games, APICursor)
+
+
+@responses.activate
+def test_get_top_games_next_returns_game_object():
+    responses.add(responses.GET,
+                  '{}games/top'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_top_games_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    games = client.get_top_games()
+
+    game = games.next()
+
+    assert len(responses.calls) == 1
+    assert isinstance(games, APICursor)
+    assert games._cursor == example_get_top_games_response['pagination']['cursor']
+
+    assert isinstance(game, Game)
+    assert game.id == example_get_top_games_response['data'][0]['id']
+    assert game.name == example_get_top_games_response['data'][0]['name']
+
+
+@responses.activate
+def test_get_top_games_passes_all_params_to_request():
+    responses.add(responses.GET,
+                  '{}games/top'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_top_games_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    games = client.get_top_games(
+        after='eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ==',
+        before='eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19==',
+        page_size=100,
+    )
+
+    game = games.next()
+
+    assert len(responses.calls) == 1
+    assert isinstance(games, APICursor)
+    assert isinstance(game, Game)
+    assert responses.calls[0].request.url == (
+        'https://api.twitch.tv/helix/games/top'
+        '?after=eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ%3D%3D'
+        '&before=eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19%3D%3D'
+        '&first=100'
+    )
+
+
+@responses.activate
+def test_get_top_games_raises_attribute_exception_for_invalid_params():
+    responses.add(responses.GET,
+                  '{}games/top'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_top_games_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+
+    kwargs = {'page_size': 101}
+    with pytest.raises(TwitchAttributeException):
+        client.get_top_games(**kwargs)
+
     assert len(responses.calls) == 0

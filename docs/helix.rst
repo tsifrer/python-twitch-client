@@ -11,7 +11,7 @@ Helix is the latest version of Twitch API
 
     .. classmethod:: get_clips(clip_id)
 
-        Gets information about a specified clip.
+        Gets clip information by clip ID (one or more), broadcaster ID (one only), or game ID (one only).
 
         :param string broadcaster_id: Broadcaster ID for whom clips are returned. The number of clips returned is determined by the ``page_size`` parameter (Default: 20 Max: 100). Results are ordered by view count.
         :param string game_id: Game ID for which clips are returned. The number of clips returned is determined by the ``page_size`` parameter (Default: 20 Max: 100). Results are ordered by view count.
@@ -59,7 +59,9 @@ Helix is the latest version of Twitch API
         :param string after: Cursor for forward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
         :param string before: Cursor for backward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
         :param integer page_size: Number of objects returned in one call. Maximum: 100. Default: 20.
-        :return: :class:`~twitch.resources.Game`
+        :return: :class:`~twitch.helix.APICursor` containing :class:`~twitch.resources.Game` objects
+
+        For response fields of ``get_top_games`` and official documentation check `Twitch Helix Get Top Games`_.
 
 
     .. classmethod:: get_videos(video_ids=None, user_id=None, game_id=None, after=None, before=None, page_size=None, language=None, period=None, sort=None, video_type=None)
@@ -83,3 +85,4 @@ Helix is the latest version of Twitch API
 .. _`Twitch Helix Get Streams`: https://dev.twitch.tv/docs/api/reference/#get-streams
 .. _`Twitch Helix Get Games`: https://dev.twitch.tv/docs/api/reference/#get-games
 .. _`Twitch Helix Get Clips`: https://dev.twitch.tv/docs/api/reference/#get-clips
+.. _`Twitch Helix Get Top Games`: https://dev.twitch.tv/docs/api/reference/#get-top-games
