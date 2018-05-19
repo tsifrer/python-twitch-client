@@ -1,5 +1,3 @@
-import time
-
 import requests
 from requests.compat import urljoin
 
@@ -7,6 +5,38 @@ from twitch.api.base import get_credentials_from_cfg_file
 from twitch.constants import BASE_HELIX_URL
 from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Clip, Game, Stream, Video
+
+
+VIDEO_SORT_TIME = 'time'
+VIDEO_SORT_TRENDING = 'trending'
+VIDEO_SORT_VIEWS = 'views'
+VIDEO_SORTS = [
+    VIDEO_SORT_TIME,
+    VIDEO_SORT_TRENDING,
+    VIDEO_SORT_VIEWS
+]
+
+VIDEO_TYPE_ALL = 'all'
+VIDEO_TYPE_UPLAOD = 'upload'
+VIDEO_TYPE_ARCHIVE = 'archive'
+VIDEO_TYPE_HIGHLIGHT = 'highlight'
+VIDEO_TYPES = [
+    VIDEO_TYPE_ALL,
+    VIDEO_TYPE_UPLAOD,
+    VIDEO_TYPE_ARCHIVE,
+    VIDEO_TYPE_HIGHLIGHT
+]
+
+VIDEO_PERIOD_ALL = 'all'
+VIDEO_PERIOD_DAY = 'day'
+VIDEO_PERIOD_WEEK = 'week'
+VIDEO_PERIOD_MONTH = 'month'
+VIDEO_PERIODS = [
+    VIDEO_PERIOD_ALL,
+    VIDEO_PERIOD_DAY,
+    VIDEO_PERIOD_WEEK,
+    VIDEO_PERIOD_MONTH
+]
 
 
 class TwitchAPIMixin(object):
@@ -84,7 +114,7 @@ class APICursor(TwitchAPIMixin):
             self._params['after'] = self._cursor
 
          # TODO: fix sleep to obey rate limit rules and ignore it in tests
-        time.sleep(1)
+        # time.sleep(1)
         response = self._request_get(self._path, params=self._params)
 
         self._queue = [self._resource.construct_from(data) for data in response['data']]
@@ -219,30 +249,55 @@ class TwitchHelix(object):
             params=params
         )
 
-
-
-
+     # Tested
     def get_videos(self, video_ids=None, user_id=None, game_id=None, after=None, before=None,
-                   page_size=None, language=None, period=None, sort=None, video_type=None):
+                   page_size=20, language=None, period=VIDEO_PERIOD_ALL, sort=VIDEO_SORT_TIME,
+                   video_type=VIDEO_TYPE_ALL):
         if video_ids and len(video_ids) > 100:
             raise TwitchAttributeException('Maximum of 100 Video IDs can be supplied')
+
         params = {
             'id': video_ids,
             'user_id': user_id,
             'game_id': game_id,
-            'after': after,
-            'before': before,
-            'first': page_size,
-            'language': language,
-            'period': period,
-            'sort': sort,
-            'type': video_type
         }
 
-        return APICursor(
-            client_id=self._client_id,
-            oauth_token=self._oauth_token,
-            path='videos',
-            resource=Video,
-            params=params
-        )
+        if user_id or game_id:
+            if page_size > 100:
+                raise TwitchAttributeException('Maximum number of objects to return is 100')
+            if period not in VIDEO_PERIODS:
+                raise TwitchAttributeException(
+                    'Invalid value for period. Valid values are {}'.format(VIDEO_PERIODS)
+                )
+            if sort not in VIDEO_SORTS:
+                raise TwitchAttributeException(
+                    'Invalid value for sort. Valid values are {}'.format(VIDEO_SORTS)
+                )
+            if video_type not in VIDEO_TYPES:
+                raise TwitchAttributeException(
+                    'Invalid value for video_type. Valid values are {}'.format(VIDEO_TYPES)
+                )
+
+            params['after'] = after
+            params['before'] = before
+            params['first'] = page_size
+            params['language'] = language
+            params['period'] = period
+            params['sort'] = sort
+            params['type'] = video_type
+
+            return APICursor(
+                client_id=self._client_id,
+                oauth_token=self._oauth_token,
+                path='videos',
+                resource=Video,
+                params=params
+            )
+        else:
+            return APIGet(
+                client_id=self._client_id,
+                oauth_token=self._oauth_token,
+                path='videos',
+                resource=Video,
+                params=params
+            ).fetch()

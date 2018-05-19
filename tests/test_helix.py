@@ -9,7 +9,7 @@ from twitch import TwitchHelix
 from twitch.constants import BASE_HELIX_URL
 from twitch.exceptions import TwitchAttributeException
 from twitch.helix import APICursor
-from twitch.resources import Clip, Game, Stream
+from twitch.resources import Clip, Game, Stream, Video
 
 example_get_streams_response = {
     'data': [
@@ -105,6 +105,46 @@ example_get_top_games_response = {
     ],
     'pagination': {
         'cursor': 'eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ=='
+    }
+}
+
+
+example_get_videos_response = {
+    'data': [{
+        'id': '234482848',
+        'user_id': '67955580',
+        'title': '-',
+        'description': '',
+        'created_at': '2018-03-02T20:53:41Z',
+        'published_at': '2018-03-02T20:53:41Z',
+        'url': 'https://www.twitch.tv/videos/234482848',
+        'thumbnail_url': 'https://example.net/s3_vods/2775/thumb/thumb0-%{width}x%{height}.jpg',
+        'viewable': 'public',
+        'view_count': 142,
+        'language': 'en',
+        'type': 'archive',
+        'duration': '3h8m33s'
+    }],
+}
+
+example_get_videos_cursor_response = {
+    'data': [{
+        'id': '234482848',
+        'user_id': '67955580',
+        'title': '-',
+        'description': '',
+        'created_at': '2018-03-02T20:53:41Z',
+        'published_at': '2018-03-02T20:53:41Z',
+        'url': 'https://www.twitch.tv/videos/234482848',
+        'thumbnail_url': 'https://example.net/s3_vods/2775/thumb/thumb0-%{width}x%{height}.jpg',
+        'viewable': 'public',
+        'view_count': 142,
+        'language': 'en',
+        'type': 'archive',
+        'duration': '3h8m33s'
+    }],
+    'pagination': {
+        'cursor': 'eyJiIjpudWxsLCJhIjoiMTUwMzQ0MTc3NjQyNDQyMjAwMCJ9'
     }
 }
 
@@ -498,5 +538,156 @@ def test_get_top_games_raises_attribute_exception_for_invalid_params():
     kwargs = {'page_size': 101}
     with pytest.raises(TwitchAttributeException):
         client.get_top_games(**kwargs)
+
+    assert len(responses.calls) == 0
+
+
+@responses.activate
+def test_get_videos_returns_list_of_video_objects_when_video_ids_are_set():
+    responses.add(responses.GET,
+                  '{}videos'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_videos_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    videos = client.get_videos(video_ids=['234482848'])
+
+    assert len(responses.calls) == 1
+    assert isinstance(videos, list)
+    video = videos[0]
+    assert isinstance(video, Video)
+    assert video.id == example_get_videos_response['data'][0]['id']
+    assert video.title == example_get_videos_response['data'][0]['title']
+    assert video.created_at == datetime(2018, 3, 2, 20, 53, 41)
+
+
+@responses.activate
+def test_get_videos_passes_correct_params_when_video_ids_are_set():
+    responses.add(responses.GET,
+                  '{}videos'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_videos_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    videos = client.get_videos(video_ids=['234482848'])
+
+    assert len(responses.calls) == 1
+    assert isinstance(videos, list)
+    video = videos[0]
+    assert isinstance(video, Video)
+    assert responses.calls[0].request.url == (
+        'https://api.twitch.tv/helix/videos'
+        '?id=234482848'
+    )
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('game_id', ['23161357', '12345678']),
+    ('user_id', ['23161357', '12345678']),
+])
+def test_get_videos_next_returns_video_object(param, value):
+    responses.add(responses.GET,
+                  '{}videos'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_videos_cursor_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+
+    kwargs = {param: value}
+    videos = client.get_videos(**kwargs)
+    video = videos.next()
+
+    assert len(responses.calls) == 1
+    assert isinstance(videos, APICursor)
+    assert videos._cursor == example_get_videos_cursor_response['pagination']['cursor']
+
+    assert isinstance(video, Video)
+    assert video.id == example_get_videos_cursor_response['data'][0]['id']
+    assert video.title == example_get_videos_response['data'][0]['title']
+    assert video.created_at == datetime(2018, 3, 2, 20, 53, 41)
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('game_id', '23161357'),
+    ('user_id', '23161357'),
+])
+def test_get_videos_passes_correct_params_when_user_or_game_is_set(param, value):
+    responses.add(responses.GET,
+                  '{}videos'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_videos_cursor_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    kwargs = {
+        param: value,
+        'after': 'eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ==',
+        'before': 'eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19==',
+        'page_size': 100,
+        'language': 'en',
+    }
+    videos = client.get_videos(**kwargs)
+    video = videos.next()
+
+    assert len(responses.calls) == 1
+    assert isinstance(videos, APICursor)
+    assert isinstance(video, Video)
+
+    assert responses.calls[0].request.url == (
+        'https://api.twitch.tv/helix/videos'
+        '?{}=23161357'
+        '&after=eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ%3D%3D'
+        '&before=eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19%3D%3D'
+        '&first=100'
+        '&language=en'
+        '&period=all'
+        '&sort=time'
+        '&type=all'
+    ).format(param)
+
+
+@responses.activate
+def test_get_videos_raises_attribute_exception_for_invalid_video_ids():
+    responses.add(responses.GET,
+                  '{}videos'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_videos_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    kwargs = {'video_ids': ['12345'] * 101}
+    with pytest.raises(TwitchAttributeException):
+        client.get_videos(**kwargs)
+
+    assert len(responses.calls) == 0
+
+
+@responses.activate
+@pytest.mark.parametrize('param,value', [
+    ('page_size', 101),
+    ('period', 'pogchamp'),
+    ('sort', 'pogchamp'),
+    ('video_type', 'pogchamp'),
+])
+def test_get_videos_raises_attribute_exception_for_invalid_params(param, value):
+    responses.add(responses.GET,
+                  '{}videos'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_videos_cursor_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+
+    kwargs = {
+        'game_id': '123456',
+        param: value
+    }
+    with pytest.raises(TwitchAttributeException):
+        client.get_videos(**kwargs)
 
     assert len(responses.calls) == 0

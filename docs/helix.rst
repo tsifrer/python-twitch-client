@@ -68,17 +68,20 @@ Helix is the latest version of Twitch API
 
         Gets video information by video ID (one or more), user ID (one only), or game ID (one only).
 
-        :param list video_ids: List of Video IDs. Limit: 100.
-        :param string user_id: ID of the user who owns the video.
-        :param int game_id: ID of the game the video is of.
-        :param string after: Cursor for forward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
-        :param string before: Cursor for backward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
-        :param integer page_size: Number of objects returned in one call. Maximum: 100. Default: 20.
-        :param string language: Language of the video being queried.
-        :param string period: Period during which the video was created. Valid values: "all", "day", "month", and "week".
-        :param string sort: Sort order of the videos. Valid values: "time", "trending", and "views".
-        :param string type: Type of video. Valid values: "all", "upload", "archive", and "highlight".
-        :return: :class:`~twitch.resources.Video`
+        :param list video_ids: List of Video IDs. Limit: 100.  If this is specified, you cannot use any of the optional query string parameters below.
+        :param string user_id: User ID who owns the videos.
+        :param int game_id: Game ID of the videos.
+        :param string after (optional): Cursor for forward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
+        :param string before (optional): Cursor for backward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
+        :param integer page_size (optional): Number of objects returned in one call. Maximum: 100. Default: 20.
+        :param string language (optional): Language of the video being queried.
+        :param string period (optional): Period during which the video was created. Valid values: ``VIDEO_PERIODS``. Default: ``VIDEO_PERIOD_ALL``
+        :param string sort (optional): Sort order of the videos. Valid values: ``VIDEO_SORTS``. Default: ``VIDEO_SORT_TIME``
+        :param string type (optional): Type of video. Valid values: ``VIDEO_TYPES``. Default: ``VIDEO_TYPE_ALL``
+
+        :return: :class:`~twitch.helix.APICursor` if ``user_id`` or ``game_id`` are provided, returns list of :class:`~twitch.resources.Video` objects instead.
+
+        For response fields of ``get_videos`` and official documentation check `Twitch Helix Get Videos`_.
 
 
 .. _`Twitch Helix API`: https://dev.twitch.tv/docs/api/reference
@@ -86,3 +89,4 @@ Helix is the latest version of Twitch API
 .. _`Twitch Helix Get Games`: https://dev.twitch.tv/docs/api/reference/#get-games
 .. _`Twitch Helix Get Clips`: https://dev.twitch.tv/docs/api/reference/#get-clips
 .. _`Twitch Helix Get Top Games`: https://dev.twitch.tv/docs/api/reference/#get-top-games
+.. _`Twitch Helix Get Videos`: https://dev.twitch.tv/docs/api/reference/#get-videos
