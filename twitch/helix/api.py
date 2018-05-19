@@ -4,7 +4,7 @@ from twitch.constants import (
 )
 from twitch.exceptions import TwitchAttributeException
 from twitch.helix.base import APICursor, APIGet
-from twitch.resources import Clip, Game, Stream, StreamMetadata, Video
+from twitch.resources import Clip, Follow, Game, Stream, StreamMetadata, Video
 
 
 class TwitchHelix(object):
@@ -214,5 +214,26 @@ class TwitchHelix(object):
             oauth_token=self._oauth_token,
             path='streams/metadata',
             resource=StreamMetadata,
+            params=params
+        )
+
+    def get_user_follows(self, after=None, page_size=20, from_id=None, to_id=None):
+        if not from_id and not to_id:
+            raise TwitchAttributeException('from_id or to_id must be provided.')
+        if page_size > 100:
+            raise TwitchAttributeException('Maximum number of objects to return is 100')
+
+        params = {
+            'after': after,
+            'first': page_size,
+            'from_id': from_id,
+            'to_id': to_id,
+        }
+
+        return APICursor(
+            client_id=self._client_id,
+            oauth_token=self._oauth_token,
+            path='users/follows',
+            resource=Follow,
             params=params
         )

@@ -9,7 +9,7 @@ from twitch import TwitchHelix
 from twitch.constants import BASE_HELIX_URL
 from twitch.exceptions import TwitchAttributeException
 from twitch.helix.base import APICursor
-from twitch.resources import Clip, Game, Stream, StreamMetadata, Video
+from twitch.resources import Clip, Follow, Game, Stream, StreamMetadata, Video
 
 example_get_streams_response = {
     'data': [
@@ -172,6 +172,21 @@ example_get_streams_metadata_response = {
 }
 
 
+example_get_user_follows_response = {
+    'total': 12345,
+    'data': [
+        {
+            'from_id': '171003792',
+            'to_id': '23161357',
+            'followed_at': '2017-08-22T22:55:24Z'
+        },
+    ],
+    'pagination': {
+        'cursor': 'eyJiIjpudWxsLCJhIjoiMTUwMzQ0MTc3NjQyNDQyMjAwMCJ9'
+    }
+}
+
+
 @responses.activate
 def test_get_streams_returns_api_cursor():
     responses.add(responses.GET,
@@ -183,7 +198,7 @@ def test_get_streams_returns_api_cursor():
     client = TwitchHelix('client id')
     streams = client.get_streams()
 
-    assert len(responses.calls) == 0
+    assert len(responses.calls) == 1
     assert isinstance(streams, APICursor)
 
 
@@ -491,7 +506,7 @@ def test_get_top_games_returns_api_cursor():
     client = TwitchHelix('client id')
     games = client.get_top_games()
 
-    assert len(responses.calls) == 0
+    assert len(responses.calls) == 1
     assert isinstance(games, APICursor)
 
 
@@ -720,7 +735,7 @@ def test_get_streams_metadata_returns_api_cursor():
     client = TwitchHelix('client id')
     streams_metadata = client.get_streams_metadata()
 
-    assert len(responses.calls) == 0
+    assert len(responses.calls) == 1
     assert isinstance(streams_metadata, APICursor)
 
 
@@ -810,5 +825,105 @@ def test_get_streams_metadata_raises_attribute_exception_for_invalid_params(para
     kwargs = {param: value}
     with pytest.raises(TwitchAttributeException):
         client.get_streams_metadata(**kwargs)
+
+    assert len(responses.calls) == 0
+
+
+@responses.activate
+def test_get_user_follows_returns_api_cursor():
+    responses.add(responses.GET,
+                  '{}users/follows'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_user_follows_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    user_follows = client.get_user_follows(to_id=23161357)
+
+    assert len(responses.calls) == 1
+    assert isinstance(user_follows, APICursor)
+
+
+@responses.activate
+def test_get_user_follows_next_returns_follow_object():
+    responses.add(responses.GET,
+                  '{}users/follows'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_user_follows_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    user_follows = client.get_user_follows(to_id=23161357)
+
+    follow = user_follows.next()
+
+    assert len(responses.calls) == 1
+    assert isinstance(user_follows, APICursor)
+    assert user_follows.cursor == example_get_user_follows_response['pagination']['cursor']
+    assert user_follows.total == example_get_user_follows_response['total']
+
+    assert isinstance(follow, Follow)
+    assert follow.from_id == example_get_user_follows_response['data'][0]['from_id']
+    assert follow.to_id == example_get_user_follows_response['data'][0]['to_id']
+    assert follow.followed_at == datetime(2017, 8, 22, 22, 55, 24)
+
+
+@responses.activate
+def test_get_user_follows_raises_attribute_exception_if_no_param_is_set():
+    responses.add(responses.GET,
+                  '{}users/follows'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_clips_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    with pytest.raises(TwitchAttributeException):
+        client.get_user_follows()
+    assert len(responses.calls) == 0
+
+
+@responses.activate
+def test_get_user_follows_passes_all_params_to_request():
+    responses.add(responses.GET,
+                  '{}users/follows'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_streams_metadata_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+    user_follows = client.get_user_follows(
+        after='eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ==',
+        page_size=100,
+        from_id=23161357,
+        to_id=12345678
+    )
+
+    follow = user_follows.next()
+
+    assert len(responses.calls) == 1
+    assert isinstance(user_follows, APICursor)
+    assert isinstance(follow, Follow)
+
+    url = responses.calls[0].request.url
+    assert url.startswith('https://api.twitch.tv/helix/users/follows?')
+    assert 'after=eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ%3D%3D' in url
+    assert 'first=100' in url
+    assert 'from_id=23161357' in url
+    assert 'to_id=12345678' in url
+
+
+@responses.activate
+def test_get_user_follows_raises_attribute_exception_for_invalid_params():
+    responses.add(responses.GET,
+                  '{}users/follows'.format(BASE_HELIX_URL),
+                  body=json.dumps(example_get_top_games_response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchHelix('client id')
+
+    kwargs = {'page_size': 101}
+    with pytest.raises(TwitchAttributeException):
+        client.get_user_follows(**kwargs)
 
     assert len(responses.calls) == 0

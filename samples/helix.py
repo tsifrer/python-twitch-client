@@ -47,3 +47,11 @@ def streams_metadata():
     streams_metadata_iterator = client.get_streams_metadata()
     for metadata in islice(streams_metadata_iterator, 0, 10):
         print(metadata)
+
+
+def user_follows():
+    client = TwitchHelix()
+    user_follows_iterator = client.get_user_follows(to_id=23161357)
+    print('Total: {}'.format(user_follows_iterator.total))
+    for user_follow in islice(user_follows_iterator, 0, 10):
+        print(user_follow)
