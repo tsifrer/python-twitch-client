@@ -1,125 +1,10 @@
-import requests
-from requests.compat import urljoin
-
-from twitch.api.base import get_credentials_from_cfg_file
-from twitch.constants import BASE_HELIX_URL
+from twitch.conf import credentials_from_config_file
+from twitch.constants import (
+    PERIODS, PERIOD_ALL, VIDEO_SORTS, VIDEO_SORT_TIME, VIDEO_TYPES, VIDEO_TYPE_ALL
+)
 from twitch.exceptions import TwitchAttributeException
+from twitch.helix.base import APICursor, APIGet
 from twitch.resources import Clip, Game, Stream, Video
-
-
-VIDEO_SORT_TIME = 'time'
-VIDEO_SORT_TRENDING = 'trending'
-VIDEO_SORT_VIEWS = 'views'
-VIDEO_SORTS = [
-    VIDEO_SORT_TIME,
-    VIDEO_SORT_TRENDING,
-    VIDEO_SORT_VIEWS
-]
-
-VIDEO_TYPE_ALL = 'all'
-VIDEO_TYPE_UPLAOD = 'upload'
-VIDEO_TYPE_ARCHIVE = 'archive'
-VIDEO_TYPE_HIGHLIGHT = 'highlight'
-VIDEO_TYPES = [
-    VIDEO_TYPE_ALL,
-    VIDEO_TYPE_UPLAOD,
-    VIDEO_TYPE_ARCHIVE,
-    VIDEO_TYPE_HIGHLIGHT
-]
-
-VIDEO_PERIOD_ALL = 'all'
-VIDEO_PERIOD_DAY = 'day'
-VIDEO_PERIOD_WEEK = 'week'
-VIDEO_PERIOD_MONTH = 'month'
-VIDEO_PERIODS = [
-    VIDEO_PERIOD_ALL,
-    VIDEO_PERIOD_DAY,
-    VIDEO_PERIOD_WEEK,
-    VIDEO_PERIOD_MONTH
-]
-
-
-class TwitchAPIMixin(object):
-
-    def _get_request_headers(self):
-        headers = {
-            'Client-ID': self._client_id
-        }
-
-        if self._oauth_token:
-            headers['Authorization'] = 'Bearer {}'.format(self._oauth_token)
-
-        return headers
-
-    def _request_get(self, path, params=None):
-        url = urljoin(BASE_HELIX_URL, path)
-
-        headers = self._get_request_headers()
-
-        response = requests.get(url, params=params, headers=headers)
-        response.raise_for_status()
-        return response.json()
-
-
-class APIGet(TwitchAPIMixin):
-
-    def __init__(self, client_id, path, resource, oauth_token=None, params=None):
-        super(APIGet, self).__init__()
-        self._path = path
-        self._resource = resource
-        self._client_id = client_id
-        self._oauth_token = oauth_token
-        self._params = params
-
-    def fetch(self):
-        response = self._request_get(self._path, params=self._params)
-        return [self._resource.construct_from(data) for data in response['data']]
-
-
-class APICursor(TwitchAPIMixin):
-
-    def __init__(self, client_id, path, resource, oauth_token=None, cursor=None, params=None):
-        super(APICursor, self).__init__()
-        self._path = path
-        self._queue = []
-        self._cursor = cursor
-        self._resource = resource
-        self._client_id = client_id
-        self._oauth_token = oauth_token
-        self._params = params
-
-    def __repr__(self):
-        return str(self._queue)
-
-    def __len__(self):
-        return len(self._queue)
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        if not self._queue and not self.next_page():
-            raise StopIteration()
-
-        return self._queue.pop(0)
-
-    # Python 2 compatibility.
-    next = __next__
-
-    def __getitem__(self, index):
-        return self._queue[index]
-
-    def next_page(self):
-        if self._cursor:
-            self._params['after'] = self._cursor
-
-         # TODO: fix sleep to obey rate limit rules and ignore it in tests
-        # time.sleep(1)
-        response = self._request_get(self._path, params=self._params)
-
-        self._queue = [self._resource.construct_from(data) for data in response['data']]
-        self._cursor = response['pagination'].get('cursor')
-        return self._queue
 
 
 class TwitchHelix(object):
@@ -132,9 +17,8 @@ class TwitchHelix(object):
         self._oauth_token = oauth_token
 
         if not client_id:
-            self._client_id, self._oauth_token = get_credentials_from_cfg_file()
+            self._client_id, self._oauth_token = credentials_from_config_file()
 
-     # Tested
     def get_streams(self, after=None, before=None, community_ids=None, page_size=20,
                     game_ids=None, languages=None, user_ids=None, user_logins=None):
 
@@ -170,7 +54,6 @@ class TwitchHelix(object):
             params=params
         )
 
-     # Tested
     def get_games(self, game_ids=None, names=None):
         if game_ids and len(game_ids) > 100:
             raise TwitchAttributeException('Maximum of 100 Game IDs can be supplied')
@@ -189,7 +72,6 @@ class TwitchHelix(object):
             params=params
         ).fetch()
 
-     # Tested
     def get_clips(self, broadcaster_id=None, game_id=None, clip_ids=None, after=None, before=None,
                   page_size=20):
         if not broadcaster_id and not clip_ids and not game_id:
@@ -230,7 +112,6 @@ class TwitchHelix(object):
                 params=params
             ).fetch()
 
-     # Tested
     def get_top_games(self, after=None, before=None, page_size=20):
         if page_size > 100:
             raise TwitchAttributeException('Maximum number of objects to return is 100')
@@ -249,9 +130,8 @@ class TwitchHelix(object):
             params=params
         )
 
-     # Tested
     def get_videos(self, video_ids=None, user_id=None, game_id=None, after=None, before=None,
-                   page_size=20, language=None, period=VIDEO_PERIOD_ALL, sort=VIDEO_SORT_TIME,
+                   page_size=20, language=None, period=PERIOD_ALL, sort=VIDEO_SORT_TIME,
                    video_type=VIDEO_TYPE_ALL):
         if video_ids and len(video_ids) > 100:
             raise TwitchAttributeException('Maximum of 100 Video IDs can be supplied')
@@ -265,9 +145,9 @@ class TwitchHelix(object):
         if user_id or game_id:
             if page_size > 100:
                 raise TwitchAttributeException('Maximum number of objects to return is 100')
-            if period not in VIDEO_PERIODS:
+            if period not in PERIODS:
                 raise TwitchAttributeException(
-                    'Invalid value for period. Valid values are {}'.format(VIDEO_PERIODS)
+                    'Invalid value for period. Valid values are {}'.format(PERIODS)
                 )
             if sort not in VIDEO_SORTS:
                 raise TwitchAttributeException(

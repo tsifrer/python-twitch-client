@@ -8,7 +8,7 @@ import responses
 from twitch import TwitchHelix
 from twitch.constants import BASE_HELIX_URL
 from twitch.exceptions import TwitchAttributeException
-from twitch.helix import APICursor
+from twitch.helix.base import APICursor
 from twitch.resources import Clip, Game, Stream, Video
 
 example_get_streams_response = {

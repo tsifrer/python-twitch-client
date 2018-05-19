@@ -1,26 +1,10 @@
-import os
 import time
-from configparser import ConfigParser
 
 import requests
 from requests.compat import urljoin
 
-from twitch.constants import BASE_URL, CONFIG_FILE_PATH
-
-
-# TODO: move this somewhere else
-def get_credentials_from_cfg_file():
-    client_id = None
-    oauth_token = None
-
-    config = ConfigParser()
-    config.read(os.path.expanduser(CONFIG_FILE_PATH))
-
-    if 'Credentials' in config.sections():
-        client_id = config['Credentials'].get('client_id')
-        oauth_token = config['Credentials'].get('oauth_token')
-
-    return client_id, oauth_token
+from twitch.conf import backoff_config
+from twitch.constants import BASE_URL
 
 
 class TwitchAPI(object):
@@ -29,20 +13,7 @@ class TwitchAPI(object):
         super(TwitchAPI, self).__init__()
         self._client_id = client_id
         self._oauth_token = oauth_token
-        self._initial_backoff = None
-        self._max_retries = None
-        self._read_backoff_configuration_from_file()
-
-    def _read_backoff_configuration_from_file(self):
-        config = ConfigParser()
-        config.read(os.path.expanduser(CONFIG_FILE_PATH))
-
-        if 'General' in config.sections():
-            self._initial_backoff = float(config['General']['initial_backoff'])
-            self._max_retries = int(config['General']['max_retries'])
-        else:
-            self._initial_backoff = 0.5
-            self._max_retries = 3
+        self._initial_backoff, self._max_retries = backoff_config()
 
     def _get_request_headers(self):
         headers = {

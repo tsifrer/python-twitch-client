@@ -2,6 +2,8 @@ BASE_URL = 'https://api.twitch.tv/kraken/'
 BASE_HELIX_URL = 'https://api.twitch.tv/helix/'
 VOD_FETCH_URL = 'https://usher.ttvnw.net/'
 
+CONFIG_FILE_PATH = '~/.twitch.cfg'
+
 PERIOD_DAY = 'day'
 PERIOD_WEEK = 'week'
 PERIOD_MONTH = 'month'
@@ -14,7 +16,7 @@ BROADCAST_TYPE_UPLOAD = 'upload'
 BROADCAST_TYPE_ARCHIVE_UPLOAD = 'archive,upload'
 BROADCAST_TYPE_ARCHIVE_HIGHLIGHT = 'archive,highlight'
 BROADCAST_TYPE_HIGHLIGHT_UPLOAD = 'highlight,upload'
-BROADCAST_TYPE_ALL = ""
+BROADCAST_TYPE_ALL = ''
 
 BROADCAST_TYPES = [
     BROADCAST_TYPE_ARCHIVE,
@@ -27,9 +29,11 @@ BROADCAST_TYPES = [
 ]
 
 VIDEO_SORT_TIME = 'time'
+VIDEO_SORT_TRENDING = 'trending'
 VIDEO_SORT_VIEWS = 'views'
 VIDEO_SORTS = [
     VIDEO_SORT_TIME,
+    VIDEO_SORT_TRENDING,
     VIDEO_SORT_VIEWS
 ]
 
@@ -58,4 +62,13 @@ STREAM_TYPES = [
     STREAM_TYPE_ALL
 ]
 
-CONFIG_FILE_PATH = '~/.twitch.cfg'
+VIDEO_TYPE_ALL = 'all'
+VIDEO_TYPE_UPLAOD = 'upload'
+VIDEO_TYPE_ARCHIVE = 'archive'
+VIDEO_TYPE_HIGHLIGHT = 'highlight'
+VIDEO_TYPES = [
+    VIDEO_TYPE_ALL,
+    VIDEO_TYPE_UPLAOD,
+    VIDEO_TYPE_ARCHIVE,
+    VIDEO_TYPE_HIGHLIGHT
+]
