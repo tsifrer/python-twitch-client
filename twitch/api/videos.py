@@ -66,8 +66,8 @@ class Videos(TwitchAPI):
         token = self._request_get(
             'vods/{}/access_token'.format(vod_id), url='https://api.twitch.tv/api/')
         params = {
-            'nauthsig': token["sig"],
-            'nauth': token["token"]
+            'nauthsig': token['sig'],
+            'nauth': token['token']
         }
         m3u8 = self._request_get(
             'vod/{}'.format(vod_id), url=VOD_FETCH_URL, params=params, json=False)
