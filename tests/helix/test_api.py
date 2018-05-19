@@ -216,19 +216,19 @@ def test_get_streams_passes_all_params_to_request():
     assert len(responses.calls) == 1
     assert isinstance(streams, APICursor)
     assert isinstance(stream, Stream)
-    assert responses.calls[0].request.url == (
-        'https://api.twitch.tv/helix/streams'
-        '?after=eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ%3D%3D'
-        '&before=eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19%3D%3D'
-        '&community_id=848d95be-90b3-44a5-b143-6e373754c382'
-        '&community_id=fd0eab99-832a-4d7e-8cc0-04d73deb2e54'
-        '&first=100'
-        '&game_id=417752'
-        '&game_id=29307'
-        '&language=en'
-        '&user_id=23161357'
-        '&user_login=lirik'
-    )
+
+    url = responses.calls[0].request.url
+    assert url.startswith('https://api.twitch.tv/helix/streams?')
+    assert 'after=eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ%3D%3D' in url
+    assert 'before=eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19%3D%3D' in url
+    assert 'community_id=848d95be-90b3-44a5-b143-6e373754c382' in url
+    assert 'community_id=fd0eab99-832a-4d7e-8cc0-04d73deb2e54' in url
+    assert 'first=100' in url
+    assert 'game_id=417752' in url
+    assert 'game_id=29307' in url
+    assert 'language=en' in url
+    assert 'user_id=23161357' in url
+    assert 'user_login=lirik' in url
 
 
 @responses.activate
@@ -292,13 +292,12 @@ def test_get_games_passes_all_params_to_request():
     assert len(responses.calls) == 1
     assert isinstance(games, list)
     assert isinstance(games[0], Game)
-    assert responses.calls[0].request.url == (
-        'https://api.twitch.tv/helix/games'
-        '?id=23161357'
-        '&id=12345678'
-        '&name=PLAYERUNKNOWN%27S+BATTLEGROUNDS'
-        '&name=World+of+Warcraft'
-    )
+    url = responses.calls[0].request.url
+    assert url.startswith('https://api.twitch.tv/helix/games?')
+    assert 'id=23161357' in url
+    assert 'id=12345678' in url
+    assert 'name=PLAYERUNKNOWN%27S+BATTLEGROUNDS' in url
+    assert 'name=World+of+Warcraft' in url
 
 
 @responses.activate
@@ -358,8 +357,7 @@ def test_get_clips_passes_correct_params_when_clip_ids_are_set():
     clip = clips[0]
     assert isinstance(clip, Clip)
     assert responses.calls[0].request.url == (
-        'https://api.twitch.tv/helix/clips'
-        '?id=AwkwardHelplessSalamanderSwiftRage'
+        'https://api.twitch.tv/helix/clips?id=AwkwardHelplessSalamanderSwiftRage'
     )
 
 
@@ -417,13 +415,12 @@ def test_get_clips_passes_correct_params_when_broadcaster_or_game_is_set(param, 
     assert isinstance(clips, APICursor)
     assert isinstance(clip, Clip)
 
-    assert responses.calls[0].request.url == (
-        'https://api.twitch.tv/helix/clips'
-        '?{}=23161357'
-        '&after=eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ%3D%3D'
-        '&before=eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19%3D%3D'
-        '&first=100'
-    ).format(param)
+    url = responses.calls[0].request.url
+    assert url.startswith('https://api.twitch.tv/helix/clips?')
+    assert '{}=23161357'.format(param) in url
+    assert 'after=eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ%3D%3D' in url
+    assert 'before=eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19%3D%3D' in url
+    assert 'first=100' in url
 
 
 @responses.activate
@@ -517,12 +514,12 @@ def test_get_top_games_passes_all_params_to_request():
     assert len(responses.calls) == 1
     assert isinstance(games, APICursor)
     assert isinstance(game, Game)
-    assert responses.calls[0].request.url == (
-        'https://api.twitch.tv/helix/games/top'
-        '?after=eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ%3D%3D'
-        '&before=eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19%3D%3D'
-        '&first=100'
-    )
+
+    url = responses.calls[0].request.url
+    assert url.startswith('https://api.twitch.tv/helix/games/top?')
+    assert 'after=eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ%3D%3D' in url
+    assert 'before=eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19%3D%3D' in url
+    assert 'first=100' in url
 
 
 @responses.activate
@@ -577,10 +574,7 @@ def test_get_videos_passes_correct_params_when_video_ids_are_set():
     assert isinstance(videos, list)
     video = videos[0]
     assert isinstance(video, Video)
-    assert responses.calls[0].request.url == (
-        'https://api.twitch.tv/helix/videos'
-        '?id=234482848'
-    )
+    assert responses.calls[0].request.url == 'https://api.twitch.tv/helix/videos?id=234482848'
 
 
 @responses.activate
@@ -638,17 +632,16 @@ def test_get_videos_passes_correct_params_when_user_or_game_is_set(param, value)
     assert isinstance(videos, APICursor)
     assert isinstance(video, Video)
 
-    assert responses.calls[0].request.url == (
-        'https://api.twitch.tv/helix/videos'
-        '?{}=23161357'
-        '&after=eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ%3D%3D'
-        '&before=eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19%3D%3D'
-        '&first=100'
-        '&language=en'
-        '&period=all'
-        '&sort=time'
-        '&type=all'
-    ).format(param)
+    url = responses.calls[0].request.url
+    url.startswith('https://api.twitch.tv/helix/videos?')
+    assert '{}=23161357'.format(param) in url
+    assert 'after=eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ%3D%3D' in url
+    assert 'before=eyJiIjp7Ik9mZnNldCI6MH0sImEiOnsiT2Zmc2V0Ijo0MH19%3D%3D' in url
+    assert 'first=100' in url
+    assert 'language=en' in url
+    assert 'period=all' in url
+    assert 'sort=time' in url
+    assert 'type=all' in url
 
 
 @responses.activate
