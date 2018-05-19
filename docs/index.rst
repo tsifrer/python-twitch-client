@@ -66,6 +66,7 @@ Contents:
 
     basic_usage
     v5/index
+    helix
 
 
 .. _issue: https://github.com/tsifrer/python-twitch-client/issues

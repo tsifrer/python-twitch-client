@@ -3,6 +3,14 @@
 ## Master
 
 - Removed support for Python 3.3
+- Added TwitchHelix class which adds support for the new Twitch Helix API.
+- Added Twitch Helix API support for the following endpoints:
+  * Get Clips `twitch.helix.api.TwitchHelix.get_clips`
+  * Get Games `twitch.helix.api.TwitchHelix.get_games`
+  * Get Streams `twitch.helix.api.TwitchHelix.get_streams`
+  * Get Top Games `twitch.helix.api.TwitchHelix.get_top_games`
+  * Get Videos `twitch.helix.api.TwitchHelix.get_videos`
+- Changed how config file is read and moved the corresponding code to twitch/conf.py
 
 
 ## Version 0.5.1 - 2018-03-03

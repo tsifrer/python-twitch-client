@@ -2,7 +2,7 @@ from .api import (
     ChannelFeed, Channels, Chat, Clips, Collections, Communities,
     Games, Ingests, Search, Streams, Teams, Users, Videos
 )
-from .api.base import get_credentials_from_cfg_file
+from .conf import credentials_from_config_file
 
 
 class TwitchClient(object):
@@ -15,7 +15,7 @@ class TwitchClient(object):
         self._oauth_token = oauth_token
 
         if not client_id:
-            self._client_id, self._oauth_token = get_credentials_from_cfg_file()
+            self._client_id, self._oauth_token = credentials_from_config_file()
 
         self._clips = None
         self._channel_feed = None
