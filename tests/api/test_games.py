@@ -48,7 +48,7 @@ example_top_games_response = {
 @responses.activate
 def test_get_top():
     responses.add(responses.GET,
-                  '%sgames/top' % BASE_URL,
+                  '{}games/top'.format(BASE_URL),
                   body=json.dumps(example_top_games_response),
                   status=200,
                   content_type='application/json')

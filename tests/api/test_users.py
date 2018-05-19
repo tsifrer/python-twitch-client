@@ -36,7 +36,7 @@ example_block = {
 @responses.activate
 def test_get():
     responses.add(responses.GET,
-                  '%suser' % BASE_URL,
+                  '{}user'.format(BASE_URL),
                   body=json.dumps(example_user),
                   status=200,
                   content_type='application/json')
@@ -55,7 +55,7 @@ def test_get():
 def test_get_by_id():
     user_id = 1234
     responses.add(responses.GET,
-                  '%susers/%s' % (BASE_URL, user_id),
+                  '{}users/{}'.format(BASE_URL, user_id),
                   body=json.dumps(example_user),
                   status=200,
                   content_type='application/json')
@@ -84,7 +84,7 @@ def test_get_emotes():
         }
     }
     responses.add(responses.GET,
-                  '%susers/%s/emotes' % (BASE_URL, user_id),
+                  '{}users/{}/emotes'.format(BASE_URL, user_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -108,7 +108,7 @@ def test_check_subscribed_to_channel():
         'channel': example_channel,
     }
     responses.add(responses.GET,
-                  '%susers/%s/subscriptions/%s' % (BASE_URL, user_id, channel_id),
+                  '{}users/{}/subscriptions/{}'.format(BASE_URL, user_id, channel_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -133,7 +133,7 @@ def test_get_follows():
         'follows': [example_follow]
     }
     responses.add(responses.GET,
-                  '%susers/%s/follows/channels' % (BASE_URL, user_id),
+                  '{}users/{}/follows/channels'.format(BASE_URL, user_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -170,7 +170,7 @@ def test_check_follows_channel():
     user_id = 1234
     channel_id = 12345
     responses.add(responses.GET,
-                  '%susers/%s/follows/channels/%s' % (BASE_URL, user_id, channel_id),
+                  '{}users/{}/follows/channels/{}'.format(BASE_URL, user_id, channel_id),
                   body=json.dumps(example_follow),
                   status=200,
                   content_type='application/json')
@@ -192,7 +192,7 @@ def test_follow_channel():
     user_id = 1234
     channel_id = 12345
     responses.add(responses.PUT,
-                  '%susers/%s/follows/channels/%s' % (BASE_URL, user_id, channel_id),
+                  '{}users/{}/follows/channels/{}'.format(BASE_URL, user_id, channel_id),
                   body=json.dumps(example_follow),
                   status=200,
                   content_type='application/json')
@@ -214,7 +214,7 @@ def test_unfollow_channel():
     user_id = 1234
     channel_id = 12345
     responses.add(responses.DELETE,
-                  '%susers/%s/follows/channels/%s' % (BASE_URL, user_id, channel_id),
+                  '{}users/{}/follows/channels/{}'.format(BASE_URL, user_id, channel_id),
                   status=204,
                   content_type='application/json')
 
@@ -233,7 +233,7 @@ def test_get_user_block_list():
         'blocks': [example_block]
     }
     responses.add(responses.GET,
-                  '%susers/%s/blocks' % (BASE_URL, user_id),
+                  '{}users/{}/blocks'.format(BASE_URL, user_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -268,7 +268,7 @@ def test_block_user():
     user_id = 1234
     blocked_user_id = 12345
     responses.add(responses.PUT,
-                  '%susers/%s/blocks/%s' % (BASE_URL, user_id, blocked_user_id),
+                  '{}users/{}/blocks/{}'.format(BASE_URL, user_id, blocked_user_id),
                   body=json.dumps(example_block),
                   status=200,
                   content_type='application/json')
@@ -290,7 +290,7 @@ def test_unblock_user():
     user_id = 1234
     blocked_user_id = 12345
     responses.add(responses.DELETE,
-                  '%susers/%s/blocks/%s' % (BASE_URL, user_id, blocked_user_id),
+                  '{}users/{}/blocks/{}'.format(BASE_URL, user_id, blocked_user_id),
                   body=json.dumps(example_block),
                   status=200,
                   content_type='application/json')
@@ -308,7 +308,7 @@ def test_translate_usernames_to_ids():
         'users': [example_user]
     }
     responses.add(responses.GET,
-                  '%susers' % (BASE_URL),
+                  '{}users'.format(BASE_URL),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')

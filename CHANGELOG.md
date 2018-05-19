@@ -11,6 +11,7 @@
   * Get Top Games `twitch.helix.api.TwitchHelix.get_top_games`
   * Get Videos `twitch.helix.api.TwitchHelix.get_videos`
 - Changed how config file is read and moved the corresponding code to twitch/conf.py
+- Changed old string formatting to the new one
 
 
 ## Version 0.5.1 - 2018-03-03

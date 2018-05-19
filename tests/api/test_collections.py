@@ -29,7 +29,7 @@ example_item = {
 def test_get_metadata():
     collection_id = 'abcd'
     responses.add(responses.GET,
-                  '%scollections/%s' % (BASE_URL, collection_id),
+                  '{}collections/{}'.format(BASE_URL, collection_id),
                   body=json.dumps(example_collection),
                   status=200,
                   content_type='application/json')
@@ -52,7 +52,7 @@ def test_get():
         'items': [example_item]
     }
     responses.add(responses.GET,
-                  '%scollections/%s/items' % (BASE_URL, collection_id),
+                  '{}collections/{}/items'.format(BASE_URL, collection_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -77,7 +77,7 @@ def test_get_by_channel():
         'collections': [example_collection]
     }
     responses.add(responses.GET,
-                  '%schannels/%s/collections' % (BASE_URL, channel_id),
+                  '{}channels/{}/collections'.format(BASE_URL, channel_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -109,7 +109,7 @@ def test_get_by_channel_raises_if_wrong_params_are_passed_in(param, value):
 def test_create():
     channel_id = 'abcd'
     responses.add(responses.POST,
-                  '%schannels/%s/collections' % (BASE_URL, channel_id),
+                  '{}channels/{}/collections'.format(BASE_URL, channel_id),
                   body=json.dumps(example_collection),
                   status=200,
                   content_type='application/json')
@@ -128,7 +128,7 @@ def test_create():
 def test_update():
     collection_id = 'abcd'
     responses.add(responses.PUT,
-                  '%scollections/%s' % (BASE_URL, collection_id),
+                  '{}collections/{}'.format(BASE_URL, collection_id),
                   status=204,
                   content_type='application/json')
 
@@ -143,7 +143,7 @@ def test_update():
 def test_create_thumbnail():
     collection_id = 'abcd'
     responses.add(responses.PUT,
-                  '%scollections/%s/thumbnail' % (BASE_URL, collection_id),
+                  '{}collections/{}/thumbnail'.format(BASE_URL, collection_id),
                   status=204,
                   content_type='application/json')
 
@@ -158,7 +158,7 @@ def test_create_thumbnail():
 def test_delete():
     collection_id = 'abcd'
     responses.add(responses.DELETE,
-                  '%scollections/%s' % (BASE_URL, collection_id),
+                  '{}collections/{}'.format(BASE_URL, collection_id),
                   status=204,
                   content_type='application/json')
 
@@ -173,7 +173,7 @@ def test_delete():
 def test_add_item():
     collection_id = 'abcd'
     responses.add(responses.PUT,
-                  '%scollections/%s/items' % (BASE_URL, collection_id),
+                  '{}collections/{}/items'.format(BASE_URL, collection_id),
                   body=json.dumps(example_item),
                   status=200,
                   content_type='application/json')
@@ -193,7 +193,7 @@ def test_delete_item():
     collection_id = 'abcd'
     collection_item_id = '1234'
     responses.add(responses.DELETE,
-                  '%scollections/%s/items/%s' % (BASE_URL, collection_id, collection_item_id),
+                  '{}collections/{}/items/{}'.format(BASE_URL, collection_id, collection_item_id),
                   status=204,
                   content_type='application/json')
 
@@ -209,7 +209,7 @@ def test_move_item():
     collection_id = 'abcd'
     collection_item_id = '1234'
     responses.add(responses.PUT,
-                  '%scollections/%s/items/%s' % (BASE_URL, collection_id, collection_item_id),
+                  '{}collections/{}/items/{}'.format(BASE_URL, collection_id, collection_item_id),
                   status=204,
                   content_type='application/json')
 

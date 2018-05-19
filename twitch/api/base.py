@@ -22,7 +22,7 @@ class TwitchAPI(object):
         }
 
         if self._oauth_token:
-            headers['Authorization'] = 'OAuth %s' % self._oauth_token
+            headers['Authorization'] = 'OAuth {}'.format(self._oauth_token)
 
         return headers
 

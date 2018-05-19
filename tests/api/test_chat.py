@@ -23,7 +23,7 @@ def test_get_badges_by_channel():
         }
     }
     responses.add(responses.GET,
-                  '%schat/%s/badges' % (BASE_URL, channel_id),
+                  '{}chat/{}/badges'.format(BASE_URL, channel_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -45,7 +45,7 @@ def test_get_emoticons_by_set():
         }
     }
     responses.add(responses.GET,
-                  '%schat/emoticon_images' % BASE_URL,
+                  '{}chat/emoticon_images'.format(BASE_URL),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -66,7 +66,7 @@ def test_get_all_emoticons():
         'emoticons': [example_emote]
     }
     responses.add(responses.GET,
-                  '%schat/emoticons' % BASE_URL,
+                  '{}chat/emoticons'.format(BASE_URL),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')

@@ -24,7 +24,7 @@ example_all_response = {
 def test_get():
     team_name = 'spongebob'
     responses.add(responses.GET,
-                  '%steams/%s' % (BASE_URL, team_name),
+                  '{}teams/{}'.format(BASE_URL, team_name),
                   body=json.dumps(example_team_response),
                   status=200,
                   content_type='application/json')
@@ -42,7 +42,7 @@ def test_get():
 @responses.activate
 def test_get_all():
     responses.add(responses.GET,
-                  '%steams' % BASE_URL,
+                  '{}teams'.format(BASE_URL),
                   body=json.dumps(example_all_response),
                   status=200,
                   content_type='application/json')

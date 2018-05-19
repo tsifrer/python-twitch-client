@@ -24,7 +24,7 @@ example_user = {
 @responses.activate
 def test_get_by_name():
     responses.add(responses.GET,
-                  '%scommunities' % BASE_URL,
+                  '{}communities'.format(BASE_URL),
                   body=json.dumps(example_community),
                   status=200,
                   content_type='application/json')
@@ -43,7 +43,7 @@ def test_get_by_name():
 def test_get_by_id():
     community_id = 'abcd'
     responses.add(responses.GET,
-                  '%scommunities/%s' % (BASE_URL, community_id),
+                  '{}communities/{}'.format(BASE_URL, community_id),
                   body=json.dumps(example_community),
                   status=200,
                   content_type='application/json')
@@ -62,7 +62,7 @@ def test_get_by_id():
 def test_update():
     community_id = 'abcd'
     responses.add(responses.PUT,
-                  '%scommunities/%s' % (BASE_URL, community_id),
+                  '{}communities/{}'.format(BASE_URL, community_id),
                   body=json.dumps(example_community),
                   status=204,
                   content_type='application/json')
@@ -83,7 +83,7 @@ def test_get_top():
     }
 
     responses.add(responses.GET,
-                  '%scommunities/top' % BASE_URL,
+                  '{}communities/top'.format(BASE_URL),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -120,7 +120,7 @@ def test_get_banned_users():
     }
 
     responses.add(responses.GET,
-                  '%scommunities/%s/bans' % (BASE_URL, community_id),
+                  '{}communities/{}/bans'.format(BASE_URL, community_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -153,7 +153,7 @@ def test_ban_user():
     community_id = 'abcd'
     user_id = 1234
     responses.add(responses.PUT,
-                  '%scommunities/%s/bans/%s' % (BASE_URL, community_id, user_id),
+                  '{}communities/{}/bans/{}'.format(BASE_URL, community_id, user_id),
                   status=204,
                   content_type='application/json')
 
@@ -169,7 +169,7 @@ def test_unban_user():
     community_id = 'abcd'
     user_id = 1234
     responses.add(responses.DELETE,
-                  '%scommunities/%s/bans/%s' % (BASE_URL, community_id, user_id),
+                  '{}communities/{}/bans/{}'.format(BASE_URL, community_id, user_id),
                   status=204,
                   content_type='application/json')
 
@@ -184,7 +184,7 @@ def test_unban_user():
 def test_create_avatar_image():
     community_id = 'abcd'
     responses.add(responses.POST,
-                  '%scommunities/%s/images/avatar' % (BASE_URL, community_id),
+                  '{}communities/{}/images/avatar'.format(BASE_URL, community_id),
                   status=204,
                   content_type='application/json')
 
@@ -199,7 +199,7 @@ def test_create_avatar_image():
 def test_delete_avatar_image():
     community_id = 'abcd'
     responses.add(responses.DELETE,
-                  '%scommunities/%s/images/avatar' % (BASE_URL, community_id),
+                  '{}communities/{}/images/avatar'.format(BASE_URL, community_id),
                   status=204,
                   content_type='application/json')
 
@@ -214,7 +214,7 @@ def test_delete_avatar_image():
 def test_create_cover_image():
     community_id = 'abcd'
     responses.add(responses.POST,
-                  '%scommunities/%s/images/cover' % (BASE_URL, community_id),
+                  '{}communities/{}/images/cover'.format(BASE_URL, community_id),
                   status=204,
                   content_type='application/json')
 
@@ -229,7 +229,7 @@ def test_create_cover_image():
 def test_delete_cover_image():
     community_id = 'abcd'
     responses.add(responses.DELETE,
-                  '%scommunities/%s/images/cover' % (BASE_URL, community_id),
+                  '{}communities/{}/images/cover'.format(BASE_URL, community_id),
                   status=204,
                   content_type='application/json')
 
@@ -248,7 +248,7 @@ def test_get_moderators():
     }
 
     responses.add(responses.GET,
-                  '%scommunities/%s/moderators' % (BASE_URL, community_id),
+                  '{}communities/{}/moderators'.format(BASE_URL, community_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -270,7 +270,7 @@ def test_add_moderator():
     community_id = 'abcd'
     user_id = 12345
     responses.add(responses.PUT,
-                  '%scommunities/%s/moderators/%s' % (BASE_URL, community_id, user_id),
+                  '{}communities/{}/moderators/{}'.format(BASE_URL, community_id, user_id),
                   status=204,
                   content_type='application/json')
 
@@ -286,7 +286,7 @@ def test_delete_moderator():
     community_id = 'abcd'
     user_id = 12345
     responses.add(responses.DELETE,
-                  '%scommunities/%s/moderators/%s' % (BASE_URL, community_id, user_id),
+                  '{}communities/{}/moderators/{}'.format(BASE_URL, community_id, user_id),
                   status=204,
                   content_type='application/json')
 
@@ -307,7 +307,7 @@ def test_get_permissions():
     }
 
     responses.add(responses.GET,
-                  '%scommunities/%s/permissions' % (BASE_URL, community_id),
+                  '{}communities/{}/permissions'.format(BASE_URL, community_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -325,7 +325,7 @@ def test_get_permissions():
 def test_report_violation():
     community_id = 'abcd'
     responses.add(responses.POST,
-                  '%scommunities/%s/report_channel' % (BASE_URL, community_id),
+                  '{}communities/{}/report_channel'.format(BASE_URL, community_id),
                   status=204,
                   content_type='application/json')
 
@@ -345,7 +345,7 @@ def test_get_timed_out_users():
     }
 
     responses.add(responses.GET,
-                  '%scommunities/%s/timeouts' % (BASE_URL, community_id),
+                  '{}communities/{}/timeouts'.format(BASE_URL, community_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -378,7 +378,7 @@ def test_add_timed_out_user():
     community_id = 'abcd'
     user_id = 12345
     responses.add(responses.PUT,
-                  '%scommunities/%s/timeouts/%s' % (BASE_URL, community_id, user_id),
+                  '{}communities/{}/timeouts/{}'.format(BASE_URL, community_id, user_id),
                   status=204,
                   content_type='application/json')
 
@@ -394,7 +394,7 @@ def test_delete_timed_out_user():
     community_id = 'abcd'
     user_id = 12345
     responses.add(responses.DELETE,
-                  '%scommunities/%s/timeouts/%s' % (BASE_URL, community_id, user_id),
+                  '{}communities/{}/timeouts/{}'.format(BASE_URL, community_id, user_id),
                   status=204,
                   content_type='application/json')
 

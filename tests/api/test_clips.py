@@ -7,10 +7,10 @@ from twitch.constants import BASE_URL
 from twitch.resources import Clip
 
 example_clip = {
-    "broadcast_id": "25782478272",
-    "title": "cold ace",
-    "tracking_id": "102382269",
-    "url": "https://clips.twitch.tv/OpenUglySnoodVoteNay?tt_medium=clips_api&tt_content=url"
+    'broadcast_id': '25782478272',
+    'title': 'cold ace',
+    'tracking_id': '102382269',
+    'url': 'https://clips.twitch.tv/OpenUglySnoodVoteNay?tt_medium=clips_api&tt_content=url'
 }
 
 example_clips = {'clips': [example_clip]}
@@ -22,7 +22,7 @@ def test_get_by_slug():
 
     responses.add(
         responses.GET,
-        '%sclips/%s' % (BASE_URL, slug),
+        '{}clips/{}'.format(BASE_URL, slug),
         body=json.dumps(example_clip),
         status=200,
         content_type='application/json'
@@ -41,7 +41,7 @@ def test_get_top():
 
     responses.add(
         responses.GET,
-        '%sclips/top' % BASE_URL,
+        '{}clips/top'.format(BASE_URL),
         body=json.dumps(example_clips),
         status=200,
         content_type='application/json'

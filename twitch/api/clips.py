@@ -8,7 +8,7 @@ from twitch.resources import Clip
 class Clips(TwitchAPI):
 
     def get_by_slug(self, slug):
-        response = self._request_get('clips/%s' % slug)
+        response = self._request_get('clips/{}'.format(slug))
         return Clip.construct_from(response)
 
     def get_top(
@@ -21,7 +21,7 @@ class Clips(TwitchAPI):
 
         if period not in PERIODS:
             raise TwitchAttributeException(
-                'Period is not valid. Valid values are %s' % PERIODS)
+                'Period is not valid. Valid values are {}'.format(PERIODS))
 
         params = {
             'channel': channel,

@@ -19,7 +19,7 @@ class ChannelFeed(TwitchAPI):
             'cursor': cursor,
             'comments': comments
         }
-        response = self._request_get('feed/%s/posts' % channel_id, params=params)
+        response = self._request_get('feed/{}/posts'.format(channel_id), params=params)
         return [Post.construct_from(x) for x in response['posts']]
 
     def get_post(self, channel_id, post_id, comments=5):
@@ -30,7 +30,7 @@ class ChannelFeed(TwitchAPI):
         params = {
             'comments': comments
         }
-        response = self._request_get('feed/%s/posts/%s' % (channel_id, post_id), params=params)
+        response = self._request_get('feed/{}/posts/{}'.format(channel_id, post_id), params=params)
         return Post.construct_from(response)
 
     @oauth_required
@@ -41,12 +41,12 @@ class ChannelFeed(TwitchAPI):
         params = {
             'share': share
         }
-        response = self._request_post('feed/%s/posts' % channel_id, data, params=params)
+        response = self._request_post('feed/{}/posts'.format(channel_id), data, params=params)
         return Post.construct_from(response['post'])
 
     @oauth_required
     def delete_post(self, channel_id, post_id):
-        response = self._request_delete('feed/%s/posts/%s' % (channel_id, post_id))
+        response = self._request_delete('feed/{}/posts/{}'.format(channel_id, post_id))
         return Post.construct_from(response)
 
     @oauth_required
@@ -54,7 +54,7 @@ class ChannelFeed(TwitchAPI):
         params = {
             'emote_id': emote_id
         }
-        url = 'feed/%s/posts/%s/reactions' % (channel_id, post_id)
+        url = 'feed/{}/posts/{}/reactions'.format(channel_id, post_id)
         response = self._request_post(url, params=params)
         return response
 
@@ -63,7 +63,7 @@ class ChannelFeed(TwitchAPI):
         params = {
             'emote_id': emote_id
         }
-        url = 'feed/%s/posts/%s/reactions' % (channel_id, post_id)
+        url = 'feed/{}/posts/{}/reactions'.format(channel_id, post_id)
         response = self._request_delete(url, params=params)
         return response
 
@@ -76,7 +76,7 @@ class ChannelFeed(TwitchAPI):
             'limit': limit,
             'cursor': cursor,
         }
-        url = 'feed/%s/posts/%s/comments' % (channel_id, post_id)
+        url = 'feed/{}/posts/{}/comments'.format(channel_id, post_id)
         response = self._request_get(url, params=params)
         return [Comment.construct_from(x) for x in response['comments']]
 
@@ -85,13 +85,13 @@ class ChannelFeed(TwitchAPI):
         data = {
             'content': content
         }
-        url = 'feed/%s/posts/%s/comments' % (channel_id, post_id)
+        url = 'feed/{}/posts/{}/comments'.format(channel_id, post_id)
         response = self._request_post(url, data)
         return Comment.construct_from(response)
 
     @oauth_required
     def delete_post_comment(self, channel_id, post_id, comment_id):
-        url = 'feed/%s/posts/%s/comments/%s' % (channel_id, post_id, comment_id)
+        url = 'feed/{}/posts/{}/comments/{}'.format(channel_id, post_id, comment_id)
         response = self._request_delete(url)
         return Comment.construct_from(response)
 
@@ -100,7 +100,7 @@ class ChannelFeed(TwitchAPI):
         params = {
             'emote_id': emote_id
         }
-        url = 'feed/%s/posts/%s/comments/%s/reactions' % (channel_id, post_id, comment_id)
+        url = 'feed/{}/posts/{}/comments/{}/reactions'.format(channel_id, post_id, comment_id)
         response = self._request_post(url, params=params)
         return response
 
@@ -109,6 +109,6 @@ class ChannelFeed(TwitchAPI):
         params = {
             'emote_id': emote_id
         }
-        url = 'feed/%s/posts/%s/comments/%s/reactions' % (channel_id, post_id, comment_id)
+        url = 'feed/{}/posts/{}/comments/{}/reactions'.format(channel_id, post_id, comment_id)
         response = self._request_delete(url, params=params)
         return response

@@ -93,7 +93,7 @@ example_get_clips_cursor_response = {
 }
 
 example_get_top_games_response = {
-    "data": [
+    'data': [
         {
             'id': '493057',
             'name': "PLAYERUNKNOWN'S BATTLEGROUNDS",

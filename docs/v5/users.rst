@@ -112,7 +112,7 @@ Users
             >>> users = client.users.translate_usernames_to_ids(['lirik', 'giantwaffle'])
             >>>
             >>> for user in users:
-            >>>     print('%s: %s' % (user.name, user.id))
+            >>>     print('{}: {}'.format(user.name, user.id))
             'lirik: 23161357'
             'giantwaffle: 22552479'
 

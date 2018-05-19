@@ -10,12 +10,12 @@ class Streams(TwitchAPI):
     def get_stream_by_user(self, channel_id, stream_type=STREAM_TYPE_LIVE):
         if stream_type not in STREAM_TYPES:
             raise TwitchAttributeException(
-                'Stream type is not valid. Valid values are %s' % STREAM_TYPES)
+                'Stream type is not valid. Valid values are {}'.format(STREAM_TYPES))
 
         params = {
             'stream_type': stream_type,
         }
-        response = self._request_get('streams/%s' % channel_id, params=params)
+        response = self._request_get('streams/{}'.format(channel_id), params=params)
 
         if not response['stream']:
             return None
@@ -64,7 +64,7 @@ class Streams(TwitchAPI):
     def get_followed(self, stream_type=STREAM_TYPE_LIVE, limit=25, offset=0):
         if stream_type not in STREAM_TYPES:
             raise TwitchAttributeException(
-                'Stream type is not valid. Valid values are %s' % STREAM_TYPES)
+                'Stream type is not valid. Valid values are {}'.format(STREAM_TYPES))
         if limit > 100:
             raise TwitchAttributeException(
                 'Maximum number of objects returned in one request is 100')
@@ -78,6 +78,6 @@ class Streams(TwitchAPI):
         return [Stream.construct_from(x) for x in response['streams']]
 
     def get_streams_in_community(self, community_id):
-        response = self._request_get('streams?community_id=%s' % community_id)
+        response = self._request_get('streams?community_id={}'.format(community_id))
 
         return [Stream.construct_from(x) for x in response['streams']]
