@@ -38,7 +38,7 @@ def test_get_posts():
         'posts': [example_post]
     }
     responses.add(responses.GET,
-                  '%sfeed/%s/posts' % (BASE_URL, channel_id),
+                  '{}feed/{}/posts'.format(BASE_URL, channel_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -72,7 +72,7 @@ def test_get_post():
     channel_id = '1234'
     post_id = example_post['id']
     responses.add(responses.GET,
-                  '%sfeed/%s/posts/%s' % (BASE_URL, channel_id, post_id),
+                  '{}feed/{}/posts/{}'.format(BASE_URL, channel_id, post_id),
                   body=json.dumps(example_post),
                   status=200,
                   content_type='application/json')
@@ -106,7 +106,7 @@ def test_create_post():
         'tweet': None
     }
     responses.add(responses.POST,
-                  '%sfeed/%s/posts' % (BASE_URL, channel_id),
+                  '{}feed/{}/posts'.format(BASE_URL, channel_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -126,7 +126,7 @@ def test_delete_post():
     channel_id = '1234'
     post_id = example_post['id']
     responses.add(responses.DELETE,
-                  '%sfeed/%s/posts/%s' % (BASE_URL, channel_id, post_id),
+                  '{}feed/{}/posts/{}'.format(BASE_URL, channel_id, post_id),
                   body=json.dumps(example_post),
                   status=200,
                   content_type='application/json')
@@ -151,7 +151,7 @@ def test_create_reaction_to_post():
         'created_at': '2016-11-29T15:51:12Z',
     }
     responses.add(responses.POST,
-                  '%sfeed/%s/posts/%s/reactions' % (BASE_URL, channel_id, post_id),
+                  '{}feed/{}/posts/{}/reactions'.format(BASE_URL, channel_id, post_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -173,7 +173,7 @@ def test_delete_reaction_to_post():
         'deleted': True
     }
     responses.add(responses.DELETE,
-                  '%sfeed/%s/posts/%s/reactions' % (BASE_URL, channel_id, post_id),
+                  '{}feed/{}/posts/{}/reactions'.format(BASE_URL, channel_id, post_id),
                   body=json.dumps(body),
                   status=200,
                   content_type='application/json')
@@ -196,7 +196,7 @@ def test_get_post_comments():
         'comments': [example_comment]
     }
     responses.add(responses.GET,
-                  '%sfeed/%s/posts/%s/comments' % (BASE_URL, channel_id, post_id),
+                  '{}feed/{}/posts/{}/comments'.format(BASE_URL, channel_id, post_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -229,7 +229,7 @@ def test_create_post_comment():
     channel_id = '1234'
     post_id = example_post['id']
     responses.add(responses.POST,
-                  '%sfeed/%s/posts/%s/comments' % (BASE_URL, channel_id, post_id),
+                  '{}feed/{}/posts/{}/comments'.format(BASE_URL, channel_id, post_id),
                   body=json.dumps(example_comment),
                   status=200,
                   content_type='application/json')
@@ -249,11 +249,13 @@ def test_delete_post_comment():
     channel_id = '1234'
     post_id = example_post['id']
     comment_id = example_comment['id']
-    responses.add(responses.DELETE,
-                  '%sfeed/%s/posts/%s/comments/%s' % (BASE_URL, channel_id, post_id, comment_id),
-                  body=json.dumps(example_comment),
-                  status=200,
-                  content_type='application/json')
+    responses.add(
+        responses.DELETE,
+        '{}feed/{}/posts/{}/comments/{}'.format(BASE_URL, channel_id, post_id, comment_id),
+        body=json.dumps(example_comment),
+        status=200,
+        content_type='application/json'
+    )
 
     client = TwitchClient('client id', 'oauth token')
 
@@ -275,7 +277,8 @@ def test_create_reaction_to_comment():
         'id': '1341393b-e872-4554-9f6f-acd5f8b669fc',
         'user': {}
     }
-    url = '%sfeed/%s/posts/%s/comments/%s/reactions' % (BASE_URL, channel_id, post_id, comment_id)
+    url = ('{}feed/{}/posts/{}/comments/{}/reactions'
+           .format(BASE_URL, channel_id, post_id, comment_id))
     responses.add(responses.POST,
                   url,
                   body=json.dumps(body),
@@ -298,7 +301,8 @@ def test_delete_reaction_to_comment():
     body = {
         'deleted': True
     }
-    url = '%sfeed/%s/posts/%s/comments/%s/reactions' % (BASE_URL, channel_id, post_id, comment_id)
+    url = ('{}feed/{}/posts/{}/comments/{}/reactions'
+           .format(BASE_URL, channel_id, post_id, comment_id))
     responses.add(responses.DELETE,
                   url,
                   body=json.dumps(body),

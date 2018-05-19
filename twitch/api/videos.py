@@ -10,7 +10,7 @@ from twitch.resources import Video
 class Videos(TwitchAPI):
 
     def get_by_id(self, video_id):
-        response = self._request_get('videos/%s' % video_id)
+        response = self._request_get('videos/{}'.format(video_id))
         return Video.construct_from(response)
 
     def get_top(self, limit=10, offset=0, game=None, period=PERIOD_WEEK,
@@ -19,11 +19,13 @@ class Videos(TwitchAPI):
             raise TwitchAttributeException(
                 'Maximum number of objects returned in one request is 100')
         if period not in PERIODS:
-            raise TwitchAttributeException('Period is not valid. Valid values are %s' % PERIODS)
+            raise TwitchAttributeException(
+                'Period is not valid. Valid values are {}'.format(PERIODS)
+            )
 
         if broadcast_type not in BROADCAST_TYPES:
             raise TwitchAttributeException(
-                'Broadcast type is not valid. Valid values are %s' % BROADCAST_TYPES)
+                'Broadcast type is not valid. Valid values are {}'.format(BROADCAST_TYPES))
 
         params = {
             'limit': limit,
@@ -44,7 +46,7 @@ class Videos(TwitchAPI):
 
         if broadcast_type not in BROADCAST_TYPES:
             raise TwitchAttributeException(
-                'Broadcast type is not valid. Valid values are %s' % BROADCAST_TYPES)
+                'Broadcast type is not valid. Valid values are {}'.format(BROADCAST_TYPES))
 
         params = {
             'limit': limit,
@@ -61,10 +63,12 @@ class Videos(TwitchAPI):
         (which contains more links to segments of the vod)
         """
         vod_id = video_id[1:]
-        token = self._request_get('vods/%s/access_token' % vod_id, url='https://api.twitch.tv/api/')
+        token = self._request_get(
+            'vods/{}/access_token'.format(vod_id), url='https://api.twitch.tv/api/')
         params = {
             'nauthsig': token["sig"],
             'nauth': token["token"]
         }
-        m3u8 = self._request_get('vod/%s' % vod_id, url=VOD_FETCH_URL, params=params, json=False)
+        m3u8 = self._request_get(
+            'vod/{}'.format(vod_id), url=VOD_FETCH_URL, params=params, json=False)
         return m3u8.content

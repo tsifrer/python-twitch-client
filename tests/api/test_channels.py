@@ -54,7 +54,7 @@ example_community = {
 @responses.activate
 def test_get():
     responses.add(responses.GET,
-                  '%schannel' % BASE_URL,
+                  '{}channel'.format(BASE_URL),
                   body=json.dumps(example_channel),
                   status=200,
                   content_type='application/json')
@@ -73,7 +73,7 @@ def test_get():
 def test_get_by_id():
     channel_id = example_channel['_id']
     responses.add(responses.GET,
-                  '%schannels/%s' % (BASE_URL, channel_id),
+                  '{}channels/{}'.format(BASE_URL, channel_id),
                   body=json.dumps(example_channel),
                   status=200,
                   content_type='application/json')
@@ -92,7 +92,7 @@ def test_get_by_id():
 def test_update():
     channel_id = example_channel['_id']
     responses.add(responses.PUT,
-                  '%schannels/%s' % (BASE_URL, channel_id),
+                  '{}channels/{}'.format(BASE_URL, channel_id),
                   body=json.dumps(example_channel),
                   status=200,
                   content_type='application/json')
@@ -116,7 +116,7 @@ def test_get_editors():
         'users': [example_user]
     }
     responses.add(responses.GET,
-                  '%schannels/%s/editors' % (BASE_URL, channel_id),
+                  '{}channels/{}/editors'.format(BASE_URL, channel_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -142,7 +142,7 @@ def test_get_followers():
         'follows': [example_follower]
     }
     responses.add(responses.GET,
-                  '%schannels/%s/follows' % (BASE_URL, channel_id),
+                  '{}channels/{}/follows'.format(BASE_URL, channel_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -180,7 +180,7 @@ def test_get_teams():
         'teams': [example_team]
     }
     responses.add(responses.GET,
-                  '%schannels/%s/teams' % (BASE_URL, channel_id),
+                  '{}channels/{}/teams'.format(BASE_URL, channel_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -205,7 +205,7 @@ def test_get_subscribers():
         'subscriptions': [example_subscription]
     }
     responses.add(responses.GET,
-                  '%schannels/%s/subscriptions' % (BASE_URL, channel_id),
+                  '{}channels/{}/subscriptions'.format(BASE_URL, channel_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -241,7 +241,7 @@ def test_check_subscription_by_user():
     channel_id = example_channel['_id']
     user_id = example_user['_id']
     responses.add(responses.GET,
-                  '%schannels/%s/subscriptions/%s' % (BASE_URL, channel_id, user_id),
+                  '{}channels/{}/subscriptions/{}'.format(BASE_URL, channel_id, user_id),
                   body=json.dumps(example_subscription),
                   status=200,
                   content_type='application/json')
@@ -265,7 +265,7 @@ def test_get_videos():
         'videos': [example_video]
     }
     responses.add(responses.GET,
-                  '%schannels/%s/videos' % (BASE_URL, channel_id),
+                  '{}channels/{}/videos'.format(BASE_URL, channel_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -306,7 +306,7 @@ def test_start_commercial():
         'retryafter': 480
     }
     responses.add(responses.POST,
-                  '%schannels/%s/commercial' % (BASE_URL, channel_id),
+                  '{}channels/{}/commercial'.format(BASE_URL, channel_id),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -324,7 +324,7 @@ def test_start_commercial():
 def test_reset_stream_key():
     channel_id = example_channel['_id']
     responses.add(responses.DELETE,
-                  '%schannels/%s/stream_key' % (BASE_URL, channel_id),
+                  '{}channels/{}/stream_key'.format(BASE_URL, channel_id),
                   body=json.dumps(example_channel),
                   status=200,
                   content_type='application/json')
@@ -343,7 +343,7 @@ def test_reset_stream_key():
 def test_get_community():
     channel_id = example_channel['_id']
     responses.add(responses.GET,
-                  '%schannels/%s/community' % (BASE_URL, channel_id),
+                  '{}channels/{}/community'.format(BASE_URL, channel_id),
                   body=json.dumps(example_community),
                   status=200,
                   content_type='application/json')
@@ -363,7 +363,7 @@ def test_set_community():
     channel_id = example_channel['_id']
     community_id = example_community['_id']
     responses.add(responses.PUT,
-                  '%schannels/%s/community/%s' % (BASE_URL, channel_id, community_id),
+                  '{}channels/{}/community/{}'.format(BASE_URL, channel_id, community_id),
                   status=204,
                   content_type='application/json')
 
@@ -378,7 +378,7 @@ def test_set_community():
 def test_delete_from_community():
     channel_id = example_channel['_id']
     responses.add(responses.DELETE,
-                  '%schannels/%s/community' % (BASE_URL, channel_id),
+                  '{}channels/{}/community'.format(BASE_URL, channel_id),
                   body=json.dumps(example_community),
                   status=204,
                   content_type='application/json')

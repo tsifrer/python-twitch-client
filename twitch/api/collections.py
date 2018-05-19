@@ -7,14 +7,14 @@ from twitch.resources import Collection, Item
 class Collections(TwitchAPI):
 
     def get_metadata(self, collection_id):
-        response = self._request_get('collections/%s' % collection_id)
+        response = self._request_get('collections/{}'.format(collection_id))
         return Collection.construct_from(response)
 
     def get(self, collection_id, include_all_items=False):
         params = {
             'include_all_items': include_all_items
         }
-        response = self._request_get('collections/%s/items' % collection_id, params=params)
+        response = self._request_get('collections/{}/items'.format(collection_id), params=params)
         return [Item.construct_from(x) for x in response['items']]
 
     def get_by_channel(self, channel_id, limit=10, cursor=None, containing_item=None):
@@ -27,7 +27,7 @@ class Collections(TwitchAPI):
         }
         if containing_item:
             params['containing_item'] = containing_item
-        response = self._request_get('channels/%s/collections' % channel_id)
+        response = self._request_get('channels/{}/collections'.format(channel_id))
         return [Collection.construct_from(x) for x in response['collections']]
 
     @oauth_required
@@ -35,7 +35,7 @@ class Collections(TwitchAPI):
         data = {
             'title': title,
         }
-        response = self._request_post('channels/%s/collections' % channel_id, data=data)
+        response = self._request_post('channels/{}/collections'.format(channel_id), data=data)
         return Collection.construct_from(response)
 
     @oauth_required
@@ -43,18 +43,18 @@ class Collections(TwitchAPI):
         data = {
             'title': title,
         }
-        self._request_put('collections/%s' % collection_id, data=data)
+        self._request_put('collections/{}'.format(collection_id), data=data)
 
     @oauth_required
     def create_thumbnail(self, collection_id, item_id):
         data = {
             'item_id': item_id,
         }
-        self._request_put('collections/%s/thumbnail' % collection_id, data=data)
+        self._request_put('collections/{}/thumbnail'.format(collection_id), data=data)
 
     @oauth_required
     def delete(self, collection_id):
-        self._request_delete('collections/%s' % collection_id)
+        self._request_delete('collections/{}'.format(collection_id))
 
     @oauth_required
     def add_item(self, collection_id, item_id, item_type):
@@ -62,12 +62,12 @@ class Collections(TwitchAPI):
             'id': item_id,
             'type': item_type
         }
-        response = self._request_put('collections/%s/items' % collection_id, data=data)
+        response = self._request_put('collections/{}/items'.format(collection_id), data=data)
         return Item.construct_from(response)
 
     @oauth_required
     def delete_item(self, collection_id, collection_item_id):
-        url = 'collections/%s/items/%s' % (collection_id, collection_item_id)
+        url = 'collections/{}/items/{}'.format(collection_id, collection_item_id)
         self._request_delete(url)
 
     @oauth_required
@@ -75,5 +75,5 @@ class Collections(TwitchAPI):
         data = {
             'position': position
         }
-        url = 'collections/%s/items/%s' % (collection_id, collection_item_id)
+        url = 'collections/{}/items/{}'.format(collection_id, collection_item_id)
         self._request_put(url, data=data)

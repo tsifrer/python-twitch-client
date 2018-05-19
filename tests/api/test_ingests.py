@@ -18,7 +18,7 @@ example_response = {
 @responses.activate
 def test_get_top():
     responses.add(responses.GET,
-                  '%singests' % BASE_URL,
+                  '{}ingests'.format(BASE_URL),
                   body=json.dumps(example_response),
                   status=200,
                   content_type='application/json')

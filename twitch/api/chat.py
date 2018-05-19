@@ -4,7 +4,7 @@ from twitch.api.base import TwitchAPI
 class Chat(TwitchAPI):
 
     def get_badges_by_channel(self, channel_id):
-        response = self._request_get('chat/%s/badges' % channel_id)
+        response = self._request_get('chat/{}/badges'.format(channel_id))
         return response
 
     def get_emoticons_by_set(self, emotesets=None):

@@ -34,7 +34,7 @@ def test_channels():
         'channels': [example_channel]
     }
     responses.add(responses.GET,
-                  '%ssearch/channels' % BASE_URL,
+                  '{}search/channels'.format(BASE_URL),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -69,7 +69,7 @@ def test_games():
         'games': [example_game]
     }
     responses.add(responses.GET,
-                  '%ssearch/games' % BASE_URL,
+                  '{}search/games'.format(BASE_URL),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -93,7 +93,7 @@ def test_streams():
         'streams': [example_stream]
     }
     responses.add(responses.GET,
-                  '%ssearch/streams' % BASE_URL,
+                  '{}search/streams'.format(BASE_URL),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')

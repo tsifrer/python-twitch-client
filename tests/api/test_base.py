@@ -36,7 +36,7 @@ def test_get_request_headers_includes_authorization():
     assert len(headers) == 3
     assert headers['Accept'] == 'application/vnd.twitchtv.v5+json'
     assert headers['Client-ID'] == client_id
-    assert headers['Authorization'] == 'OAuth %s' % oauth_token
+    assert headers['Authorization'] == 'OAuth {}'.format(oauth_token)
 
 
 @responses.activate

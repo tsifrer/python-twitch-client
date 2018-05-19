@@ -6,7 +6,7 @@ from twitch.resources import Team
 class Teams(TwitchAPI):
 
     def get(self, team_name):
-        response = self._request_get('teams/%s' % team_name)
+        response = self._request_get('teams/{}'.format(team_name))
         return Team.construct_from(response)
 
     def get_all(self, limit=10, offset=0):

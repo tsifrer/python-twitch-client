@@ -36,7 +36,7 @@ example_download_vod_token_response = {
 def test_get_by_id():
     video_id = 'v106400740'
     responses.add(responses.GET,
-                  '%svideos/%s' % (BASE_URL, video_id),
+                  '{}videos/{}'.format(BASE_URL, video_id),
                   body=json.dumps(example_video_response),
                   status=200,
                   content_type='application/json')
@@ -55,7 +55,7 @@ def test_get_by_id():
 @responses.activate
 def test_get_top():
     responses.add(responses.GET,
-                  '%svideos/top' % BASE_URL,
+                  '{}videos/top'.format(BASE_URL),
                   body=json.dumps(example_top_response),
                   status=200,
                   content_type='application/json')
@@ -90,7 +90,7 @@ def test_get_top_raises_if_wrong_params_are_passed_in(param, value):
 @responses.activate
 def test_get_followed_videos():
     responses.add(responses.GET,
-                  '%svideos/followed' % BASE_URL,
+                  '{}videos/followed'.format(BASE_URL),
                   body=json.dumps(example_followed_response),
                   status=200,
                   content_type='application/json')
@@ -126,12 +126,12 @@ def test_download_vod():
     video_id = 'v106400740'
     vod_id = '106400740'
     responses.add(responses.GET,
-                  '%svods/%s/access_token' % ('https://api.twitch.tv/api/', vod_id),
+                  '{}vods/{}/access_token'.format('https://api.twitch.tv/api/', vod_id),
                   body=json.dumps(example_download_vod_token_response),
                   status=200,
                   content_type='application/json')
     responses.add(responses.GET,
-                  '%svod/%s' % (VOD_FETCH_URL, vod_id),
+                  '{}vod/{}'.format(VOD_FETCH_URL, vod_id),
                   body=b'',
                   status=200,
                   content_type='application/x-mpegURL')

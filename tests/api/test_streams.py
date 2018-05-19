@@ -39,7 +39,7 @@ example_featured_response = {
 def test_get_stream_by_user():
     channel_id = 7236692
     responses.add(responses.GET,
-                  '%sstreams/%s' % (BASE_URL, channel_id),
+                  '{}streams/{}'.format(BASE_URL, channel_id),
                   body=json.dumps(example_stream_response),
                   status=200,
                   content_type='application/json')
@@ -62,7 +62,7 @@ def test_get_stream_by_user():
 def test_get_stream_by_user_returns_none_if_stream_is_offline():
     channel_id = 7236692
     responses.add(responses.GET,
-                  '%sstreams/%s' % (BASE_URL, channel_id),
+                  '{}streams/{}'.format(BASE_URL, channel_id),
                   body=json.dumps({'stream': None}),
                   status=200,
                   content_type='application/json')
@@ -89,7 +89,7 @@ def test_get_stream_by_user_raises_if_wrong_params_are_passed_in(param, value):
 @responses.activate
 def test_get_live_streams():
     responses.add(responses.GET,
-                  '%sstreams' % BASE_URL,
+                  '{}streams'.format(BASE_URL),
                   body=json.dumps(example_streams_response),
                   status=200,
                   content_type='application/json')
@@ -128,7 +128,7 @@ def test_get_summary():
         'viewers': 19973
     }
     responses.add(responses.GET,
-                  '%sstreams/summary' % BASE_URL,
+                  '{}streams/summary'.format(BASE_URL),
                   body=json.dumps(response),
                   status=200,
                   content_type='application/json')
@@ -146,7 +146,7 @@ def test_get_summary():
 @responses.activate
 def test_get_featured():
     responses.add(responses.GET,
-                  '%sstreams/featured' % BASE_URL,
+                  '{}streams/featured'.format(BASE_URL),
                   body=json.dumps(example_featured_response),
                   status=200,
                   content_type='application/json')
@@ -180,7 +180,7 @@ def test_get_featured_raises_if_wrong_params_are_passed_in(param, value):
 @responses.activate
 def test_get_followed():
     responses.add(responses.GET,
-                  '%sstreams/followed' % BASE_URL,
+                  '{}streams/followed'.format(BASE_URL),
                   body=json.dumps(example_streams_response),
                   status=200,
                   content_type='application/json')
@@ -217,7 +217,7 @@ def test_get_followed_raises_if_wrong_params_are_passed_in(param, value):
 def test_get_streams_in_community():
     community_id = 'abcd'
     responses.add(responses.GET,
-                  '%sstreams' % (BASE_URL),
+                  '{}streams'.format(BASE_URL),
                   body=json.dumps(example_streams_response),
                   status=200,
                   content_type='application/json')
