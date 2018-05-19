@@ -4,7 +4,7 @@ from twitch.constants import (
 )
 from twitch.exceptions import TwitchAttributeException
 from twitch.helix.base import APICursor, APIGet
-from twitch.resources import Clip, Game, Stream, Video
+from twitch.resources import Clip, Game, Stream, StreamMetadata, Video
 
 
 class TwitchHelix(object):
@@ -181,3 +181,38 @@ class TwitchHelix(object):
                 resource=Video,
                 params=params
             ).fetch()
+
+    def get_streams_metadata(self, after=None, before=None, community_ids=None, page_size=20,
+                             game_ids=None, languages=None, user_ids=None, user_logins=None):
+
+        if community_ids and len(community_ids) > 100:
+            raise TwitchAttributeException('Maximum of 100 Community IDs can be supplied')
+        if game_ids and len(game_ids) > 100:
+            raise TwitchAttributeException('Maximum of 100 Community IDs can be supplied')
+        if languages and len(languages) > 100:
+            raise TwitchAttributeException('Maximum of 100 languages can be supplied')
+        if user_ids and len(user_ids) > 100:
+            raise TwitchAttributeException('Maximum of 100 User IDs can be supplied')
+        if user_logins and len(user_logins) > 100:
+            raise TwitchAttributeException('Maximum of 100 User login names can be supplied')
+        if page_size > 100:
+            raise TwitchAttributeException('Maximum number of objects to return is 100')
+
+        params = {
+            'after': after,
+            'before': before,
+            'community_id': community_ids,
+            'first': page_size,
+            'game_id': game_ids,
+            'language': languages,
+            'user_id': user_ids,
+            'user_login': user_logins,
+        }
+
+        return APICursor(
+            client_id=self._client_id,
+            oauth_token=self._oauth_token,
+            path='streams/metadata',
+            resource=StreamMetadata,
+            params=params
+        )

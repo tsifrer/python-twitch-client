@@ -18,14 +18,12 @@ def games():
 def streams():
     client = TwitchHelix()
     streams_iterator = client.get_streams()
-
     print(streams_iterator.next())
 
 
 def first_500_streams():
     client = TwitchHelix()
     streams_iterator = client.get_streams(page_size=100)
-
     for stream in islice(streams_iterator, 0, 500):
         print(stream)
 
@@ -42,3 +40,10 @@ def videos():
     videos_iterator = client.get_videos(game_id=493057, page_size=5)
     for video in islice(videos_iterator, 0, 10):
         print(video)
+
+
+def streams_metadata():
+    client = TwitchHelix()
+    streams_metadata_iterator = client.get_streams_metadata()
+    for metadata in islice(streams_metadata_iterator, 0, 10):
+        print(metadata)

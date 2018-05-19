@@ -127,6 +127,10 @@ class Stream(TwitchObject):
     pass
 
 
+class StreamMetadata(TwitchObject):
+    pass
+
+
 class Subscription(TwitchObject):
     pass
 
