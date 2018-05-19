@@ -13,3 +13,6 @@ script:
     - py.test --cov=./
 after_success:
   - codecov
+branches:
+  only:
+    - master
