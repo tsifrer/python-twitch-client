@@ -922,7 +922,10 @@ def test_get_user_follows_raises_attribute_exception_for_invalid_params():
 
     client = TwitchHelix('client id')
 
-    kwargs = {'page_size': 101}
+    kwargs = {
+        'from_id': 23161357,
+        'page_size': 101
+    }
     with pytest.raises(TwitchAttributeException):
         client.get_user_follows(**kwargs)
 
