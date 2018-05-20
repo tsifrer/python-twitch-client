@@ -9,3 +9,7 @@ class TwitchAuthException(TwitchException):
 
 class TwitchAttributeException(TwitchException):
     pass
+
+
+class TwitchNotProvidedException(TwitchException):
+    pass

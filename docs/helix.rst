@@ -35,7 +35,7 @@ Helix is the latest version of Twitch API
         For response fields of ``get_games`` and official documentation check `Twitch Helix Get Games`_.
 
 
-    .. classmethod:: get_streams(after=None, before=None, community_ids=None, page_size=None, game_ids=None, languages=None, stream_type=None, user_ids=None, user_logins=None)
+    .. classmethod:: get_streams(after=None, before=None, community_ids=None, page_size=20, game_ids=None, languages=None, stream_type=None, user_ids=None, user_logins=None)
 
         Gets information about active streams. Streams are returned sorted by number of current viewers, in descending order. Across multiple pages of results, there may be duplicate or missing streams, as viewers join and leave streams.
 
@@ -52,7 +52,7 @@ Helix is the latest version of Twitch API
         For response fields of ``get_streams`` and official documentation check `Twitch Helix Get Streams`_.
 
 
-    .. classmethod:: get_top_games(after=None, before=None, page_size=None)
+    .. classmethod:: get_top_games(after=None, before=None, page_size=20)
 
         Gets games sorted by number of current viewers on Twitch, most popular first.
 
@@ -64,7 +64,7 @@ Helix is the latest version of Twitch API
         For response fields of ``get_top_games`` and official documentation check `Twitch Helix Get Top Games`_.
 
 
-    .. classmethod:: get_videos(video_ids=None, user_id=None, game_id=None, after=None, before=None, page_size=None, language=None, period=None, sort=None, video_type=None)
+    .. classmethod:: get_videos(video_ids=None, user_id=None, game_id=None, after=None, before=None, page_size=20, language=None, period=None, sort=None, video_type=None)
 
         Gets video information by video ID (one or more), user ID (one only), or game ID (one only).
 
@@ -84,9 +84,41 @@ Helix is the latest version of Twitch API
         For response fields of ``get_videos`` and official documentation check `Twitch Helix Get Videos`_.
 
 
+    .. classmethod:: get_streams_metadata(after=None, before=None, community_ids=None, page_size=20, game_ids=None, languages=None, stream_type=None, user_ids=None, user_logins=None)
+
+        Gets metadata information about active streams playing Overwatch or Hearthstone. Streams are sorted by number of current viewers, in descending order. Across multiple pages of results, there may be duplicate or missing streams, as viewers join and leave streams.
+
+        :param string after: Cursor for forward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
+        :param string before: Cursor for backward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
+        :param list community_ids: Returns streams in a specified community ID. You can specify up to 100 IDs.
+        :param integer page_size: Number of objects returned in one call. Maximum: 100. Default: 20.
+        :param list game_ids: Returns streams broadcasting a specified game ID. You can specify up to 100 IDs.
+        :param list languages: Stream language. You can specify up to 100 languages
+        :param list user_ids: Returns streams broadcast by one or more specified user IDs. You can specify up to 100 IDs.
+        :param list user_logins: Returns streams broadcast by one or more specified user login names. You can specify up to 100 names.
+        :return: :class:`~twitch.helix.APICursor` containing :class:`~twitch.resources.StreamMetadata` objects
+
+        For response fields of ``get_streams`` and official documentation check `Twitch Helix Get Streams Metadata`_.
+
+
+    .. classmethod:: get_user_follows(after=None, page_size=20, from_id=None, to_id=None)
+
+        Gets information on follow relationships between two Twitch users. Information returned is sorted in order, most recent follow first. This can return information like “who is lirik following,” “who is following lirik,” or “is user X following user Y.”
+
+        :param string after: Cursor for forward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
+        :param integer page_size: Number of objects returned in one call. Maximum: 100. Default: 20.
+        :param list from_id: User ID. The request returns information about users who are being followed by the ``from_id`` user.
+        :param list to_id: User ID. The request returns information about users who are following the ``to_id`` user.
+        :return: :class:`~twitch.helix.APICursor` containing :class:`~twitch.resources.Follow` objects
+
+        For response fields of ``get_streams`` and official documentation check `Twitch Helix Get Users Follows`_.
+
+
 .. _`Twitch Helix API`: https://dev.twitch.tv/docs/api/reference
 .. _`Twitch Helix Get Streams`: https://dev.twitch.tv/docs/api/reference/#get-streams
 .. _`Twitch Helix Get Games`: https://dev.twitch.tv/docs/api/reference/#get-games
 .. _`Twitch Helix Get Clips`: https://dev.twitch.tv/docs/api/reference/#get-clips
 .. _`Twitch Helix Get Top Games`: https://dev.twitch.tv/docs/api/reference/#get-top-games
 .. _`Twitch Helix Get Videos`: https://dev.twitch.tv/docs/api/reference/#get-videos
+.. _`Twitch Helix Get Streams Metadata`: https://dev.twitch.tv/docs/api/reference/#get-streams-metadata
+.. _`Twitch Helix Get Users Follows`: https://dev.twitch.tv/docs/api/reference/#get-users-follows

@@ -20,6 +20,9 @@ Note
 
 `python-twitch-client` currently supports Twitch API v5.
 
+Helix API integration is a work in progress and some enpoints are already avalible in the master branch.
+If you'd like to use the Helix API, install this library directly from this repository master branch.
+
 If you find a missing endpoint or a bug please raise an [issue][issues] or
 contribute and open a [pull request][pulls].
 

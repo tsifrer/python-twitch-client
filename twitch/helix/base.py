@@ -5,6 +5,7 @@ from requests import codes
 from requests.compat import urljoin
 
 from twitch.constants import BASE_HELIX_URL
+from twitch.exceptions import TwitchNotProvidedException
 
 
 class TwitchAPIMixin(object):
@@ -70,6 +71,10 @@ class APICursor(TwitchAPIMixin):
         self._client_id = client_id
         self._oauth_token = oauth_token
         self._params = params
+        self._total = None
+
+        # Pre-fetch the first page as soon as cursor is instantiated
+        self.next_page()
 
     def __repr__(self):
         return str(self._queue)
@@ -100,7 +105,18 @@ class APICursor(TwitchAPIMixin):
 
         self._queue = [self._resource.construct_from(data) for data in response['data']]
         self._cursor = response['pagination'].get('cursor')
+        self._total = response.get('total')
         return self._queue
+
+    @property
+    def cursor(self):
+        return self._cursor
+
+    @property
+    def total(self):
+        if not self._total:
+            raise TwitchNotProvidedException()
+        return self._total
 
 
 class APIGet(TwitchAPIMixin):

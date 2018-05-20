@@ -3,8 +3,8 @@ from datetime import datetime
 import pytest
 
 from twitch.resources import (
-    Channel, Comment, Community, Featured, Follow, Game, Ingest, Stream, Subscription, Team,
-    TopGame, TwitchObject, User, UserBlock, Video, convert_to_twitch_object
+    Channel, Comment, Community, Featured, Follow, Game, Ingest, Stream, StreamMetadata,
+    Subscription, Team, TopGame, TwitchObject, User, UserBlock, Video, convert_to_twitch_object
 )
 
 
@@ -125,6 +125,7 @@ class TestTwitchObject(object):
     (Game),
     (Ingest),
     (Stream),
+    (StreamMetadata),
     (Subscription),
     (Team),
     (TopGame),
