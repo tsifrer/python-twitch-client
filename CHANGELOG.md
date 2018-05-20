@@ -8,7 +8,9 @@
   * Get Clips `twitch.helix.api.TwitchHelix.get_clips`
   * Get Games `twitch.helix.api.TwitchHelix.get_games`
   * Get Streams `twitch.helix.api.TwitchHelix.get_streams`
+  * Get Streams Metadata `twitch.helix.api.TwitchHelix.get_streams_metadata`
   * Get Top Games `twitch.helix.api.TwitchHelix.get_top_games`
+  * Get User Follows `twitch.helix.api.TwitchHelix.get_user_follows`
   * Get Videos `twitch.helix.api.TwitchHelix.get_videos`
 - Changed how config file is read and moved the corresponding code to twitch/conf.py
 - Changed old string formatting to the new one
