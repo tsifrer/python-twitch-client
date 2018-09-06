@@ -10,7 +10,7 @@ An easy to use Python library for accessing the Twitch API
 .. note::
     ``python-twitch-client`` currently supports Twitch API v5.
 
-    Helix API integration is a work in progress and some enpoints are already avalible in the master branch.
+    Helix API integration is a work in progress and some endpoints are already available in the master branch.
     If you'd like to use the Helix API, install this library directly from this repository master branch.
 
     If you find a missing endpoint or a bug please raise an issue_ or contribute and open a
