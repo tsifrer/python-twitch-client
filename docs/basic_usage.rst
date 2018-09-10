@@ -2,7 +2,7 @@
 Basic Usage
 ===========
 
-The `python-twitch-client` allows you to easily access to Twitch API endpoints
+The ``python-twitch-client`` allows you to easily access to Twitch API endpoints.
 
 This package is a modular wrapper designed to make Twitch API calls simpler and easier for you to
 use. Provided below are examples of how to interact with commonly used API endpoints, but this is by no means
