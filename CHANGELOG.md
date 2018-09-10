@@ -2,6 +2,10 @@
 
 ## Master
 
+
+## Version 0.6.0 - 2018-09-10
+
+- Added default request timeout to all requests for API v5
 - Removed support for Python 3.3
 - Added TwitchHelix class which adds support for the new Twitch Helix API.
 - Added Twitch Helix API support for the following endpoints:
