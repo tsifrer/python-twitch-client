@@ -1,5 +1,6 @@
 from twitch.api.base import TwitchAPI
-from twitch.constants import DIRECTIONS, DIRECTION_DESC, USERS_SORT_BY, USERS_SORT_BY_CREATED_AT, MAX_FOLLOWS_LIMIT
+from twitch.constants import (DIRECTIONS, DIRECTION_DESC, MAX_FOLLOWS_LIMIT,
+                              USERS_SORT_BY, USERS_SORT_BY_CREATED_AT)
 from twitch.decorators import oauth_required
 from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Follow, Subscription, User, UserBlock
