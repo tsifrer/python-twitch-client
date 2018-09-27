@@ -153,6 +153,45 @@ def test_get_follows():
 
 
 @responses.activate
+def test__get_all_follows():
+    user_id = 1234
+    response_with_offset = {
+        '_total': 27,
+        '_offset': 1234,
+        'follows': [example_follow]
+    }
+    response_without_offset = {
+        '_total': 27,
+        'follows': [example_follow]
+    }
+    responses.add(responses.GET,
+                  '{}users/{}/follows/channels'.format(BASE_URL, user_id),
+                  body=json.dumps(response_with_offset),
+                  status=200,
+                  content_type='application/json')
+    responses.add(responses.GET,
+                  '{}users/{}/follows/channels'.format(BASE_URL, user_id),
+                  body=json.dumps(response_without_offset),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchClient('client id')
+
+    follows = client.users._get_all_follows(user_id,
+                                            direction='desc',
+                                            sort_by='last_broadcast')
+
+    assert len(responses.calls) == 2
+    assert len(follows) == 2
+    follow = follows[0]
+    assert isinstance(follow, Follow)
+    assert follow.notifications == example_follow['notifications']
+    assert isinstance(follow.channel, Channel)
+    assert follow.channel.id == example_channel['_id']
+    assert follow.channel.name == example_channel['name']
+
+
+@responses.activate
 @pytest.mark.parametrize('param,value', [
     ('limit', 101),
     ('direction', 'abcd'),
