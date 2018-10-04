@@ -27,7 +27,14 @@ class Users(TwitchAPI):
         response = self._request_get('users/{}/subscriptions/{}'.format(user_id, channel_id))
         return Subscription.construct_from(response)
 
-    def _get_all_follows(self, user_id, direction, sort_by):
+    def get_all_follows(self, user_id, direction=DIRECTION_DESC,
+                        sort_by=USERS_SORT_BY_CREATED_AT):
+        if direction not in DIRECTIONS:
+            raise TwitchAttributeException(
+                'Direction is not valid. Valid values are {}'.format(DIRECTIONS))
+        if sort_by not in USERS_SORT_BY:
+            raise TwitchAttributeException(
+                'Sort by is not valud. Valid values are {}'.format(USERS_SORT_BY))
         offset = 0
         params = {
             'limit': MAX_FOLLOWS_LIMIT,
@@ -44,7 +51,7 @@ class Users(TwitchAPI):
         return [Follow.construct_from(x) for x in follows]
 
     def get_follows(self, user_id, limit=25, offset=0, direction=DIRECTION_DESC,
-                    sort_by=USERS_SORT_BY_CREATED_AT, get_all=False):
+                    sort_by=USERS_SORT_BY_CREATED_AT):
         if limit > MAX_FOLLOWS_LIMIT:
             raise TwitchAttributeException(
                 'Maximum number of objects returned in one request is 100')
@@ -54,8 +61,6 @@ class Users(TwitchAPI):
         if sort_by not in USERS_SORT_BY:
             raise TwitchAttributeException(
                 'Sort by is not valud. Valid values are {}'.format(USERS_SORT_BY))
-        if get_all:
-            return self._get_all_follows(user_id, direction, sort_by)
         params = {
             'limit': limit,
             'offset': offset,

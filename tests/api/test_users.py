@@ -153,34 +153,20 @@ def test_get_follows():
 
 
 @responses.activate
-def test_get_follows_with_get_all():
-    user_id = 1234
-    response = {
-        '_total': 27,
-        'follows': [example_follow]
-    }
-    responses.add(responses.GET,
-                  '{}users/{}/follows/channels'.format(BASE_URL, user_id),
-                  body=json.dumps(response),
-                  status=200,
-                  content_type='application/json')
-
+@pytest.mark.parametrize('param,value', [
+    ('limit', 101),
+    ('direction', 'abcd'),
+    ('sort_by', 'abcd'),
+])
+def test_get_follows_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id')
-
-    follows = client.users.get_follows(user_id, get_all=True)
-
-    assert len(responses.calls) == 1
-    assert len(follows) == 1
-    follow = follows[0]
-    assert isinstance(follow, Follow)
-    assert follow.notifications == example_follow['notifications']
-    assert isinstance(follow.channel, Channel)
-    assert follow.channel.id == example_channel['_id']
-    assert follow.channel.name == example_channel['name']
+    kwargs = {param: value}
+    with pytest.raises(TwitchAttributeException):
+        client.users.get_follows('1234', **kwargs)
 
 
 @responses.activate
-def test__get_all_follows():
+def test_get_all_follows():
     user_id = 1234
     response_with_offset = {
         '_total': 27,
@@ -204,9 +190,9 @@ def test__get_all_follows():
 
     client = TwitchClient('client id')
 
-    follows = client.users._get_all_follows(user_id,
-                                            direction='desc',
-                                            sort_by='last_broadcast')
+    follows = client.users.get_all_follows(user_id,
+                                           direction='desc',
+                                           sort_by='last_broadcast')
 
     assert len(responses.calls) == 2
     assert len(follows) == 2
@@ -220,15 +206,14 @@ def test__get_all_follows():
 
 @responses.activate
 @pytest.mark.parametrize('param,value', [
-    ('limit', 101),
     ('direction', 'abcd'),
     ('sort_by', 'abcd'),
 ])
-def test_get_follows_raises_if_wrong_params_are_passed_in(param, value):
+def test_get_all_follows_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient('client id')
     kwargs = {param: value}
     with pytest.raises(TwitchAttributeException):
-        client.users.get_follows('1234', **kwargs)
+        client.users.get_all_follows('1234', **kwargs)
 
 
 @responses.activate
