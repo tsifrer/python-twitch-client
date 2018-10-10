@@ -16,7 +16,7 @@ class Search(TwitchAPI):
             'offset': offset
         }
         response = self._request_get('search/channels', params=params)
-        return [Channel.construct_from(x) for x in response['channels']]
+        return [Channel.construct_from(x) for x in response['channels'] or []]
 
     def games(self, query, live=False):
         params = {
@@ -24,7 +24,7 @@ class Search(TwitchAPI):
             'live': live,
         }
         response = self._request_get('search/games', params=params)
-        return [Game.construct_from(x) for x in response['games']]
+        return [Game.construct_from(x) for x in response['games'] or []]
 
     def streams(self, query, limit=25, offset=0, hls=None):
         if limit > 100:
@@ -38,4 +38,4 @@ class Search(TwitchAPI):
             'hls': hls
         }
         response = self._request_get('search/streams', params=params)
-        return [Stream.construct_from(x) for x in response['streams']]
+        return [Stream.construct_from(x) for x in response['streams'] or []]
