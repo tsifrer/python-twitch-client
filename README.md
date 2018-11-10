@@ -26,7 +26,20 @@ contribute and open a [pull request][pulls].
 
 Basic Usage
 ==============================================
+Helix API
 
+```python
+from itertools import islice
+from twitch import TwitchHelix
+
+client = TwitchHelix(client_id='<my client id>')
+streams_iterator = client.get_streams(page_size=100)
+for stream in islice(streams_iterator, 0, 500):
+    print(stream)
+```
+
+
+Twitch API v5
 ```python
 from twitch import TwitchClient
 
