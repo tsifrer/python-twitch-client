@@ -1,5 +1,6 @@
 from twitch.api.base import TwitchAPI
-from twitch.constants import DIRECTIONS, DIRECTION_DESC, USERS_SORT_BY, USERS_SORT_BY_CREATED_AT
+from twitch.constants import (DIRECTIONS, DIRECTION_DESC, MAX_FOLLOWS_LIMIT,
+                              USERS_SORT_BY, USERS_SORT_BY_CREATED_AT)
 from twitch.decorators import oauth_required
 from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Follow, Subscription, User, UserBlock
@@ -26,9 +27,32 @@ class Users(TwitchAPI):
         response = self._request_get('users/{}/subscriptions/{}'.format(user_id, channel_id))
         return Subscription.construct_from(response)
 
+    def get_all_follows(self, user_id, direction=DIRECTION_DESC,
+                        sort_by=USERS_SORT_BY_CREATED_AT):
+        if direction not in DIRECTIONS:
+            raise TwitchAttributeException(
+                'Direction is not valid. Valid values are {}'.format(DIRECTIONS))
+        if sort_by not in USERS_SORT_BY:
+            raise TwitchAttributeException(
+                'Sort by is not valud. Valid values are {}'.format(USERS_SORT_BY))
+        offset = 0
+        params = {
+            'limit': MAX_FOLLOWS_LIMIT,
+            'direction': direction
+        }
+        follows = []
+        while offset is not None:
+            params.update({
+                'offset': offset
+            })
+            response = self._request_get('users/{}/follows/channels'.format(user_id), params=params)
+            offset = response.get('_offset')
+            follows.extend(response['follows'])
+        return [Follow.construct_from(x) for x in follows]
+
     def get_follows(self, user_id, limit=25, offset=0, direction=DIRECTION_DESC,
                     sort_by=USERS_SORT_BY_CREATED_AT):
-        if limit > 100:
+        if limit > MAX_FOLLOWS_LIMIT:
             raise TwitchAttributeException(
                 'Maximum number of objects returned in one request is 100')
         if direction not in DIRECTIONS:
@@ -37,7 +61,6 @@ class Users(TwitchAPI):
         if sort_by not in USERS_SORT_BY:
             raise TwitchAttributeException(
                 'Sort by is not valud. Valid values are {}'.format(USERS_SORT_BY))
-
         params = {
             'limit': limit,
             'offset': offset,

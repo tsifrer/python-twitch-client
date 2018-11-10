@@ -63,6 +63,23 @@ def test_channels_raises_if_wrong_params_are_passed_in(param, value):
 
 
 @responses.activate
+def test_channels_does_not_raise_if_no_channels_were_found():
+    response = {'channels': None}
+    responses.add(responses.GET,
+                  '{}search/channels'.format(BASE_URL),
+                  body=json.dumps(response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchClient('client id')
+
+    channels = client.search.channels('mah bad query')
+
+    assert len(responses.calls) == 1
+    assert len(channels) == 0
+
+
+@responses.activate
 def test_games():
     response = {
         '_total': 2147,
@@ -84,6 +101,23 @@ def test_games():
     assert isinstance(game, Game)
     assert game.id == example_game['_id']
     assert game.name == example_game['name']
+
+
+@responses.activate
+def test_games_does_not_raise_if_no_games_were_found():
+    response = {'games': None}
+    responses.add(responses.GET,
+                  '{}search/games'.format(BASE_URL),
+                  body=json.dumps(response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchClient('client id')
+
+    games = client.search.games('mah bad query')
+
+    assert len(responses.calls) == 1
+    assert len(games) == 0
 
 
 @responses.activate
@@ -123,3 +157,20 @@ def test_streams_raises_if_wrong_params_are_passed_in(param, value):
     kwargs = {param: value}
     with pytest.raises(TwitchAttributeException):
         client.search.streams('mah query', **kwargs)
+
+
+@responses.activate
+def test_streams_does_not_raise_if_no_streams_were_found():
+    response = {'streams': None}
+    responses.add(responses.GET,
+                  '{}search/streams'.format(BASE_URL),
+                  body=json.dumps(response),
+                  status=200,
+                  content_type='application/json')
+
+    client = TwitchClient('client id')
+
+    streams = client.search.streams('mah bad query')
+
+    assert len(responses.calls) == 1
+    assert len(streams) == 0
