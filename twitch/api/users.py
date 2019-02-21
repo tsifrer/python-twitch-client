@@ -12,6 +12,10 @@ class Users(TwitchAPI):
     def get(self):
         response = self._request_get('user')
         return User.construct_from(response)
+      
+    def get_by_name(self, user_id):
+        response = self._request_get('users?login={}'.format(user_id))
+        return User.construct_from(response)
 
     def get_by_id(self, user_id):
         response = self._request_get('users/{}'.format(user_id))
