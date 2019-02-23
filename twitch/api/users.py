@@ -13,9 +13,9 @@ class Users(TwitchAPI):
         response = self._request_get('user')
         return User.construct_from(response)
       
-    def get_by_name(self, user_id):
-        response = self._request_get('users?login={}'.format(user_id))
-        return User.construct_from(response)
+    def get_by_name(self, user_names):
+        response = self._request_get('users', params={'login': ', '.join(user_names)})
+        return [User.construct_from(x) for x in response['users']]
 
     def get_by_id(self, user_id):
         response = self._request_get('users/{}'.format(user_id))
