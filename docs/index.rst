@@ -36,7 +36,7 @@ steps on `Twitch Authentication page`_.
 Some of the endpoints also require OAuth token. To get one for testing purposes, you can use the
 free `tokengen tool`_.
 
-There are two ways to pass credentials into the TwitchClient. The first and easies way is to
+There are two ways to pass credentials into the TwitchClient. The first and easiest way is to
 just pass the credentials as an argument:
 
 .. code-block:: python
