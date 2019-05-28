@@ -47,10 +47,12 @@ def test_convert_to_twitch_object_output_returns_correct_object(name, data, expe
     ('created_at', '2016-11-29T15:52:27Z', datetime(2016, 11, 29, 15, 52, 27)),
     ('updated_at', '2017-03-06T18:40:51.855Z', datetime(2017, 3, 6, 18, 40, 51, 855000)),
     ('published_at', '2017-02-14T22:27:54Z', datetime(2017, 2, 14, 22, 27, 54)),
+    ('published_at', None, None),
 ])
 def test_datetimes_are_converted_correctly_to_datetime_objects(name, data, expected):
     result = convert_to_twitch_object(name, data)
-    assert isinstance(result, datetime)
+    if result is not None:
+        assert isinstance(result, datetime)
     assert result == expected
 
 
