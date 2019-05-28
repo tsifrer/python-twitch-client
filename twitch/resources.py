@@ -4,6 +4,9 @@ import six
 
 
 def convert_to_twitch_object(name, data):
+    if data is None:
+        return None
+
     types = {
         'channel': Channel,
         'videos': Video,
