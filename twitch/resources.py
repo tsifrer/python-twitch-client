@@ -72,6 +72,8 @@ class _DateTime(object):
 
     @classmethod
     def construct_from(cls, value):
+        if value is None:
+            return None
         try:
             dt = datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ')
         except ValueError:
