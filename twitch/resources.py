@@ -104,7 +104,7 @@ class Clip(TwitchObject):
     thumbnail_url = ""
     pagination = ""
 
-    def __init__():
+    def __init__(self):
         TwitchObject.__init__(self)
 
 
@@ -176,7 +176,7 @@ class User(TwitchObject):
     view_count = 0
     email = ""
 
-    def __init__():
+    def __init__(self):
         TwitchObject.__init__(self)
 
 
