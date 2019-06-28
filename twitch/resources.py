@@ -87,7 +87,26 @@ class Channel(TwitchObject):
 
 
 class Clip(TwitchObject):
-    pass
+    
+    id = ""
+    url =  ""
+    embed_url = ""
+    broadcaster_id =  ""
+    broadcaster_name = ""
+    creator_id = ""
+    creator_name = ""
+    video_id = ""
+    game_id = ""
+    language = ""
+    title = ""
+    view_count = 0
+    created_at = "" # in 2017-11-30T22:34:18Z format
+    thumbnail_url = ""
+    pagination =""
+
+    def __init__():
+        TwitchObject.__init__()
+
 
 
 class Collection(TwitchObject):
@@ -147,7 +166,19 @@ class TopGame(TwitchObject):
 
 
 class User(TwitchObject):
-    pass
+    id = ""
+    login =""
+    display_name = ""
+    type = ""
+    broadcaster_type = ""
+    description = ""
+    profile_image_url = ""
+    offline_image_url = ""
+    view_count = 0
+    email = ""
+
+    def __init__():
+        TwitchObject.__init__()
 
 
 class UserBlock(TwitchObject):
