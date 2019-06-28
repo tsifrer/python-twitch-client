@@ -105,7 +105,7 @@ class Clip(TwitchObject):
     pagination = ""
 
     def __init__():
-        TwitchObject.__init__()
+        TwitchObject.__init__(self)
 
 
 class Collection(TwitchObject):
@@ -177,7 +177,7 @@ class User(TwitchObject):
     email = ""
 
     def __init__():
-        TwitchObject.__init__()
+        TwitchObject.__init__(self)
 
 
 class UserBlock(TwitchObject):
