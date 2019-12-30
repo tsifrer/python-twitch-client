@@ -25,7 +25,7 @@ class TwitchHelix(object):
         if community_ids and len(community_ids) > 100:
             raise TwitchAttributeException('Maximum of 100 Community IDs can be supplied')
         if game_ids and len(game_ids) > 100:
-            raise TwitchAttributeException('Maximum of 100 Community IDs can be supplied')
+            raise TwitchAttributeException('Maximum of 100 Game IDs can be supplied')
         if languages and len(languages) > 100:
             raise TwitchAttributeException('Maximum of 100 languages can be supplied')
         if user_ids and len(user_ids) > 100:
@@ -188,7 +188,7 @@ class TwitchHelix(object):
         if community_ids and len(community_ids) > 100:
             raise TwitchAttributeException('Maximum of 100 Community IDs can be supplied')
         if game_ids and len(game_ids) > 100:
-            raise TwitchAttributeException('Maximum of 100 Community IDs can be supplied')
+            raise TwitchAttributeException('Maximum of 100 Game IDs can be supplied')
         if languages and len(languages) > 100:
             raise TwitchAttributeException('Maximum of 100 languages can be supplied')
         if user_ids and len(user_ids) > 100:

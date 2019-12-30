@@ -34,7 +34,7 @@ class Users(TwitchAPI):
                 'Direction is not valid. Valid values are {}'.format(DIRECTIONS))
         if sort_by not in USERS_SORT_BY:
             raise TwitchAttributeException(
-                'Sort by is not valud. Valid values are {}'.format(USERS_SORT_BY))
+                'Sort by is not valid. Valid values are {}'.format(USERS_SORT_BY))
         offset = 0
         params = {
             'limit': MAX_FOLLOWS_LIMIT,
@@ -60,7 +60,7 @@ class Users(TwitchAPI):
                 'Direction is not valid. Valid values are {}'.format(DIRECTIONS))
         if sort_by not in USERS_SORT_BY:
             raise TwitchAttributeException(
-                'Sort by is not valud. Valid values are {}'.format(USERS_SORT_BY))
+                'Sort by is not valid. Valid values are {}'.format(USERS_SORT_BY))
         params = {
             'limit': limit,
             'offset': offset,
