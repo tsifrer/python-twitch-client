@@ -15,7 +15,9 @@ class TwitchAPIMixin(object):
     def _wait_for_rate_limit_reset(self):
         if self._rate_limit_remaining == 0:
             current_time = int(time.time())
-            self._rate_limit_resets = set(x for x in self._rate_limit_resets if x > current_time)
+            self._rate_limit_resets = set(
+                x for x in self._rate_limit_resets if x > current_time
+            )
 
             if len(self._rate_limit_resets) > 0:
                 reset_time = list(self._rate_limit_resets)[0]
@@ -26,12 +28,10 @@ class TwitchAPIMixin(object):
                 time.sleep(wait_time)
 
     def _get_request_headers(self):
-        headers = {
-            'Client-ID': self._client_id
-        }
+        headers = {"Client-ID": self._client_id}
 
         if self._oauth_token:
-            headers['Authorization'] = 'Bearer {}'.format(self._oauth_token)
+            headers["Authorization"] = "Bearer {}".format(self._oauth_token)
 
         return headers
 
@@ -43,11 +43,11 @@ class TwitchAPIMixin(object):
 
         response = requests.get(url, params=params, headers=headers)
 
-        remaining = response.headers.get('Ratelimit-Remaining')
+        remaining = response.headers.get("Ratelimit-Remaining")
         if remaining:
             self._rate_limit_remaining = int(remaining)
 
-        reset = response.headers.get('Ratelimit-Reset')
+        reset = response.headers.get("Ratelimit-Reset")
         if reset:
             self._rate_limit_resets.add(int(reset))
 
@@ -61,8 +61,9 @@ class TwitchAPIMixin(object):
 
 
 class APICursor(TwitchAPIMixin):
-
-    def __init__(self, client_id, path, resource, oauth_token=None, cursor=None, params=None):
+    def __init__(
+        self, client_id, path, resource, oauth_token=None, cursor=None, params=None
+    ):
         super(APICursor, self).__init__()
         self._path = path
         self._queue = []
@@ -99,13 +100,13 @@ class APICursor(TwitchAPIMixin):
 
     def next_page(self):
         if self._cursor:
-            self._params['after'] = self._cursor
+            self._params["after"] = self._cursor
 
         response = self._request_get(self._path, params=self._params)
 
-        self._queue = [self._resource.construct_from(data) for data in response['data']]
-        self._cursor = response['pagination'].get('cursor')
-        self._total = response.get('total')
+        self._queue = [self._resource.construct_from(data) for data in response["data"]]
+        self._cursor = response["pagination"].get("cursor")
+        self._total = response.get("total")
         return self._queue
 
     @property
@@ -120,7 +121,6 @@ class APICursor(TwitchAPIMixin):
 
 
 class APIGet(TwitchAPIMixin):
-
     def __init__(self, client_id, path, resource, oauth_token=None, params=None):
         super(APIGet, self).__init__()
         self._path = path
@@ -131,4 +131,4 @@ class APIGet(TwitchAPIMixin):
 
     def fetch(self):
         response = self._request_get(self._path, params=self._params)
-        return [self._resource.construct_from(data) for data in response['data']]
+        return [self._resource.construct_from(data) for data in response["data"]]

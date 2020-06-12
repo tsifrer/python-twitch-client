@@ -5,13 +5,13 @@ from twitch import TwitchHelix
 
 def clips():
     client = TwitchHelix()
-    clip = client.get_clips(clip_ids=['AwkwardHelplessSalamanderSwiftRage'])
+    clip = client.get_clips(clip_ids=["AwkwardHelplessSalamanderSwiftRage"])
     print(clip)
 
 
 def games():
     client = TwitchHelix()
-    games = client.get_games(game_ids=[493057], names=['World of Warcraft'])
+    games = client.get_games(game_ids=[493057], names=["World of Warcraft"])
     print(games)
 
 
@@ -52,6 +52,6 @@ def streams_metadata():
 def user_follows():
     client = TwitchHelix()
     user_follows_iterator = client.get_user_follows(to_id=23161357)
-    print('Total: {}'.format(user_follows_iterator.total))
+    print("Total: {}".format(user_follows_iterator.total))
     for user_follow in islice(user_follows_iterator, 0, 10):
         print(user_follow)

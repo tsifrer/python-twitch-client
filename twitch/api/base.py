@@ -22,12 +22,12 @@ class TwitchAPI(object):
     def _get_request_headers(self):
         """Prepare the headers for the requests."""
         headers = {
-            'Accept': 'application/vnd.twitchtv.v5+json',
-            'Client-ID': self._client_id
+            "Accept": "application/vnd.twitchtv.v5+json",
+            "Client-ID": self._client_id,
         }
 
         if self._oauth_token:
-            headers['Authorization'] = 'OAuth {}'.format(self._oauth_token)
+            headers["Authorization"] = "OAuth {}".format(self._oauth_token)
 
         return headers
 
@@ -43,8 +43,8 @@ class TwitchAPI(object):
             for _ in range(self._max_retries):
                 time.sleep(backoff)
                 backoff_response = requests.get(
-                    url, params=params, headers=headers,
-                    timeout=DEFAULT_TIMEOUT)
+                    url, params=params, headers=headers, timeout=DEFAULT_TIMEOUT
+                )
                 if backoff_response.status_code < 500:
                     response = backoff_response
                     break
@@ -63,8 +63,8 @@ class TwitchAPI(object):
         headers = self._get_request_headers()
 
         response = requests.post(
-            url, json=data, params=params, headers=headers,
-            timeout=DEFAULT_TIMEOUT)
+            url, json=data, params=params, headers=headers, timeout=DEFAULT_TIMEOUT
+        )
         response.raise_for_status()
         if response.status_code == 200:
             return response.json()
@@ -75,8 +75,8 @@ class TwitchAPI(object):
 
         headers = self._get_request_headers()
         response = requests.put(
-            url, json=data, params=params, headers=headers,
-            timeout=DEFAULT_TIMEOUT)
+            url, json=data, params=params, headers=headers, timeout=DEFAULT_TIMEOUT
+        )
         response.raise_for_status()
         if response.status_code == 200:
             return response.json()
@@ -88,7 +88,8 @@ class TwitchAPI(object):
         headers = self._get_request_headers()
 
         response = requests.delete(
-            url, params=params, headers=headers, timeout=DEFAULT_TIMEOUT)
+            url, params=params, headers=headers, timeout=DEFAULT_TIMEOUT
+        )
         response.raise_for_status()
         if response.status_code == 200:
             return response.json()

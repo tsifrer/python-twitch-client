@@ -7,23 +7,20 @@ from twitch.constants import BASE_URL
 from twitch.resources import Ingest
 
 
-example_response = {
-    'ingests': [{
-        '_id': 24,
-        'name': 'EU: Amsterdam, NL',
-    }]
-}
+example_response = {"ingests": [{"_id": 24, "name": "EU: Amsterdam, NL",}]}
 
 
 @responses.activate
 def test_get_top():
-    responses.add(responses.GET,
-                  '{}ingests'.format(BASE_URL),
-                  body=json.dumps(example_response),
-                  status=200,
-                  content_type='application/json')
+    responses.add(
+        responses.GET,
+        "{}ingests".format(BASE_URL),
+        body=json.dumps(example_response),
+        status=200,
+        content_type="application/json",
+    )
 
-    client = TwitchClient('abcd')
+    client = TwitchClient("abcd")
 
     ingests = client.ingests.get_server_list()
 
@@ -31,5 +28,5 @@ def test_get_top():
     assert len(ingests) == 1
     ingest = ingests[0]
     assert isinstance(ingest, Ingest)
-    assert ingest.id == example_response['ingests'][0]['_id']
-    assert ingest.name == example_response['ingests'][0]['name']
+    assert ingest.id == example_response["ingests"][0]["_id"]
+    assert ingest.name == example_response["ingests"][0]["name"]
