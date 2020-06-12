@@ -4,6 +4,7 @@
 
 - Moved test requirements to setup.py
 - Updated dependencies to latest versions
+- Removed support for Python 2 and Python 3.4
 
 ## Version 0.6.0 - 2018-09-10
 
