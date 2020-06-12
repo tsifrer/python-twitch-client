@@ -6,11 +6,11 @@ python:
     - 3.6
 cache: pip
 install: 
-    - pip install -r dev-requirements.txt
+    - pip install .[test]
 before_script:
     - flake8 .
 script:
-    - py.test --cov=./
+    - python setup.py test --pytest-args "tests/ --cov=./"
 after_success:
   - codecov
 branches:
