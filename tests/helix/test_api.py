@@ -443,7 +443,8 @@ def test_get_clips_next_returns_clip_object(param, value):
     assert isinstance(clip, Clip)
     assert clip.id == example_get_clips_cursor_response["data"][0]["id"]
     assert (
-        clip.broadcaster_id == example_get_clips_cursor_response["data"][0]["broadcaster_id"]
+        clip.broadcaster_id
+        == example_get_clips_cursor_response["data"][0]["broadcaster_id"]
     )
     assert clip.created_at == datetime(2017, 11, 30, 22, 34, 17)
 
