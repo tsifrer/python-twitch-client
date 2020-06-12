@@ -36,7 +36,6 @@ requires = ["requests>=2.23.0", "six>=1.15.0"]
 
 test_requirements = [
     "codecov>=2.1.4",
-    "configparser>=5.0.0",
     "flake8-import-order>=0.18.1",
     "flake8>=3.8.3",
     "pytest-cov>=2.9.0",
