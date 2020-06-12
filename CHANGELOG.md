@@ -4,7 +4,7 @@
 
 - Moved test requirements to setup.py
 - Updated dependencies to latest versions
-- Removed support for Python 2 and Python 3.4
+- Removed support for Python 2, Python 3.4 and Python 3.5
 - Added support for Python 3.7 and 3.8
 
 
