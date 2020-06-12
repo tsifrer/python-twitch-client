@@ -1,11 +1,8 @@
 test:
-	py.test -v -s $(ARGS)
+	py.test -vsx $(ARGS)
 
 cov:
 	py.test --cov=./
 
 cov-html:
 	py.test --cov=./ --cov-report html
-
-remove-pyc:
-	find . -name "*.pyc" -delete
