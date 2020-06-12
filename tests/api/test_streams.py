@@ -12,7 +12,7 @@ from twitch.resources import Channel, Featured, Stream
 example_stream = {
     "_id": 23932774784,
     "game": "BATMAN - The Telltale Series",
-    "channel": {"_id": 7236692, "name": "dansgaming",},
+    "channel": {"_id": 7236692, "name": "dansgaming"},
 }
 
 example_stream_response = {"stream": example_stream}
@@ -74,7 +74,7 @@ def test_get_stream_by_user_returns_none_if_stream_is_offline():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("stream_type", "abcd"),])
+@pytest.mark.parametrize("param,value", [("stream_type", "abcd")])
 def test_get_stream_by_user_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id")
     kwargs = {param: value}
@@ -109,7 +109,7 @@ def test_get_live_streams():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("limit", 101),])
+@pytest.mark.parametrize("param,value", [("limit", 101)])
 def test_get_live_streams_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id")
     kwargs = {param: value}
@@ -164,7 +164,7 @@ def test_get_featured():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("limit", 101),])
+@pytest.mark.parametrize("param,value", [("limit", 101)])
 def test_get_featured_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id")
     kwargs = {param: value}
@@ -199,7 +199,7 @@ def test_get_followed():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("limit", 101), ("stream_type", "abcd"),])
+@pytest.mark.parametrize("param,value", [("limit", 101), ("stream_type", "abcd")])
 def test_get_followed_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id", "oauth token")
     kwargs = {param: value}

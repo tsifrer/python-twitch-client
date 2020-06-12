@@ -7,7 +7,7 @@ from twitch.constants import BASE_URL
 from twitch.resources import Ingest
 
 
-example_response = {"ingests": [{"_id": 24, "name": "EU: Amsterdam, NL",}]}
+example_response = {"ingests": [{"_id": 24, "name": "EU: Amsterdam, NL"}]}
 
 
 @responses.activate

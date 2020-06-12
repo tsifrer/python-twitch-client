@@ -77,7 +77,7 @@ def test_get_by_id():
 @responses.activate
 def test_get_emotes():
     user_id = 1234
-    response = {"emoticon_sets": {"17937": [{"code": "Kappa", "id": 25},],}}
+    response = {"emoticon_sets": {"17937": [{"code": "Kappa", "id": 25}]}}
     responses.add(
         responses.GET,
         "{}users/{}/emotes".format(BASE_URL, user_id),
@@ -152,7 +152,7 @@ def test_get_follows():
 
 @responses.activate
 @pytest.mark.parametrize(
-    "param,value", [("limit", 101), ("direction", "abcd"), ("sort_by", "abcd"),]
+    "param,value", [("limit", 101), ("direction", "abcd"), ("sort_by", "abcd")]
 )
 def test_get_follows_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id")
@@ -198,7 +198,7 @@ def test_get_all_follows():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("direction", "abcd"), ("sort_by", "abcd"),])
+@pytest.mark.parametrize("param,value", [("direction", "abcd"), ("sort_by", "abcd")])
 def test_get_all_follows_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id")
     kwargs = {param: value}
@@ -299,7 +299,7 @@ def test_get_user_block_list():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("limit", 101),])
+@pytest.mark.parametrize("param,value", [("limit", 101)])
 def test_get_user_block_list_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id", "oauth token")
     kwargs = {param: value}

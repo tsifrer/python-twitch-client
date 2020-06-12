@@ -51,7 +51,7 @@ def test_channels():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("limit", 101),])
+@pytest.mark.parametrize("param,value", [("limit", 101)])
 def test_channels_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id")
     kwargs = {param: value}
@@ -148,7 +148,7 @@ def test_streams():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("limit", 101),])
+@pytest.mark.parametrize("param,value", [("limit", 101)])
 def test_streams_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id")
     kwargs = {param: value}

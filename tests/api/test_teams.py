@@ -62,7 +62,7 @@ def test_get_all():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("limit", 101),])
+@pytest.mark.parametrize("param,value", [("limit", 101)])
 def test_get_all_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id")
     kwargs = {param: value}

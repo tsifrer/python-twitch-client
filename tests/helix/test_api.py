@@ -347,7 +347,7 @@ def test_get_games_passes_all_params_to_request():
 
 @responses.activate
 @pytest.mark.parametrize(
-    "param,value", [("game_ids", ["12345"] * 101), ("names", ["abcd"] * 101),]
+    "param,value", [("game_ids", ["12345"] * 101), ("names", ["abcd"] * 101)]
 )
 def test_get_games_raises_attribute_exception_for_invalid_params(param, value):
     responses.add(
@@ -443,15 +443,14 @@ def test_get_clips_next_returns_clip_object(param, value):
     assert isinstance(clip, Clip)
     assert clip.id == example_get_clips_cursor_response["data"][0]["id"]
     assert (
-        clip.broadcaster_id
-        == example_get_clips_cursor_response["data"][0]["broadcaster_id"]
+        clip.broadcaster_id == example_get_clips_cursor_response["data"][0]["broadcaster_id"]
     )
     assert clip.created_at == datetime(2017, 11, 30, 22, 34, 17)
 
 
 @responses.activate
 @pytest.mark.parametrize(
-    "param,value", [("game_id", "23161357"), ("broadcaster_id", "23161357"),]
+    "param,value", [("game_id", "23161357"), ("broadcaster_id", "23161357")]
 )
 def test_get_clips_passes_correct_params_when_broadcaster_or_game_is_set(param, value):
     responses.add(
@@ -661,7 +660,7 @@ def test_get_videos_passes_correct_params_when_video_ids_are_set():
 @responses.activate
 @pytest.mark.parametrize(
     "param,value",
-    [("game_id", ["23161357", "12345678"]), ("user_id", ["23161357", "12345678"]),],
+    [("game_id", ["23161357", "12345678"]), ("user_id", ["23161357", "12345678"])],
 )
 def test_get_videos_next_returns_video_object(param, value):
     responses.add(
@@ -690,7 +689,7 @@ def test_get_videos_next_returns_video_object(param, value):
 
 @responses.activate
 @pytest.mark.parametrize(
-    "param,value", [("game_id", "23161357"), ("user_id", "23161357"),]
+    "param,value", [("game_id", "23161357"), ("user_id", "23161357")]
 )
 def test_get_videos_passes_correct_params_when_user_or_game_is_set(param, value):
     responses.add(

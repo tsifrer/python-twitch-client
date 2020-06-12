@@ -58,7 +58,7 @@ def test_get_posts():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("limit", 101), ("comments", 6),])
+@pytest.mark.parametrize("param,value", [("limit", 101), ("comments", 6)])
 def test_get_posts_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id")
     kwargs = {param: value}
@@ -89,7 +89,7 @@ def test_get_post():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("comments", 6),])
+@pytest.mark.parametrize("param,value", [("comments", 6)])
 def test_get_post_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id")
     kwargs = {param: value}
@@ -219,7 +219,7 @@ def test_get_post_comments():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("limit", 101),])
+@pytest.mark.parametrize("param,value", [("limit", 101)])
 def test_get_post_comments_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id")
     kwargs = {param: value}

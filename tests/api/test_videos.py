@@ -13,7 +13,7 @@ from twitch.resources import Video
 example_video_response = {
     "_id": "v106400740",
     "description": "Protect your chat with AutoMod!",
-    "fps": {"1080p": 23.9767661758746,},
+    "fps": {"1080p": 23.9767661758746},
 }
 
 example_top_response = {"vods": [example_video_response]}
@@ -71,7 +71,7 @@ def test_get_top():
 
 @responses.activate
 @pytest.mark.parametrize(
-    "param,value", [("limit", 101), ("period", "abcd"), ("broadcast_type", "abcd"),]
+    "param,value", [("limit", 101), ("period", "abcd"), ("broadcast_type", "abcd")]
 )
 def test_get_top_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id")
@@ -105,7 +105,7 @@ def test_get_followed_videos():
 
 
 @responses.activate
-@pytest.mark.parametrize("param,value", [("limit", 101), ("broadcast_type", "abcd"),])
+@pytest.mark.parametrize("param,value", [("limit", 101), ("broadcast_type", "abcd")])
 def test_get_followed_videos_raises_if_wrong_params_are_passed_in(param, value):
     client = TwitchClient("client id", "oauth token")
     kwargs = {param: value}

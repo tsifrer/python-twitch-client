@@ -40,7 +40,7 @@ example_subscription = {
 example_video = {
     "_id": "v106400740",
     "description": "Protect your chat with AutoMod!",
-    "fps": {"1080p": 23.9767661758746,},
+    "fps": {"1080p": 23.9767661758746},
 }
 
 example_community = {

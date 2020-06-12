@@ -88,7 +88,7 @@ def test_request_get_binary_body():
 
 
 @responses.activate
-@pytest.mark.parametrize("status", [(500), (400),])
+@pytest.mark.parametrize("status", [(500), (400)])
 def test_request_get_raises_exception_if_not_200_response(status, monkeypatch):
     responses.add(
         responses.GET, BASE_URL, status=status, content_type="application/json"
@@ -149,7 +149,7 @@ def test_request_put_does_not_raise_exception_if_successful_and_returns_json():
 
 
 @responses.activate
-@pytest.mark.parametrize("status", [(500), (400),])
+@pytest.mark.parametrize("status", [(500), (400)])
 def test_request_put_raises_exception_if_not_200_response(status):
     responses.add(
         responses.PUT, BASE_URL, status=status, content_type="application/json"
@@ -200,7 +200,7 @@ def test_request_delete_sends_headers_with_the_request():
 
 
 @responses.activate
-@pytest.mark.parametrize("status", [(500), (400),])
+@pytest.mark.parametrize("status", [(500), (400)])
 def test_request_delete_raises_exception_if_not_200_response(status):
     responses.add(
         responses.DELETE, BASE_URL, status=status, content_type="application/json"
@@ -255,7 +255,7 @@ def test_request_post_sends_headers_with_the_request():
 
 
 @responses.activate
-@pytest.mark.parametrize("status", [(500), (400),])
+@pytest.mark.parametrize("status", [(500), (400)])
 def test_request_post_raises_exception_if_not_200_response(status):
     responses.add(
         responses.POST, BASE_URL, status=status, content_type="application/json"
