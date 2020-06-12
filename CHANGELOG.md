@@ -6,7 +6,7 @@
 - Updated dependencies to latest versions
 - Removed support for Python 2, Python 3.4 and Python 3.5
 - Added support for Python 3.7 and 3.8
-
+- Added new code formatting called black
 
 ## Version 0.6.0 - 2018-09-10
 
