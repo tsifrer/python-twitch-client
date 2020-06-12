@@ -5,21 +5,21 @@ import six
 
 def convert_to_twitch_object(name, data):
     types = {
-        'channel': Channel,
-        'videos': Video,
-        'user': User,
-        'game': Game,
-        'stream': Stream,
-        'comments': Comment,
-        'owner': User,
+        "channel": Channel,
+        "videos": Video,
+        "user": User,
+        "game": Game,
+        "stream": Stream,
+        "comments": Comment,
+        "owner": User,
     }
 
     special_types = {
-        'created_at': _DateTime,
-        'updated_at': _DateTime,
-        'published_at': _DateTime,
-        'started_at': _DateTime,
-        'followed_at': _DateTime,
+        "created_at": _DateTime,
+        "updated_at": _DateTime,
+        "published_at": _DateTime,
+        "started_at": _DateTime,
+        "followed_at": _DateTime,
     }
 
     if isinstance(data, list):
@@ -37,9 +37,8 @@ def convert_to_twitch_object(name, data):
 
 
 class TwitchObject(dict):
-
     def __setattr__(self, name, value):
-        if name[0] == '_' or name in self.__dict__:
+        if name[0] == "_" or name in self.__dict__:
             return super(TwitchObject, self).__setattr__(name, value)
 
         self[name] = value
@@ -48,13 +47,13 @@ class TwitchObject(dict):
         return self[name]
 
     def __delattr__(self, name):
-        if name[0] == '_':
+        if name[0] == "_":
             return super(TwitchObject, self).__delattr__(name)
 
         del self[name]
 
     def __setitem__(self, key, value):
-        key = key.lstrip('_')
+        key = key.lstrip("_")
         super(TwitchObject, self).__setitem__(key, value)
 
     @classmethod
@@ -69,15 +68,14 @@ class TwitchObject(dict):
 
 
 class _DateTime(object):
-
     @classmethod
     def construct_from(cls, value):
         if value is None:
             return None
         try:
-            dt = datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ')
+            dt = datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
         except ValueError:
-            dt = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%fZ')
+            dt = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%fZ")
 
         return dt
 
@@ -87,25 +85,7 @@ class Channel(TwitchObject):
 
 
 class Clip(TwitchObject):
-
-    id = ""
-    url = ""
-    embed_url = ""
-    broadcaster_id = ""
-    broadcaster_name = ""
-    creator_id = ""
-    creator_name = ""
-    video_id = ""
-    game_id = ""
-    language = ""
-    title = ""
-    view_count = 0
-    created_at = ""  # in 2017-11-30T22:34:18Z format
-    thumbnail_url = ""
-    pagination = ""
-
-    def __init__(self):
-        TwitchObject.__init__(self)
+    pass
 
 
 class Collection(TwitchObject):
@@ -165,19 +145,7 @@ class TopGame(TwitchObject):
 
 
 class User(TwitchObject):
-    id = ""
-    login = ""
-    display_name = ""
-    type = ""
-    broadcaster_type = ""
-    description = ""
-    profile_image_url = ""
-    offline_image_url = ""
-    view_count = 0
-    email = ""
-
-    def __init__(self):
-        TwitchObject.__init__(self)
+    pass
 
 
 class UserBlock(TwitchObject):
