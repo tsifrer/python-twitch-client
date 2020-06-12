@@ -1,7 +1,5 @@
 from datetime import datetime
 
-import six
-
 
 def convert_to_twitch_object(name, data):
     types = {
@@ -63,7 +61,7 @@ class TwitchObject(dict):
         return instance
 
     def refresh_from(self, values):
-        for key, value in six.iteritems(values.copy()):
+        for key, value in values.copy().items():
             self.__setitem__(key, convert_to_twitch_object(key, value))
 
 

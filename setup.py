@@ -32,7 +32,7 @@ if "build_docs" in sys.argv:
 
     cmdclass["build_docs"] = BuildDoc
 
-requires = ["requests>=2.23.0", "six>=1.15.0"]
+requires = ["requests>=2.23.0"]
 
 test_requirements = [
     "codecov>=2.1.4",
@@ -46,7 +46,6 @@ test_requirements = [
 doc_reqs = ["Sphinx==3.1.0", "sphinx-autobuild==0.7.1", "sphinx_rtd_theme==0.4.3"]
 
 extras_require = {
-    ":python_version<'3.2'": ["configparser"],
     "doc": doc_reqs,
     "test": test_requirements,
 }
@@ -82,15 +81,12 @@ setuptools.setup(
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
-        "Operating System :: MacOS :: MacOS X",
-        "Operating System :: POSIX",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
+        "Natural Language :: English",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.3",
-        "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Topic :: Internet",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
