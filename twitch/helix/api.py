@@ -9,7 +9,7 @@ from twitch.constants import (
 )
 from twitch.exceptions import TwitchAttributeException
 from twitch.helix.base import APICursor, APIGet
-from twitch.resources import Clip, Follow, Game, Stream, StreamMetadata, Video
+from twitch.resources import Clip, Follow, Game, Stream, StreamMetadata, Video, User
 
 
 class TwitchHelix(object):
@@ -289,3 +289,20 @@ class TwitchHelix(object):
             resource=Follow,
             params=params,
         )
+
+    def get_users(self, login_names=[], ids=[]):
+        '''https://dev.twitch.tv/docs/api/reference#get-users'''
+        if len(login_names) + len(ids) > 100:
+            raise TwitchAttributeException("Sum of names and ids must not exceed 100!")
+        params = {
+            "login": login_names,
+            "id": ids
+        }
+
+        return APIGet(
+            client_id=self._client_id,
+            oauth_token=self._oauth_token,
+            path="users",
+            resource=User,
+            params=params,
+        ).fetch()
