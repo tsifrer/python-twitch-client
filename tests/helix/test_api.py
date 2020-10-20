@@ -6,8 +6,8 @@ import pytest
 import responses
 
 from twitch import TwitchHelix
-from twitch.constants import BASE_HELIX_URL
-from twitch.exceptions import TwitchAttributeException
+from twitch.constants import BASE_HELIX_URL, BASE_OAUTH_URL
+from twitch.exceptions import TwitchAttributeException, TwitchOAuthException
 from twitch.helix.base import APICursor
 from twitch.resources import Clip, Follow, Game, Stream, StreamMetadata, Video
 
@@ -102,6 +102,16 @@ example_get_top_games_response = {
     "pagination": {"cursor": "eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6MjB9fQ=="},
 }
 
+example_get_oauth_response = {
+    "access_token": "xxxxxx",
+    "expires_in": 123456,
+    "token_type": "bearer",
+}
+
+example_get_oauth_error_response = {
+    "status": 400,
+    "message": "missing client secret",
+}
 
 example_get_videos_response = {
     "data": [
@@ -177,6 +187,43 @@ example_get_user_follows_response = {
     ],
     "pagination": {"cursor": "eyJiIjpudWxsLCJhIjoiMTUwMzQ0MTc3NjQyNDQyMjAwMCJ9"},
 }
+
+
+@responses.activate
+def test_get_oauth_returns_oauth_token():
+    responses.add(
+        responses.POST,
+        "{}token".format(BASE_OAUTH_URL),
+        body=json.dumps(example_get_oauth_response),
+        status=200,
+        content_type="application/json",
+    )
+
+    client = TwitchHelix("client id", client_secret="client secret")
+    client.get_oauth()
+
+    assert client._oauth_token
+
+
+@responses.activate
+def test_get_oauth_raises_oauth_exception_bad_secret():
+    responses.add(
+        responses.POST,
+        "{}token".format(BASE_OAUTH_URL),
+        body=json.dumps(example_get_oauth_error_response),
+        status=200,
+        content_type="application/json",
+    )
+
+    client = TwitchHelix("client id")
+    with pytest.raises(TwitchOAuthException):
+        client.get_oauth()
+
+
+def test_get_oauth_raises_oauth_exception_missing_secret():
+    client = TwitchHelix("client id")
+    with pytest.raises(TwitchOAuthException):
+        client.get_oauth()
 
 
 @responses.activate
