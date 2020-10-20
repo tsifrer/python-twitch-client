@@ -20,7 +20,9 @@ class TwitchHelix(object):
     Twitch Helix API
     """
 
-    def __init__(self, client_id=None, oauth_token=None, client_secret=None, scopes=None):
+    def __init__(
+        self, client_id=None, oauth_token=None, client_secret=None, scopes=None
+    ):
         self._client_id = client_id
         self._oauth_token = oauth_token
         self._client_secret = client_secret
@@ -31,24 +33,30 @@ class TwitchHelix(object):
 
     def get_oauth(self):
         if not self._client_secret or not self._client_id:
-            raise TwitchOAuthException("Client Id and Client Secret are not both present.")
+            raise TwitchOAuthException(
+                "Client Id and Client Secret are not both present."
+            )
 
         if not self._scopes:
-            response = post(BASE_OAUTH_URL + f"token?client_id={self._client_id}"
-                                             f"&client_secret={self._client_secret}"
-                                             f"&grant_type=client_credentials")
+            response = post(
+                BASE_OAUTH_URL + f"token?client_id={self._client_id}"
+                f"&client_secret={self._client_secret}"
+                f"&grant_type=client_credentials"
+            )
             response = response.json()
         else:
-            scopes_str = '+'.join(self._scopes)
-            response = post(BASE_OAUTH_URL + f"token?client_id={self._client_id}"
-                                             f"&client_secret={self._client_secret}"
-                                             f"&grant_type=client_credentials&scope={scopes_str}")
+            scopes_str = "+".join(self._scopes)
+            response = post(
+                BASE_OAUTH_URL + f"token?client_id={self._client_id}"
+                f"&client_secret={self._client_secret}"
+                f"&grant_type=client_credentials&scope={scopes_str}"
+            )
             response = response.json()
 
         if "access_token" in response:
             self._oauth_token = response["access_token"]
         elif "message" in response:
-            raise TwitchOAuthException(response['message'])
+            raise TwitchOAuthException(response["message"])
         else:
             raise TwitchOAuthException()
 
@@ -319,13 +327,10 @@ class TwitchHelix(object):
         )
 
     def get_users(self, login_names=[], ids=[]):
-        '''https://dev.twitch.tv/docs/api/reference#get-users'''
+        """https://dev.twitch.tv/docs/api/reference#get-users"""
         if len(login_names) + len(ids) > 100:
             raise TwitchAttributeException("Sum of names and ids must not exceed 100!")
-        params = {
-            "login": login_names,
-            "id": ids
-        }
+        params = {"login": login_names, "id": ids}
 
         return APIGet(
             client_id=self._client_id,
