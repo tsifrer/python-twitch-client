@@ -13,7 +13,6 @@ class TwitchAttributeException(TwitchException):
 class TwitchNotProvidedException(TwitchException):
     pass
 
+
 class TwitchOAuthException(TwitchException):
     pass
-
-
