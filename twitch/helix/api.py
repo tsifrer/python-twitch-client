@@ -97,6 +97,8 @@ class TwitchHelix(object):
         clip_ids=None,
         after=None,
         before=None,
+        started_at=None,
+        ended_at=None,
         page_size=20,
     ):
         if not broadcaster_id and not clip_ids and not game_id:
@@ -115,6 +117,8 @@ class TwitchHelix(object):
             "id": clip_ids,
             "after": after,
             "before": before,
+            "started_at": started_at,
+            "ended_at": ended_at,
         }
 
         if broadcaster_id or game_id:
