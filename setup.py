@@ -72,7 +72,9 @@ setuptools.setup(
     author="Tomaz Sifrer",
     author_email="tomazz.sifrer@gmail.com",
     url="https://github.com/tsifrer/python-twitch-client",
-    packages=setuptools.find_packages(exclude=["tests", "tests.*", "samples", "samples.*"]),
+    packages=setuptools.find_packages(
+        exclude=["tests", "tests.*", "samples", "samples.*"]
+    ),
     cmdclass=cmdclass,
     install_requires=requires,
     tests_require=test_requirements,
