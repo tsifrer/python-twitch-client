@@ -3,7 +3,7 @@ python-twitch-client
 
 [![Latest docs][docs-img]][docs]
 [![Latest version][pypi-img]][pypi]
-[![Latest build][travis-img]][travis]
+[![Latest build][ci-img]][gh-actions]
 [![Coverage][codecov-img]][codecov]
 
 
@@ -61,3 +61,5 @@ print(channel.display_name)
 [travis-img]: https://travis-ci.org/tsifrer/python-twitch-client.svg?branch=master
 [codecov]: https://codecov.io/gh/tsifrer/python-twitch-client
 [codecov-img]: https://codecov.io/gh/tsifrer/python-twitch-client/branch/master/graph/badge.svg
+[gh-actions]: https://github.com/tsifrer/python-twitch-client/actions
+[ci-img]: https://github.com/tsifrer/python-twitch-client/workflows/CI/badge.svg
