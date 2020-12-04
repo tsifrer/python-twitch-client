@@ -3,10 +3,12 @@
 ## Master
 
 - Moved test requirements to setup.py
-- Updated dependencies to latest versions
+- Updated dependencies to newer versions
 - Removed support for Python 2, Python 3.4 and Python 3.5
 - Added support for Python 3.7 and 3.8
 - Added new code formatting called black
+- Added TwitchHelix.get_oauth() for fetching OAuth access token
+- Updated docs
 
 ## Version 0.6.0 - 2018-09-10
 

@@ -5,11 +5,41 @@ Helix is the latest version of Twitch API
 
 .. currentmodule:: twitch.helix
 
-.. class:: TwitchHelix()
+.. class:: TwitchHelix(client_id=None, oauth_token=None client_secret=None, scopes=None)
 
     This class provides methods for easy access to `Twitch Helix API`_.
 
-    .. classmethod:: get_clips(clip_id)
+    :param string client_id: Client ID you get from your registered app on Twitch
+    :param string oauth_token: OAuth token, if you already have it, otherwise use ``client_secret`` and ``scopes`` then call ``get_oauth`` to generate it
+    :param string client_secret: Client secret. Only used by ``get_oauth`` and should only be present if oauth_token is not set
+    :param string scopes: Twitch scopes that we want the OAuth token to have. Only used by ``get_oauth`` and should only be present if oauth_token is not set
+
+
+    Basic usage with oauth_token set:
+
+    .. code-block:: python
+
+        import twitch
+        client = twitch.TwitchHelix(client_id='<client_id>', oauth_token='<oauth_token>')
+        client.get_streams()
+
+
+    Basic usage with fetching the oauth token on initialization:
+
+    .. code-block:: python
+
+        import twitch
+        client = twitch.TwitchHelix(client_id='<client_id>', client_secret='<client_secret>', scopes=[twitch.constants.OAUTH_SCOPE_ANALYTICS_READ_EXTENSIONS])
+        client.get_oauth()
+        client.get_streams()
+
+
+    .. classmethod:: get_oauth(clip_id)
+
+        Gets access token with access to the requested scopes and stores the token on the class for future usage
+
+
+    .. classmethod:: get_clips(broadcaster_id=None, game_id=None, clip_ids=None, after=None, before=None, started_at=None, ended_at=None, page_size=20)
 
         Gets clip information by clip ID (one or more), broadcaster ID (one only), or game ID (one only).
 
@@ -18,6 +48,8 @@ Helix is the latest version of Twitch API
         :param list clip_ids: List of clip IDS being queried. Limit: 100.
         :param string after (optional): Cursor for forward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
         :param string before (optional): Cursor for backward pagination: tells the server where to start fetching the next set of results, in a multi-page response.
+        :param string started_at (optional): Starting date/time for returned clips, in RFC3339 format. (The seconds value is ignored.) If this is specified, ended_at also should be specified; otherwise, the ended_at date/time will be 1 week after the started_at value.
+        :param string ended_at (optional): Ending date/time for returned clips, in RFC3339 format. (Note that the seconds value is ignored.) If this is specified, started_at also must be specified; otherwise, the time period is ignored.
         :param integer page_size (optional): Number of objects returned in one call. Maximum: 100. Default: 20.
         :return: :class:`~twitch.helix.APICursor` if ``broadcaster_id`` or ``game_ids`` are provided, returns list of :class:`~twitch.resources.Clip` objects instead.
 
