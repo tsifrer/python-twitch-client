@@ -2,6 +2,9 @@
 
 ## Master
 
+
+## Version 0.7.0 - 2020-12-04
+
 - Moved test requirements to setup.py
 - Updated dependencies to newer versions
 - Removed support for Python 2, Python 3.4 and Python 3.5
@@ -10,6 +13,8 @@
 - Changed import orders to now be formatted via isort
 - Added TwitchHelix.get_oauth() for fetching OAuth access token
 - Updated docs
+- Replaced Travis CI with GitHub Actions
+
 
 ## Version 0.6.0 - 2018-09-10
 

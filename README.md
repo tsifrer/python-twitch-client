@@ -57,8 +57,6 @@ print(channel.display_name)
 [issues]: https://github.com/tsifrer/python-twitch-client/issues
 [pypi]: https://pypi.python.org/pypi/python-twitch-client/
 [pypi-img]: https://img.shields.io/pypi/v/python-twitch-client.svg
-[travis]: https://travis-ci.org/tsifrer/python-twitch-client
-[travis-img]: https://travis-ci.org/tsifrer/python-twitch-client.svg?branch=master
 [codecov]: https://codecov.io/gh/tsifrer/python-twitch-client
 [codecov-img]: https://codecov.io/gh/tsifrer/python-twitch-client/branch/master/graph/badge.svg
 [gh-actions]: https://github.com/tsifrer/python-twitch-client/actions
