@@ -3,6 +3,11 @@
 ## Master
 
 
+## Version 0.7.1 - 2020-12-04
+
+- Fixed 0.7.0 release to include submodules
+
+
 ## Version 0.7.0 - 2020-12-04
 
 - Moved test requirements to setup.py
@@ -14,7 +19,6 @@
 - Added TwitchHelix.get_oauth() for fetching OAuth access token
 - Updated docs
 - Replaced Travis CI with GitHub Actions
-
 
 
 ## Version 0.6.0 - 2018-09-10
