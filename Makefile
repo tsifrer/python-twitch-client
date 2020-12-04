@@ -6,3 +6,11 @@ cov:
 
 cov-html:
 	py.test --cov=./ --cov-report html
+
+format:
+	isort .
+	black .
+
+lint:
+	flake8 .
+	black --check .

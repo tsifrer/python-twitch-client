@@ -1,14 +1,12 @@
 import json
 
 import pytest
-
 import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
 from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Team
-
 
 example_team_response = {
     "_id": 10,

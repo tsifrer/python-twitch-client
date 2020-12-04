@@ -7,6 +7,7 @@
 - Removed support for Python 2, Python 3.4 and Python 3.5
 - Added support for Python 3.7 and 3.8
 - Added new code formatting called black
+- Changed import orders to now be formatted via isort
 - Added TwitchHelix.get_oauth() for fetching OAuth access token
 - Updated docs
 

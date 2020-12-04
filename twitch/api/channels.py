@@ -1,12 +1,12 @@
 from twitch.api.base import TwitchAPI
 from twitch.constants import (
-    BROADCAST_TYPES,
     BROADCAST_TYPE_HIGHLIGHT,
-    DIRECTIONS,
+    BROADCAST_TYPES,
     DIRECTION_ASC,
     DIRECTION_DESC,
-    VIDEO_SORTS,
+    DIRECTIONS,
     VIDEO_SORT_TIME,
+    VIDEO_SORTS,
 )
 from twitch.decorators import oauth_required
 from twitch.exceptions import TwitchAttributeException

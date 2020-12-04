@@ -35,16 +35,17 @@ if "build_docs" in sys.argv:
 requires = ["requests>=2.23.0"]
 
 test_requirements = [
-    "black==19.10b0",
-    "codecov>=2.1.4",
-    "flake8-import-order>=0.18.1",
-    "flake8>=3.8.3",
-    "pytest-cov>=2.9.0",
-    "pytest>=3",
-    "responses>=0.10.15",
+    "black==20.8b1",
+    "codecov>=2.1.10",
+    "flake8-isort>=4.0.0",
+    "flake8>=3.8.4",
+    "isort>=5.6.4",
+    "pytest-cov>=2.10.1",
+    "pytest>=6.1.2",
+    "responses>=0.12.1",
 ]
 
-doc_reqs = ["Sphinx==3.1.0", "sphinx-autobuild==0.7.1", "sphinx_rtd_theme==0.4.3"]
+doc_reqs = ["Sphinx==3.3.1", "sphinx_rtd_theme==0.5.0"]
 
 extras_require = {
     "doc": doc_reqs,
@@ -72,9 +73,7 @@ setuptools.setup(
     author="Tomaz Sifrer",
     author_email="tomazz.sifrer@gmail.com",
     url="https://github.com/tsifrer/python-twitch-client",
-    packages=setuptools.find_packages(
-        exclude=["tests", "tests.*", "samples", "samples.*"]
-    ),
+    packages=["twitch"],
     cmdclass=cmdclass,
     install_requires=requires,
     tests_require=test_requirements,

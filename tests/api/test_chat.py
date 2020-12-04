@@ -5,7 +5,6 @@ import responses
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
 
-
 example_emote = {"code": "TwitchLit", "id": 115390}
 
 

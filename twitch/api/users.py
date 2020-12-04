@@ -1,7 +1,7 @@
 from twitch.api.base import TwitchAPI
 from twitch.constants import (
-    DIRECTIONS,
     DIRECTION_DESC,
+    DIRECTIONS,
     MAX_FOLLOWS_LIMIT,
     USERS_SORT_BY,
     USERS_SORT_BY_CREATED_AT,

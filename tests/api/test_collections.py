@@ -1,14 +1,12 @@
 import json
 
 import pytest
-
 import responses
 
 from twitch.client import TwitchClient
 from twitch.constants import BASE_URL
 from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Collection, Item
-
 
 example_collection = {
     "_id": "myIbIFkZphQSbQ",

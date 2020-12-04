@@ -1,9 +1,9 @@
 from twitch.api.base import TwitchAPI
 from twitch.constants import (
-    BROADCAST_TYPES,
     BROADCAST_TYPE_HIGHLIGHT,
-    PERIODS,
+    BROADCAST_TYPES,
     PERIOD_WEEK,
+    PERIODS,
     VOD_FETCH_URL,
 )
 from twitch.decorators import oauth_required

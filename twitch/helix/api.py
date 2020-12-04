@@ -3,12 +3,12 @@ from requests import post
 from twitch.conf import credentials_from_config_file
 from twitch.constants import (
     BASE_OAUTH_URL,
-    PERIODS,
     PERIOD_ALL,
-    VIDEO_SORTS,
+    PERIODS,
     VIDEO_SORT_TIME,
-    VIDEO_TYPES,
+    VIDEO_SORTS,
     VIDEO_TYPE_ALL,
+    VIDEO_TYPES,
 )
 from twitch.exceptions import TwitchAttributeException, TwitchOAuthException
 from twitch.helix.base import APICursor, APIGet

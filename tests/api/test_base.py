@@ -2,13 +2,10 @@ import json
 import os
 
 import pytest
-
+import responses
 from requests import exceptions
 
-import responses
-
 from twitch.api.base import BASE_URL, TwitchAPI
-
 
 dummy_data = {"spongebob": "squarepants"}
 

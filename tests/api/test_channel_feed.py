@@ -1,7 +1,6 @@
 import json
 
 import pytest
-
 import responses
 
 from twitch.client import TwitchClient

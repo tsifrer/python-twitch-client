@@ -2,7 +2,6 @@ import json
 from datetime import datetime
 
 import pytest
-
 import responses
 
 from twitch import TwitchHelix
@@ -112,7 +111,7 @@ example_get_oauth_response_with_scopes = {
     "access_token": "xxxxxx",
     "expires_in": 123456,
     "token_type": "bearer",
-    "scope":["analytics:read:extensions"]
+    "scope": ["analytics:read:extensions"],
 }
 
 example_get_oauth_error_response = {
@@ -120,9 +119,7 @@ example_get_oauth_error_response = {
     "message": "missing client secret",
 }
 
-example_get_oauth_bad_request = {
-    "status": 401
-}
+example_get_oauth_bad_request = {"status": 401}
 
 example_get_videos_response = {
     "data": [
@@ -215,6 +212,7 @@ def test_get_oauth_returns_oauth_token():
 
     assert client._oauth_token
 
+
 @responses.activate
 def test_get_oauth_returns_oauth_token_with_scopes():
     responses.add(
@@ -225,8 +223,11 @@ def test_get_oauth_returns_oauth_token_with_scopes():
         content_type="application/json",
     )
 
-    client = TwitchHelix("client id", client_secret="client secret",scopes=['analytics:read:extensions'])
+    client = TwitchHelix(
+        "client id", client_secret="client secret", scopes=["analytics:read:extensions"]
+    )
     client.get_oauth()
+
 
 @responses.activate
 def test_get_oauth_raises_oauth_exception_bad_request():
@@ -238,9 +239,10 @@ def test_get_oauth_raises_oauth_exception_bad_request():
         content_type="application/json",
     )
 
-    client = TwitchHelix("client id",client_secret='client secret')
+    client = TwitchHelix("client id", client_secret="client secret")
     with pytest.raises(TwitchOAuthException):
         client.get_oauth()
+
 
 @responses.activate
 def test_get_oauth_raises_oauth_exception_worse_request():
@@ -252,9 +254,10 @@ def test_get_oauth_raises_oauth_exception_worse_request():
         content_type="application/json",
     )
 
-    client = TwitchHelix("client id",client_secret='client secret')
+    client = TwitchHelix("client id", client_secret="client secret")
     with pytest.raises(TwitchOAuthException):
         client.get_oauth()
+
 
 def test_get_oauth_raises_oauth_exception_missing_secret():
     client = TwitchHelix("client id")

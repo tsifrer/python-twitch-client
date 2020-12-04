@@ -1,5 +1,5 @@
 from twitch.api.base import TwitchAPI
-from twitch.constants import STREAM_TYPES, STREAM_TYPE_LIVE
+from twitch.constants import STREAM_TYPE_LIVE, STREAM_TYPES
 from twitch.decorators import oauth_required
 from twitch.exceptions import TwitchAttributeException
 from twitch.resources import Featured, Stream
