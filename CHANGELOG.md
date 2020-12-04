@@ -16,6 +16,7 @@
 - Replaced Travis CI with GitHub Actions
 
 
+
 ## Version 0.6.0 - 2018-09-10
 
 - Added default request timeout to all requests for API v5
