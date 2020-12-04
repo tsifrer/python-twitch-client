@@ -26,6 +26,10 @@ You can install ``python-twitch-client`` with ``pip``:
     $ pip install python-twitch-client
 
 
+``python-twitch-client`` is currently only tested and confirmed working on Linux and Mac. If you're
+on a Windows machine and getting any bugs, please open a bug and help us find a solution.
+
+
 Authentication
 ==============
 
