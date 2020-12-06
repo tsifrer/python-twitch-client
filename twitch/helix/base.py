@@ -1,3 +1,4 @@
+import logging
 import time
 
 import requests
@@ -7,6 +8,8 @@ from requests.compat import urljoin
 from twitch.constants import BASE_HELIX_URL
 from twitch.exceptions import TwitchNotProvidedException
 
+logger = logging.getLogger(__name__)
+
 
 class TwitchAPIMixin(object):
     _rate_limit_resets = set()
@@ -14,6 +17,14 @@ class TwitchAPIMixin(object):
 
     def _wait_for_rate_limit_reset(self):
         if self._rate_limit_remaining == 0:
+            logger.debug(
+                "Waiting for rate limit reset",
+                extra={
+                    "rate_limit_remaining": self._rate_limit_remaining,
+                    "rate_limit_resets": self._rate_limit_resets,
+                },
+            )
+
             current_time = int(time.time())
             self._rate_limit_resets = set(
                 x for x in self._rate_limit_resets if x > current_time
@@ -54,6 +65,9 @@ class TwitchAPIMixin(object):
         # If status code is 429, re-run _request_get which will wait for the appropriate time
         # to obey the rate limit
         if response.status_code == codes.TOO_MANY_REQUESTS:
+            logger.debug(
+                "Twitch responded with 429. Rate limit reached. Waiting for the cooldown."
+            )
             return self._request_get(path, params=params)
 
         response.raise_for_status()
