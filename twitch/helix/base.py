@@ -17,20 +17,19 @@ class TwitchAPIMixin(object):
 
     def _wait_for_rate_limit_reset(self):
         if self._rate_limit_remaining == 0:
-            logger.debug(
-                "Waiting for rate limit reset",
-                extra={
-                    "rate_limit_remaining": self._rate_limit_remaining,
-                    "rate_limit_resets": self._rate_limit_resets,
-                },
-            )
-
             current_time = int(time.time())
             self._rate_limit_resets = set(
                 x for x in self._rate_limit_resets if x > current_time
             )
-
             if len(self._rate_limit_resets) > 0:
+                logger.debug(
+                    "Waiting for rate limit reset",
+                    extra={
+                        "rate_limit_remaining": self._rate_limit_remaining,
+                        "rate_limit_resets": self._rate_limit_resets,
+                    },
+                )
+
                 reset_time = list(self._rate_limit_resets)[0]
 
                 # Calculate wait time and add 0.1s to the wait time to allow Twitch to reset
