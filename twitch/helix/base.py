@@ -52,6 +52,7 @@ class TwitchAPIMixin(object):
         self._wait_for_rate_limit_reset()
 
         response = requests.get(url, params=params, headers=headers)
+        logger.info("Request to %s took %s", url, response.elapsed)
 
         remaining = response.headers.get("Ratelimit-Remaining")
         if remaining:
