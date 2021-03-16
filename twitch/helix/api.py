@@ -330,8 +330,12 @@ class TwitchHelix(object):
             params=params,
         )
 
-    def get_users(self, login_names=[], ids=[]):
+    def get_users(self, login_names=None, ids=None):
         """https://dev.twitch.tv/docs/api/reference#get-users"""
+        if not login_names:
+            login_names = []
+        if not ids:
+            ids = []
         if len(login_names) + len(ids) > 100:
             raise TwitchAttributeException("Sum of names and ids must not exceed 100!")
         params = {"login": login_names, "id": ids}
