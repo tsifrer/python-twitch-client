@@ -89,6 +89,7 @@ class APICursor(TwitchAPIMixin):
         self._oauth_token = oauth_token
         self._params = params
         self._total = None
+        self._requests_count = 0
 
         # Pre-fetch the first page as soon as cursor is instantiated
         self.next_page()
@@ -115,11 +116,17 @@ class APICursor(TwitchAPIMixin):
         return self._queue[index]
 
     def next_page(self):
+        # Twitch stops returning a cursor when you're on the last page. So if we've made
+        # more than 1 request to their API and we don't get a cursor back, it means
+        # we're on the last page, so return whatever's left in the queue.
+        if self._requests_count > 0 and not self._cursor:
+            return self._queue
+
         if self._cursor:
             self._params["after"] = self._cursor
 
         response = self._request_get(self._path, params=self._params)
-
+        self._requests_count += 1
         self._queue = [self._resource.construct_from(data) for data in response["data"]]
         self._cursor = response["pagination"].get("cursor")
         self._total = response.get("total")
