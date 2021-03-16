@@ -2,6 +2,8 @@
 
 ## Master
 
+- Added TwitchHelix.get_tags() for fetching all tags
+- Added logging to TwitchAPIMixing to be able to see what's going on
 
 ## Version 0.7.1 - 2020-12-04
 
