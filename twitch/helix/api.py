@@ -343,3 +343,21 @@ class TwitchHelix(object):
             resource=User,
             params=params,
         ).fetch()
+
+    def get_tags(self, after=None, page_size=20, tag_ids=None):
+        """https://dev.twitch.tv/docs/api/reference#get-all-stream-tags"""
+
+        if tag_ids and len(tag_ids) > 100:
+            raise TwitchAttributeException("Maximum of 100 Tag IDs can be supplied")
+        if page_size > 100:
+            raise TwitchAttributeException("Maximum number of objects to return is 100")
+
+        params = {"after": after, "first": page_size, "tag_id": tag_ids}
+
+        return APICursor(
+            client_id=self._client_id,
+            oauth_token=self._oauth_token,
+            path="tags/streams",
+            resource=Stream,
+            params=params,
+        )
