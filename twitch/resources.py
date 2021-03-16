@@ -134,6 +134,10 @@ class Subscription(TwitchObject):
     pass
 
 
+class Tag(TwitchObject):
+    pass
+
+
 class Team(TwitchObject):
     pass
 

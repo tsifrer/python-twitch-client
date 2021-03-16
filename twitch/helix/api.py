@@ -12,7 +12,16 @@ from twitch.constants import (
 )
 from twitch.exceptions import TwitchAttributeException, TwitchOAuthException
 from twitch.helix.base import APICursor, APIGet
-from twitch.resources import Clip, Follow, Game, Stream, StreamMetadata, User, Video
+from twitch.resources import (
+    Clip,
+    Follow,
+    Game,
+    Stream,
+    StreamMetadata,
+    Tag,
+    User,
+    Video,
+)
 
 
 class TwitchHelix(object):
@@ -362,6 +371,6 @@ class TwitchHelix(object):
             client_id=self._client_id,
             oauth_token=self._oauth_token,
             path="tags/streams",
-            resource=Stream,
+            resource=Tag,
             params=params,
         )
