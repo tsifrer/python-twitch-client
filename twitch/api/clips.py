@@ -6,11 +6,11 @@ from twitch.resources import Clip
 
 
 class Clips(TwitchAPI):
-    def get_by_slug(self, slug):
-        response = self._request_get("clips/{}".format(slug))
+    async def get_by_slug(self, slug):
+        response = await self._request_get("clips/{}".format(slug))
         return Clip.construct_from(response)
 
-    def get_top(
+    async def get_top(
         self,
         channel=None,
         cursor=None,
@@ -40,11 +40,11 @@ class Clips(TwitchAPI):
             "trending": str(trending).lower(),
         }
 
-        response = self._request_get("clips/top", params=params)
+        response = await self._request_get("clips/top", params=params)
         return [Clip.construct_from(x) for x in response["clips"]]
 
     @oauth_required
-    def followed(self, limit=10, cursor=None, trending=False):
+    async def followed(self, limit=10, cursor=None, trending=False):
         if limit > 100:
             raise TwitchAttributeException(
                 "Maximum number of objects returned in one request is 100"
@@ -52,5 +52,5 @@ class Clips(TwitchAPI):
 
         params = {"limit": limit, "cursor": cursor, "trending": trending}
 
-        response = self._request_get("clips/followed", params=params)
+        response = await self._request_get("clips/followed", params=params)
         return [Clip.construct_from(x) for x in response["clips"]]
