@@ -37,20 +37,19 @@ class TwitchAPI(object):
         url = f"{url}{path}"
         headers = self._get_request_headers()
 
-        async with aiohttp.ClientSession() as session:
+        async with aiohttp.ClientSession(raise_for_status=True) as session:
             async with session.request("GET", url, params=params, headers=headers) as response:
                 if response.status >= 500:
 
                     backoff = self._initial_backoff
                     for _ in range(self._max_retries):
                         time.sleep(backoff)
-                        async with session.request("GET", url, params=params, headers=headers) as backoff_response:
+                        async with session.request("GET", url, params=params, headers=headers, timeout=DEFAULT_TIMEOUT) as backoff_response:
                             if backoff_response.status < 500:
                                 response = backoff_response
                                 break
                             backoff *= 2
 
-                response.raise_for_status()
                 if json:
                     return await response.json()
                 else:
@@ -63,8 +62,7 @@ class TwitchAPI(object):
         headers = self._get_request_headers()
 
         async with aiohttp.ClientSession() as session:
-            async with session.request("POST", url, data=data, params=params, headers=headers) as response:
-                response.raise_for_status()
+            async with session.request("POST", url, data=data, params=params, headers=headers, raise_for_status=True) as response:
                 if response.status == 200:
                     return await response.json()
 
@@ -74,8 +72,7 @@ class TwitchAPI(object):
 
         headers = self._get_request_headers()
         async with aiohttp.ClientSession() as session:
-            async with session.request("PUT", url, data=data, params=params, headers=headers) as response:
-                response.raise_for_status()
+            async with session.request("PUT", url, data=data, params=params, headers=headers, raise_for_status=True) as response:
                 if response.status == 200:
                     return await response.json()
 
@@ -85,7 +82,6 @@ class TwitchAPI(object):
 
         headers = self._get_request_headers()
         async with aiohttp.ClientSession() as session:
-            async with session.request("DELETE", url, params=params, headers=headers) as response:
-                response.raise_for_status()
+            async with session.request("DELETE", url, params=params, headers=headers, raise_for_status=True) as response:
                 if response.status == 200:
                     return await response.json()

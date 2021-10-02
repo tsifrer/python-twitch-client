@@ -67,12 +67,12 @@ if not version:
     raise RuntimeError("Cannot find version information")
 
 setuptools.setup(
-    name="python-twitch-client-async",
+    name="python-twitch-client",
     version=version,
-    description="Easy to use Python library for accessing the Twitch API asynchronously.",
-    author="xlysander12 (Forked and adapted from python-twitch-client)",
-    author_email="xlysander12pt@gmail.com",
-    url="https://github.com/xlysander12/python-twitch-client",
+    description="Easy to use Python library for accessing the Twitch API",
+    author="Tomaz Sifrer",
+    author_email="tomazz.sifrer@gmail.com",
+    url="https://github.com/tsifrer/python-twitch-client",
     packages=setuptools.find_packages(include=["twitch", "twitch.*"]),
     cmdclass=cmdclass,
     install_requires=requires,
