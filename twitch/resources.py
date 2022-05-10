@@ -68,7 +68,7 @@ class TwitchObject(dict):
 class _DateTime(object):
     @classmethod
     def construct_from(cls, value):
-        if value is None:
+        if value is None or value == '':
             return None
         try:
             dt = datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")

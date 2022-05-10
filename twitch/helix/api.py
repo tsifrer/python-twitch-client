@@ -21,6 +21,7 @@ from twitch.resources import (
     Tag,
     User,
     Video,
+    Channel
 )
 
 
@@ -372,5 +373,25 @@ class TwitchHelix(object):
             oauth_token=self._oauth_token,
             path="tags/streams",
             resource=Tag,
+            params=params,
+        )
+
+    def search_channels(self, query, after=None, page_size=20, live_only=False):
+        """https://dev.twitch.tv/docs/api/reference#search-channels"""
+        if page_size > 100:
+            raise TwitchAttributeException('Maximum number of objects to return is 100')
+
+        params = {
+            'query': query,
+            'after': after,
+            'first': page_size,
+            'live_only': live_only
+        }
+
+        return APICursor(
+            client_id=self._client_id,
+            oauth_token=self._oauth_token,
+            path='search/channels',
+            resource=Channel,
             params=params,
         )
