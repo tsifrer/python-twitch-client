@@ -32,7 +32,7 @@ if "build_docs" in sys.argv:
 
     cmdclass["build_docs"] = BuildDoc
 
-requires = ["requests>=2.23.0"]
+requires = ["aiohttp>=3.7.4.post0"]
 
 test_requirements = [
     "black==20.8b1",

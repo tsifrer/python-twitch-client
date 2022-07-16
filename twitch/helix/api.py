@@ -1,4 +1,4 @@
-from requests import post
+from aiohttp import ClientSession
 
 from twitch.conf import credentials_from_config_file
 from twitch.constants import (
@@ -40,27 +40,22 @@ class TwitchHelix(object):
         if not client_id:
             self._client_id, self._oauth_token = credentials_from_config_file()
 
-    def get_oauth(self):
+    async def get_oauth(self):
         if not self._client_secret or not self._client_id:
             raise TwitchOAuthException(
                 "Client Id and Client Secret are not both present."
             )
 
         if not self._scopes:
-            response = post(
-                BASE_OAUTH_URL + f"token?client_id={self._client_id}"
-                f"&client_secret={self._client_secret}"
-                f"&grant_type=client_credentials"
-            )
-            response = response.json()
+            async with ClientSession(raise_for_status=True) as session:
+                async with session.post(BASE_OAUTH_URL + f"token?client_id={self._client_id}&client_secret={self._client_secret}&grant_type=client_credentials") as response:
+                    response = await response.json()
+
         else:
             scopes_str = "+".join(self._scopes)
-            response = post(
-                BASE_OAUTH_URL + f"token?client_id={self._client_id}"
-                f"&client_secret={self._client_secret}"
-                f"&grant_type=client_credentials&scope={scopes_str}"
-            )
-            response = response.json()
+            async with ClientSession(raise_for_status=True) as session:
+                async with session.post(BASE_OAUTH_URL + f"token?client_id={self._client_id}&client_secret={self._client_secret}&grant_type=client_credentials&scope={scopes_str}") as response:
+                    response = await response.json()
 
         if "access_token" in response:
             self._oauth_token = response["access_token"]
@@ -69,7 +64,7 @@ class TwitchHelix(object):
         else:
             raise TwitchOAuthException()
 
-    def get_streams(
+    async def get_streams(
         self,
         after=None,
         before=None,
@@ -108,8 +103,7 @@ class TwitchHelix(object):
             "user_id": user_ids,
             "user_login": user_logins,
         }
-
-        return APICursor(
+        cursor = APICursor(
             client_id=self._client_id,
             oauth_token=self._oauth_token,
             path="streams",
@@ -117,7 +111,9 @@ class TwitchHelix(object):
             params=params,
         )
 
-    def get_games(self, game_ids=None, names=None):
+        return await cursor.next_page()
+
+    async def get_games(self, game_ids=None, names=None):
         if game_ids and len(game_ids) > 100:
             raise TwitchAttributeException("Maximum of 100 Game IDs can be supplied")
         if names and len(names) > 100:
@@ -127,15 +123,17 @@ class TwitchHelix(object):
             "id": game_ids,
             "name": names,
         }
-        return APIGet(
+        api_get = APIGet(
             client_id=self._client_id,
             oauth_token=self._oauth_token,
             path="games",
             resource=Game,
             params=params,
-        ).fetch()
+        )
 
-    def get_clips(
+        return await api_get.fetch()
+
+    async def get_clips(
         self,
         broadcaster_id=None,
         game_id=None,
@@ -169,7 +167,7 @@ class TwitchHelix(object):
         if broadcaster_id or game_id:
             params["first"] = page_size
 
-            return APICursor(
+            cursor = APICursor(
                 client_id=self._client_id,
                 oauth_token=self._oauth_token,
                 path="clips",
@@ -177,16 +175,20 @@ class TwitchHelix(object):
                 params=params,
             )
 
+            return await cursor.next_page()
+
         else:
-            return APIGet(
+            api_get = APIGet(
                 client_id=self._client_id,
                 oauth_token=self._oauth_token,
                 path="clips",
                 resource=Clip,
                 params=params,
-            ).fetch()
+            )
 
-    def get_top_games(self, after=None, before=None, page_size=20):
+            return await api_get.fetch()
+
+    async def get_top_games(self, after=None, before=None, page_size=20):
         if page_size > 100:
             raise TwitchAttributeException("Maximum number of objects to return is 100")
 
@@ -196,7 +198,7 @@ class TwitchHelix(object):
             "first": page_size,
         }
 
-        return APICursor(
+        cursor = APICursor(
             client_id=self._client_id,
             oauth_token=self._oauth_token,
             path="games/top",
@@ -204,7 +206,9 @@ class TwitchHelix(object):
             params=params,
         )
 
-    def get_videos(
+        return await cursor.next_page()
+
+    async def get_videos(
         self,
         video_ids=None,
         user_id=None,
@@ -254,23 +258,27 @@ class TwitchHelix(object):
             params["sort"] = sort
             params["type"] = video_type
 
-            return APICursor(
+            cusor = APICursor(
                 client_id=self._client_id,
                 oauth_token=self._oauth_token,
                 path="videos",
                 resource=Video,
                 params=params,
             )
+
+            return await cusor.next_page()
         else:
-            return APIGet(
+            api_get = APIGet(
                 client_id=self._client_id,
                 oauth_token=self._oauth_token,
                 path="videos",
                 resource=Video,
                 params=params,
-            ).fetch()
+            )
 
-    def get_streams_metadata(
+            return await api_get.fetch()
+
+    async def get_streams_metadata(
         self,
         after=None,
         before=None,
@@ -310,7 +318,7 @@ class TwitchHelix(object):
             "user_login": user_logins,
         }
 
-        return APICursor(
+        cursor = APICursor(
             client_id=self._client_id,
             oauth_token=self._oauth_token,
             path="streams/metadata",
@@ -318,7 +326,9 @@ class TwitchHelix(object):
             params=params,
         )
 
-    def get_user_follows(self, after=None, page_size=20, from_id=None, to_id=None):
+        return await cursor.next_page()
+
+    async def get_user_follows(self, after=None, page_size=20, from_id=None, to_id=None):
         if not from_id and not to_id:
             raise TwitchAttributeException("from_id or to_id must be provided.")
         if page_size > 100:
@@ -330,8 +340,7 @@ class TwitchHelix(object):
             "from_id": from_id,
             "to_id": to_id,
         }
-
-        return APICursor(
+        cursor = APICursor(
             client_id=self._client_id,
             oauth_token=self._oauth_token,
             path="users/follows",
@@ -339,7 +348,9 @@ class TwitchHelix(object):
             params=params,
         )
 
-    def get_users(self, login_names=None, ids=None):
+        return await cursor.next_page()
+
+    async def get_users(self, login_names=None, ids=None):
         """https://dev.twitch.tv/docs/api/reference#get-users"""
         if not login_names:
             login_names = []
@@ -349,15 +360,16 @@ class TwitchHelix(object):
             raise TwitchAttributeException("Sum of names and ids must not exceed 100!")
         params = {"login": login_names, "id": ids}
 
-        return APIGet(
+        api_get = APIGet(
             client_id=self._client_id,
             oauth_token=self._oauth_token,
             path="users",
             resource=User,
             params=params,
-        ).fetch()
+        )
+        return await api_get.fetch()
 
-    def get_tags(self, after=None, page_size=20, tag_ids=None):
+    async def get_tags(self, after=None, page_size=20, tag_ids=None):
         """https://dev.twitch.tv/docs/api/reference#get-all-stream-tags"""
 
         if tag_ids and len(tag_ids) > 100:
@@ -367,10 +379,12 @@ class TwitchHelix(object):
 
         params = {"after": after, "first": page_size, "tag_id": tag_ids}
 
-        return APICursor(
+        cursor = APICursor(
             client_id=self._client_id,
             oauth_token=self._oauth_token,
             path="tags/streams",
             resource=Tag,
             params=params,
         )
+
+        return await cursor.next_page()

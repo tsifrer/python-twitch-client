@@ -6,7 +6,7 @@ from twitch.resources import Featured, Stream
 
 
 class Streams(TwitchAPI):
-    def get_stream_by_user(self, channel_id, stream_type=STREAM_TYPE_LIVE):
+    async def get_stream_by_user(self, channel_id, stream_type=STREAM_TYPE_LIVE):
         if stream_type not in STREAM_TYPES:
             raise TwitchAttributeException(
                 "Stream type is not valid. Valid values are {}".format(STREAM_TYPES)
@@ -15,13 +15,13 @@ class Streams(TwitchAPI):
         params = {
             "stream_type": stream_type,
         }
-        response = self._request_get("streams/{}".format(channel_id), params=params)
+        response = await self._request_get("streams/{}".format(channel_id), params=params)
 
         if not response["stream"]:
             return None
         return Stream.construct_from(response["stream"])
 
-    def get_live_streams(
+    async def get_live_streams(
         self,
         channel=None,
         game=None,
@@ -42,28 +42,28 @@ class Streams(TwitchAPI):
             params["game"] = game
         if language is not None:
             params["language"] = language
-        response = self._request_get("streams", params=params)
+        response = await self._request_get("streams", params=params)
         return [Stream.construct_from(x) for x in response["streams"]]
 
-    def get_summary(self, game=None):
+    async def get_summary(self, game=None):
         params = {}
         if game is not None:
             params["game"] = game
-        response = self._request_get("streams/summary", params=params)
+        response = await self._request_get("streams/summary", params=params)
         return response
 
-    def get_featured(self, limit=25, offset=0):
+    async def get_featured(self, limit=25, offset=0):
         if limit > 100:
             raise TwitchAttributeException(
                 "Maximum number of objects returned in one request is 100"
             )
 
         params = {"limit": limit, "offset": offset}
-        response = self._request_get("streams/featured", params=params)
+        response = await self._request_get("streams/featured", params=params)
         return [Featured.construct_from(x) for x in response["featured"]]
 
     @oauth_required
-    def get_followed(self, stream_type=STREAM_TYPE_LIVE, limit=25, offset=0):
+    async def get_followed(self, stream_type=STREAM_TYPE_LIVE, limit=25, offset=0):
         if stream_type not in STREAM_TYPES:
             raise TwitchAttributeException(
                 "Stream type is not valid. Valid values are {}".format(STREAM_TYPES)
@@ -74,10 +74,10 @@ class Streams(TwitchAPI):
             )
 
         params = {"stream_type": stream_type, "limit": limit, "offset": offset}
-        response = self._request_get("streams/followed", params=params)
+        response = await self._request_get("streams/followed", params=params)
         return [Stream.construct_from(x) for x in response["streams"]]
 
-    def get_streams_in_community(self, community_id):
-        response = self._request_get("streams?community_id={}".format(community_id))
+    async def get_streams_in_community(self, community_id):
+        response = await self._request_get("streams?community_id={}".format(community_id))
 
         return [Stream.construct_from(x) for x in response["streams"]]

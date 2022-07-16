@@ -1,7 +1,9 @@
 import logging
 import time
 
-import requests
+import asyncio
+
+from aiohttp import ClientSession
 from requests import codes
 from requests.compat import urljoin
 
@@ -15,7 +17,7 @@ class TwitchAPIMixin(object):
     _rate_limit_resets = set()
     _rate_limit_remaining = 0
 
-    def _wait_for_rate_limit_reset(self):
+    async def _wait_for_rate_limit_reset(self):
         if self._rate_limit_remaining == 0:
             current_time = int(time.time())
             self._rate_limit_resets = set(
@@ -35,7 +37,7 @@ class TwitchAPIMixin(object):
                 # Calculate wait time and add 0.1s to the wait time to allow Twitch to reset
                 # their counter
                 wait_time = reset_time - current_time + 0.1
-                time.sleep(wait_time)
+                await asyncio.sleep(wait_time)
 
     def _get_request_headers(self):
         headers = {"Client-ID": self._client_id}
@@ -45,16 +47,28 @@ class TwitchAPIMixin(object):
 
         return headers
 
-    def _request_get(self, path, params=None):
+    async def _request_get(self, path, params=None):
         url = urljoin(BASE_HELIX_URL, path)
         headers = self._get_request_headers()
 
-        self._wait_for_rate_limit_reset()
+        to_del =[]
+        for key in params:
+            if params[key] is None:
+                to_del.append(key)
 
-        response = requests.get(url, params=params, headers=headers)
-        logger.debug(
-            "Request to %s with params %s took %s", url, params, response.elapsed
-        )
+        for key in to_del:
+            del params[key]
+
+        await self._wait_for_rate_limit_reset()
+
+
+        async with ClientSession(raise_for_status=True) as session:
+            async with session.get(url, headers=headers, params=params) as response:
+                response_json = await response.json()
+
+        # logger.debug(
+        #     "Request to %s with params %s took %s", url, params, response.elapsed
+        # )
 
         remaining = response.headers.get("Ratelimit-Remaining")
         if remaining:
@@ -66,14 +80,13 @@ class TwitchAPIMixin(object):
 
         # If status code is 429, re-run _request_get which will wait for the appropriate time
         # to obey the rate limit
-        if response.status_code == codes.TOO_MANY_REQUESTS:
+        if response.status == codes.TOO_MANY_REQUESTS:
             logger.debug(
                 "Twitch responded with 429. Rate limit reached. Waiting for the cooldown."
             )
-            return self._request_get(path, params=params)
+            return await self._request_get(path, params=params)
 
-        response.raise_for_status()
-        return response.json()
+        return await response.json()
 
 
 class APICursor(TwitchAPIMixin):
@@ -91,9 +104,6 @@ class APICursor(TwitchAPIMixin):
         self._total = None
         self._requests_count = 0
 
-        # Pre-fetch the first page as soon as cursor is instantiated
-        self.next_page()
-
     def __repr__(self):
         return str(self._queue)
 
@@ -104,7 +114,7 @@ class APICursor(TwitchAPIMixin):
         return self
 
     def __next__(self):
-        if not self._queue and not self.next_page():
+        if not self._queue and not asyncio.run(self.next_page()):
             raise StopIteration()
 
         return self._queue.pop(0)
@@ -115,7 +125,7 @@ class APICursor(TwitchAPIMixin):
     def __getitem__(self, index):
         return self._queue[index]
 
-    def next_page(self):
+    async def next_page(self):
         # Twitch stops returning a cursor when you're on the last page. So if we've made
         # more than 1 request to their API and we don't get a cursor back, it means
         # we're on the last page, so return whatever's left in the queue.
@@ -125,7 +135,7 @@ class APICursor(TwitchAPIMixin):
         if self._cursor:
             self._params["after"] = self._cursor
 
-        response = self._request_get(self._path, params=self._params)
+        response = await self._request_get(self._path, params=self._params)
         self._requests_count += 1
         self._queue = [self._resource.construct_from(data) for data in response["data"]]
         self._cursor = response["pagination"].get("cursor")
@@ -152,6 +162,6 @@ class APIGet(TwitchAPIMixin):
         self._oauth_token = oauth_token
         self._params = params
 
-    def fetch(self):
-        response = self._request_get(self._path, params=self._params)
+    async def fetch(self):
+        response = await self._request_get(self._path, params=self._params)
         return [self._resource.construct_from(data) for data in response["data"]]
