@@ -35,7 +35,7 @@ if "build_docs" in sys.argv:
 requires = ["requests>=2.23.0"]
 
 test_requirements = [
-    "black==20.8b1",
+    "black==24.3.0",
     "codecov>=2.1.10",
     "flake8-isort>=4.0.0",
     "flake8>=3.8.4",
